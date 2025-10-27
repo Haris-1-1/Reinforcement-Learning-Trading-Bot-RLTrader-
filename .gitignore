@@ -1,1 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Environments
+.venv/
+env/
+
+# Daten / Modelle
+data/raw/*
+models/*
+results/*
+
+# System
+.DS_Store
+Thumbs.db
 
