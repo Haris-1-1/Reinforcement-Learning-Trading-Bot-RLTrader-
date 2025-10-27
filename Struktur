@@ -1,0 +1,34 @@
+RL-Trading-Bot/
+│
+├── data/
+│   ├── raw/                   # z. B. historische Marktdaten
+│   └── processed/              # bereinigte Features
+│
+├── notebooks/
+│   ├── 01_data_exploration.ipynb
+│   ├── 02_feature_engineering.ipynb
+│   └── 03_RL_training.ipynb
+│
+├── src/
+│   ├── env/
+│   │   └── trading_env.py      # RL-Umgebung (z. B. Gym)
+│   ├── agents/
+│   │   └── dqn_agent.py        # Policy & Value Function
+│   ├── utils/
+│   │   └── data_loader.py
+│   └── train.py
+│
+├── models/
+│   └── trained_model.pkl
+│
+├── results/
+│   ├── logs/
+│   └── plots/
+│
+├── docs/
+│   ├── project_plan.md
+│   └── architecture_diagram.png
+│
+├── README.md
+├── requirements.txt
+└── .gitignore
