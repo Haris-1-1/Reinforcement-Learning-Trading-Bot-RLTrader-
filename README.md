@@ -1,0 +1,2 @@
+# Reinforcement-Learning-Trading-Bot-RLTrader-
+Entwicklung eines autonomen Trading-Bots, der mit Reinforcement Learning (RL) lernt, profitable Handelsentscheidungen auf Basis historischer und aktueller Marktdaten zu treffen.
