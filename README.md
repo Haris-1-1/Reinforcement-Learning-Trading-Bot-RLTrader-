@@ -26,7 +26,7 @@ Abschlussbericht, Code-Dokumentation und Präsentationsslides.
 ---
 
 **Phase 1 – Datenbeschaffung & Aufbereitung**
-- Auswahl der Coins (Start: `BTC-USD`, optional später `ETH-USD`, `BNB-USD`)
+- Kryptowährung Auswahl(Start: `BTC-USD`, optional später `ETH-USD`, `BNB-USD`)
 - Laden historischer Daten über `yfinance`
 - Bereinigung (fehlende Werte, unnötige Spalten)
 - Speichern als CSV in `data/processed/`
