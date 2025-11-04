@@ -5,15 +5,22 @@ Entwicklung eines autonomen Trading-Bots, der mit Reinforcement Learning (RL) le
 
 ## Vorgehen / Projektplan
 
-Unser Ziel ist es, einen **Reinforcement-Learning (RL) Trading Bot** zu entwickeln, der selbstständig Handelsentscheidungen trifft.  
-Das Projekt ist in **5 Phasen** unterteilt, um von der Datenbeschaffung bis zur Evaluation strukturiert vorzugehen.
-
 ---
 
 ### **Phase 1 – Datenbeschaffung & Aufbereitung**
-**Ziel:**  
 Echte Marktdaten (z. B. Bitcoin, Ethereum) sammeln, bereinigen und als Trainingsgrundlage speichern.
+### **Phase 2 – Trading-Umgebung (OpenAI Gym)**
+Erstellen einer Simulationsumgebung, in der der RL-Agent handeln kann.
+### **Phase 3 – RL-Agent (z. B. DQN oder PPO)**
+Der Agent soll durch Training lernen, profitabel zu handeln.
+### **Phase 4 – Evaluation & Visualisierung**
+Die Performance des Bots messen und mit Baseline-Strategien vergleichen.
+### **Phase 5 – Dokumentation & Präsentation**
+Abschlussbericht, Code-Dokumentation und Präsentationsslides.
 
+
+
+**Phase 1 – Datenbeschaffung & Aufbereitung**
 **Aufgaben:**
 - Auswahl der Coins (Start: `BTC-USD`, optional später `ETH-USD`, `BNB-USD`)
 - Laden historischer Daten über `yfinance`
@@ -26,7 +33,6 @@ Echte Marktdaten (z. B. Bitcoin, Ethereum) sammeln, bereinigen und als Trainings
 ---
 
 ### **Phase 2 – Trading-Umgebung (OpenAI Gym)**
-**Ziel:**  
 Erstellen einer Simulationsumgebung, in der der RL-Agent handeln kann.
 
 **Aufgaben:**
