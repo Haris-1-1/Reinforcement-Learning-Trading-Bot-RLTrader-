@@ -42,7 +42,6 @@ Abschlussbericht, Code-Dokumentation und Präsentationsslides.
 - Definition der Reward-Funktion (Gewinn, Verlust, Transaktionskosten)
 - Test der Umgebung mit Zufallsaktionen (`env.step()`)
 
-
 ---
 
 ### **Phase 3 – RL-Agent (z. B. DQN oder PPO)**
@@ -53,7 +52,6 @@ Abschlussbericht, Code-Dokumentation und Präsentationsslides.
 - Verbindung der Umgebung mit dem Agenten
 - Training über mehrere Episoden
 
-
 ---
 
 ### **Phase 4 – Evaluation & Visualisierung**
@@ -63,17 +61,14 @@ Abschlussbericht, Code-Dokumentation und Präsentationsslides.
 - Vergleich mit Buy & Hold
 - Berechnung von Metriken (Total Return, Sharpe Ratio)
 
-
 ---
 
 ### **Phase 5 – Dokumentation & Präsentation**
-
 
 **Aufgaben:**
 - README und Projektdokumentation ergänzen
 - Code kommentieren und auf GitHub sauber strukturieren
 - Präsentation vorbereiten
-
 
 ---
 
