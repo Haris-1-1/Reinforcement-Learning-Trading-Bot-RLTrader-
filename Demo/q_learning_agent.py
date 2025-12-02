@@ -60,8 +60,29 @@ for episode in range(n_episodes):
         total_reward += reward
 
     epsilon = max(epsilon_min, epsilon * epsilon_decay)
-    print(f"Episode {episode}, total reward: {total_reward}")
+
+    final_value = float(info["portfolio_value"])
+    episode_profit = float(final_value - env.initial_cash)
+    episode_roi = float(episode_profit / env.initial_cash)
+
+    print(
+        f"Episode {episode}, Profit: {episode_profit:.2f} $, "
+        f"ROI: {episode_roi:.2%}"
+)
+
+
 
 # Optional: Q-Table speichern
 np.save("q_table.npy", q_table)
+
+buy_hold_profit = (prices[-1] - prices[0]) * (env.initial_cash / prices[0])
+buy_hold_roi = buy_hold_profit / env.initial_cash
+
+buy_hold_profit = float(buy_hold_profit)
+buy_hold_roi = float(buy_hold_roi)
+
+print(
+    f"Buy&Hold Profit: {buy_hold_profit:.2f} $, "
+    f"ROI: {buy_hold_roi:.2%}"
+)
 
