@@ -7,4 +7,14 @@ Entwicklung eines autonomen Trading-Bots, der mit Reinforcement Learning (RL) le
 
 ---
 
+### Environment
 
+### Agent
+
+### Training
+
+### Backtest‑Auswertung
+
+### Paper‑Trading
+
+### Optional: Vorbereitung auf Real‑Trading
