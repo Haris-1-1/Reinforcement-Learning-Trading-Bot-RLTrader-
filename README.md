@@ -7,27 +7,9 @@ Entwicklung eines autonomen Trading-Bots, der mit Reinforcement Learning (RL) le
 
 ---
 
-### **Phase 1 – Datenbeschaffung **
-Echte Marktdaten (z. B. Bitcoin, Ethereum) sammeln, bereinigen und als Trainingsgrundlage speichern.
-**Output:** `data/processed/BTC-USD.csv
-### **Phase 2 – Trading-Umgebung (OpenAI Gym)**
-Erstellen einer Simulationsumgebung, in der der RL-Agent handeln kann.
-**Output:** Eine funktionierende Gym-Umgebung mit Reward-Logik.
-### **Phase 3 – RL-Agent (z. B. DQN oder PPO)**
-Der Agent soll durch Training lernen, profitabel zu handeln.
-**Output:** Gespeichertes Modell in `models/dqn_btc_model.zip`
-### **Phase 4 – Evaluation & Visualisierung**
-Die Performance des Bots messen und mit Baseline-Strategien vergleichen.
-**Output:** Plots und Metriken in `results/`
-### **Phase 5 – Dokumentation & Präsentation**
-Abschlussbericht, Code-Dokumentation und Präsentationsslides.
-**Output:** Dokumentation im Ordner `docs/` und finale Slides.
-
----
-
 ### **Phase 1 – Datenbeschaffung & Aufbereitung**
 #### Kryptowährung Auswahl (Start: `BTC-USD`, optional später `ETH-USD`, `BNB-USD`)
-Wir haben uns für den bekannten Bitcoin entschieden weil 
+Wir haben uns für den bekannten Bitcoin entschieden weil
 #### Datenquelle (Laden historischer Daten über `yfinance`)
 #### Pre-Datenaufarbeitung
 #### Datenaufarbeitung (fehlende Werte, unnötige Spalten)
