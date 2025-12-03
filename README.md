@@ -21,7 +21,6 @@ So funktioniert Reinforcement Learning im Trading: Der Agent probiert aus, lernt
 
 ---
 ## Vorgehen / Projektplan
-
 ---
 
 ### Environment
