@@ -1,11 +1,13 @@
-# live_paper_trading.py
 import time
+import os
 import numpy as np
 import yfinance as yf
 from mini_trading_env import MiniTradingEnv
 
-# ---- 1) Gelernte Q-Tabelle laden ----
-q_table = np.load("q_table.npy")
+BASE_DIR = os.path.dirname(__file__)          # Ordner, in dem live_paper_trading.py liegt
+q_path = os.path.join(BASE_DIR, "q_table.npy")
+
+q_table = np.load(q_path)
 
 # gleiche Diskretisierung wie im Training
 n_return_bins = 20

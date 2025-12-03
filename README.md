@@ -27,6 +27,7 @@ Abschlussbericht, Code-Dokumentation und Präsentationsslides.
 
 ### **Phase 1 – Datenbeschaffung & Aufbereitung**
 #### Kryptowährung Auswahl (Start: `BTC-USD`, optional später `ETH-USD`, `BNB-USD`)
+Wir haben uns für den bekannten Bitcoin entschieden weil 
 #### Datenquelle (Laden historischer Daten über `yfinance`)
 #### Pre-Datenaufarbeitung
 #### Datenaufarbeitung (fehlende Werte, unnötige Spalten)
