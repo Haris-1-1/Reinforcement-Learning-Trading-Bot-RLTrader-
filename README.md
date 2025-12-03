@@ -25,6 +25,23 @@ So funktioniert Reinforcement Learning im Trading: Der Agent probiert aus, lernt
 ### Environment
 Wie ist ein Enviroment aufgebaut. Mann kan sich das wie ein Lebensmittelautomat vorstellen, der immer das selbe macht. Der Automat hat einen Schlitz, indem du einen Aktion reinwirfst. Aktion(1 Lebensmittel kaufen, 2 spuckt wieder raus weil zu wenig, 3 nicht tun). Danach kommt der Zustand(State) er beschreibt wie der Automat aussieht(Aktueller Kontostand, Preis des Lebensmittels, ob du schon was gekauft hast). Und so sieht es aus wenn ein Mensch(Agent) den Automaten(Env) benutzen würde. Agent → Aktion 1 (kaufen), Automat → "Zu wenig Geld!" → Reward -1 oder Agent → Aktion 3 (warten), Automat → "Okay, nichts passiert." → Reward 0
 
+### Environment Design
+
+### State
+Ich benutze einen minimalen Zustand (Preis, Position), um den Fokus
+auf die grundlegende Entscheidungslogik (Buy/Sell) zu legen.
+
+### Action Space
+Diskrete Aktionen (Buy, Sell, Hold), ideal für Q-Learning
+und leicht verständlich im Debugging.
+
+### Reward
+Reward = realisierter Gewinn.
+Warum nicht unrealisiert? 
+→ Weil der Agent sonst risikolose Buy-and-Hold Strategien bevorzugt.
+
+### Episode Ending
+Episode endet am Ende des Datensatzes.
 
 ### Agent
 
