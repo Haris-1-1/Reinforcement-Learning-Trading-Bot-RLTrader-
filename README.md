@@ -7,7 +7,7 @@ Entwicklung eines autonomen Trading-Bots, der mit Reinforcement Learning (RL) le
 
 ---
 
-### **Phase 1 – Datenbeschaffung & Aufbereitung**
+### **Phase 1 – Datenbeschaffung **
 Echte Marktdaten (z. B. Bitcoin, Ethereum) sammeln, bereinigen und als Trainingsgrundlage speichern.
 **Output:** `data/processed/BTC-USD.csv
 ### **Phase 2 – Trading-Umgebung (OpenAI Gym)**
