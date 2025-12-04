@@ -29,8 +29,7 @@ Enviroment kann man sich auch wie ein Klassenzimmer vorstellen: Regeln sind fest
 ### Environment Design
 
 ##### State
-Ein Trading bot wie man bei der Demo version sieht braucht nicht allzu viel in State ausser Preis und Position. Warum preis und Position, wenn eine aktion passiert ändert sich der State zu State plus 1 oder minus 1. Aber wir wollen unseren Trading bot komplexer machen und den State komplexer machen, heisst wir fügen zusaätzlich zu Preis und Position Preisbezogene Features und technische Indikatoren. Preisbezogene Features: aktueller Preis, Open, High, Low, Close, Volume.
-<img width="600" height="375" alt="image" src="https://github.com/user-attachments/assets/d8ce8f79-f9aa-499a-a91b-3b221312f3ad" /> <img width="1020" height="580" alt="image" src="https://github.com/user-attachments/assets/3d12ab38-0903-42ac-bc6a-939f6a4738f1" />
+Ein Trading bot wie man bei der Demo version sieht braucht nicht allzu viel in State ausser Preis und Position. Warum preis und Position, wenn eine aktion passiert ändert sich der State zu State plus 1 oder minus 1. Aber wir wollen unseren Trading bot komplexer machen und den State komplexer machen, heisst wir fügen zusaätzlich zu Preis und Position Preisbezogene Features und technische Indikatoren. Preisbezogene Features: aktueller Preis, Open, High, Low, Close, Volume. <img width="600" height="375" alt="image" src="https://github.com/user-attachments/assets/d8ce8f79-f9aa-499a-a91b-3b221312f3ad" /> <img width="1020" height="580" alt="image" src="https://github.com/user-attachments/assets/3d12ab38-0903-42ac-bc6a-939f6a4738f1" />
 
 
 
