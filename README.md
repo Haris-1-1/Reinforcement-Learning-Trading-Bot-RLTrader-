@@ -29,8 +29,10 @@ Enviroment kann man sich auch wie ein Klassenzimmer vorstellen: Regeln sind fest
 ### Environment Design
 
 ##### State
-Ich benutze einen minimalen Zustand (Preis, Position), um den Fokus
-auf die grundlegende Entscheidungslogik (Buy/Sell) zu legen.
+Ein Trading bot wie man bei der Demo version sieht braucht nicht allzu viel in State ausser Preis und Position. Warum preis und Position, wenn eine aktion passiert ändert sich der State zu State plus 1 oder minus 1. Aber wir wollen unseren Trading bot komplexer machen und den State komplexer machen, heisst wir fügen zusaätzlich zu Preis und Position Preisbezogene Features und technische Indikatoren. Preisbezogene Features: aktueller Preis, Open, High, Low, Close, Volume.
+<img width="1200" height="675" alt="image" src="https://github.com/user-attachments/assets/d8ce8f79-f9aa-499a-a91b-3b221312f3ad" /> <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/3d12ab38-0903-42ac-bc6a-939f6a4738f1" />
+
+
 
 ##### Action Space
 Diskrete Aktionen (Buy, Sell, Hold), ideal für Q-Learning
