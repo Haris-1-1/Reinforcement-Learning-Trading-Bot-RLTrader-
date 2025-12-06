@@ -2,75 +2,65 @@
 Entwicklung eines autonomen Trading-Bots, der mit Reinforcement Learning (RL) lernt, profitable Handelsentscheidungen auf Basis historischer und aktueller Marktdaten zu treffen.
 
 ---
-
-## Vorgehen / Projektplan
-
----
-
-### **Phase 1 – Datenbeschaffung & Aufbereitung**
-Echte Marktdaten (z. B. Bitcoin, Ethereum) sammeln, bereinigen und als Trainingsgrundlage speichern.
-**Output:** `data/processed/BTC-USD.csv
-### **Phase 2 – Trading-Umgebung (OpenAI Gym)**
-Erstellen einer Simulationsumgebung, in der der RL-Agent handeln kann.
-**Output:** Eine funktionierende Gym-Umgebung mit Reward-Logik.
-### **Phase 3 – RL-Agent (z. B. DQN oder PPO)**
-Der Agent soll durch Training lernen, profitabel zu handeln.
-**Output:** Gespeichertes Modell in `models/dqn_btc_model.zip`
-### **Phase 4 – Evaluation & Visualisierung**
-Die Performance des Bots messen und mit Baseline-Strategien vergleichen.
-**Output:** Plots und Metriken in `results/`
-### **Phase 5 – Dokumentation & Präsentation**
-Abschlussbericht, Code-Dokumentation und Präsentationsslides.
-**Output:** Dokumentation im Ordner `docs/` und finale Slides.
+## Theorie RL
+### RL erklärt: 
+Ein Agent ist wie ein kleines Kind, das etwas Neues lernen will. Die Umgebung ist der Spielplatz, auf dem es spielt. Das Kind probiert Dinge aus, zum Beispiel klettern, rutschen oder schaukeln.
+Für gute Aktionen bekommt es Belohnungen (wie ein Lob oder ein Gummibärchen). Für schlechte Aktionen bekommt es keine Belohnung oder vielleicht eine kleine Warnung.
+Mit der Zeit merkt das Kind:
+„Wenn ich bestimmte Dinge tue, bekomme ich mehr Belohnungen!“
+Also versucht es immer klüger zu werden und herauszufinden, welche Entscheidungen ihm langfristig am meisten Gutes bringen.
+Genau das ist Reinforcement Learning: Ausprobieren, Belohnung bekommen, und Schritt für Schritt besser werden.
+#### Trading-Kontext
+Ein Trading-Agent ist wie ein kleines Kind, das Börse spielen lernt. Die Umgebung ist nicht der Spielplatz, sondern der Markt also die Kurse, die rauf und runter gehen.
+Der Agent probiert verschiedene Dinge aus so wie ein Kind:
+Er kauft manchmal eine Aktie, er verkauft sie oder er wartet einfach.
+Wenn der Agent durch seine Aktion Geld verdient, bekommt er eine Belohnung (wie ein Gummibärchen). Wenn er Geld verliert, bekommt er eine schlechte Rückmeldung (wie ein kleines „Nein, das war nicht gut“).
+Mit der Zeit merkt der Agent: „Wenn ich in bestimmten Situationen kaufe oder verkaufe, bekomme ich mehr Belohnung!“
+Darum versucht er immer besser zu verstehen, welche Entscheidungen ihm auf Dauer am meisten Gewinn bringen, genau wie ein Kind lernt, welche Spiele am meisten Spaß machen.
+So funktioniert Reinforcement Learning im Trading: Der Agent probiert aus, lernt aus seinen Gewinnen und Fehlern und wird Schritt für Schritt ein besserer Trader.
 
 ---
 
-### **Phase 1 – Datenbeschaffung & Aufbereitung**
-#### Kryptowährung Auswahl (Start: `BTC-USD`, optional später `ETH-USD`, `BNB-USD`)
-Wir haben uns für den bekannten Bitcoin entschieden weil 
-#### Datenquelle (Laden historischer Daten über `yfinance`)
-#### Pre-Datenaufarbeitung
-#### Datenaufarbeitung (fehlende Werte, unnötige Spalten)
-#### Post-Datenaufarbeitung
+## Environment
+Wie ist ein Enviroment aufgebaut. Mann kan sich das wie ein Lebensmittelautomat vorstellen, der immer das selbe macht. Der Automat hat einen Schlitz, indem du einen Aktion reinwirfst. Aktion(1 Lebensmittel kaufen, 2 spuckt wieder raus weil zu wenig, 3 nichts tun). Danach kommt der Zustand(State) er beschreibt wie der Automat aussieht(Aktueller Kontostand, Preis des Lebensmittels, ob du schon was gekauft hast). Und so sieht es aus wenn ein Mensch(Agent) den Automaten(Env) benutzen würde. Agent → Aktion 1 (kaufen), Automat → "Zu wenig Geld!" → Reward -1 oder Agent → Aktion 3 (warten), Automat → "Okay, nichts passiert." → Reward 0
+#### Oder
+Enviroment kann man sich auch wie ein Klassenzimmer vorstellen: Regeln sind festgelegt wie test, aufgaben. Lehrer bewertet, richtig 5 punkte falsch -10. Übungen werde dort gemacht. Und am ende des Tages bekommst du ein Feedback. Kurzgefasst das Klassenzimmer speichert nicht was ich gelernt habe, es teste/bewertet mich nur. Kurzgesagt ein Ort wo gelernt wird.
 
+### Environment Design
+
+##### State
+Ein Trading bot wie man bei der Demo version sieht braucht nicht allzu viel in State ausser Preis und Position. Warum preis und Position, wenn eine aktion passiert ändert sich der State zu State plus 1 oder minus 1. Aber wir wollen unseren Trading bot komplexer machen und den State komplexer machen, heisst wir fügen zusaätzlich zu Preis und Position Preisbezogene Features und technische Indikatoren. **Preisbezogene Features: aktueller Preis, Open, High, Low, Close, Volume**. Technische Indikatoren, das sind mathematische Werkzeuge, die Tradern Muster im Preis zeigen. **Moving Averages** (MA5, MA20, MA50…), das ist der Durchschnittspreis der letzten X Tage/Schritte. **RSI (Relative Strength Index)**, ein Wert zwischen 0 und 100, der zeigt: über 70 → überkauft (Preis vielleicht zu hoch), unter 30 → überverkauft (Preis vielleicht zu niedrig) → Zeigt, ob der Markt „gestresst“ ist. **MACD**, ein Trendfolge-Indikator mit zwei Teilen: Signal → zeigt die Trendrichtung, Histogram → zeigt Stärke / Geschwindigkeit des Trends → Gut zum Erkennen von Trendwechseln. **Bollinger Bands** (Upper, Lower), drei Linien: mittlere Linie: Durchschnitt, obere Linie: Durchschnitt + Volatilität, untere Linie: Durchschnitt – Volatilität → Sie zeigen, wie „ausgedehnt“ der Preis gerade ist. Wenn der Preis oben anstößt → vielleicht zu hoch. Wenn unten → vielleicht zu tief. **Volatility** (ATR – Average True Range), misst, wie stark sich der Preis bewegt. Hohe ATR → Markt ist wild, große Bewegungen, niedrige ATR → Markt ist ruhig → Extrem wichtig für Risiko & Positionsgrößen. Preisbezogene Daten sagen dir, wo der Preis war. Indikatoren sagen dir, was der Preis gerade fühlt (Trend, Stärke, Volatilität). Zwar startet wir mit einem RL Paper trading bot aber desto trotz sollte er bereit sein oder nur mit wenig umbau zu einem echten Trading bot zu verwandeln. Beim Demo habe ich festgestellt das er kurze orders gemacht hat und dies bei tading-Gebühren wird schnell teuer das heisst wir müssen den Bot so schlau machen das er selbst weiss wie er dies mit wenig kosten umgeht z.b mit Negativ reward bei gebühren villeicht lernt er dan mit der zeit längere Orders zu machen. Deshalb werden Constraint eingeführt Lags (Execution Delay), Fees (Maker/Taker Gebühren), Slippage, Trade Frequency Penalty, Holding Time / Overnight Risk, Position Size Constraints. Was gearde noch interresant wäre ist wenn man einen Vergleich hätte mit und ohne Restraint.
+
+<img width="300" height="175" alt="image" src="https://github.com/user-attachments/assets/d8ce8f79-f9aa-499a-a91b-3b221312f3ad" />
+<img width="1536" height="1024" alt="ChatGPT Image 4  Dez  2025, 12_04_49" src="https://github.com/user-attachments/assets/5dd9764a-6c64-40d6-b7c4-b6e3e840d567" />
+
+
+
+##### Action Space
+Diskrete Aktionen (Buy, Sell, Hold), ideal für Q-Learning
+und leicht verständlich im Debugging.
+
+##### Reward
+Reward = realisierter Gewinn.
+Warum nicht unrealisiert? 
+→ Weil der Agent sonst risikolose Buy-and-Hold Strategien bevorzugt.
+
+##### Episode Ending
+Episode endet am Ende des Datensatzes.
+
+### Agent
+Agent gleich schüler der ins Klassenzimmer(env) geht. Mache meine Aufgaben, bekomme Punkte als Rückmeldung. Was ich lerne im Klassenzimmer(env) wird in meinem Gehirn gespeichert darauffolgend werde ich schlauer, und treffe nächstes mal bessere Entscheidungen. Kurzgesagt Agent gleich derjenige der lernt.
+
+### Training
+
+### Backtest‑Auswertung
+
+### Paper‑Trading
+
+### Optional: Vorbereitung auf Real‑Trading
 ---
-
-### **Phase 2 – Trading-Umgebung (OpenAI Gym)**
-
-**Aufgaben:**
-- Implementierung von `TradingEnv` in `src/env/trading_env.py`
-- Definition der Aktionen (Buy / Hold / Sell)
-- Definition der Reward-Funktion (Gewinn, Verlust, Transaktionskosten)
-- Test der Umgebung mit Zufallsaktionen (`env.step()`)
-
----
-
-### **Phase 3 – RL-Agent (z. B. DQN oder PPO)**
-
-**Aufgaben:**
-- Implementierung eines RL-Modells in `src/agents/dqn_agent.py`
-- Nutzung von `stable-baselines3`
-- Verbindung der Umgebung mit dem Agenten
-- Training über mehrere Episoden
-
----
-
-### **Phase 4 – Evaluation & Visualisierung**
-
-**Aufgaben:**
-- Rewards, Balance, Trades visualisieren (`matplotlib`)
-- Vergleich mit Buy & Hold
-- Berechnung von Metriken (Total Return, Sharpe Ratio)
-
----
-
-### **Phase 5 – Dokumentation & Präsentation**
-
-**Aufgaben:**
-- README und Projektdokumentation ergänzen
-- Code kommentieren und auf GitHub sauber strukturieren
-- Präsentation vorbereiten
-
----
-
-## Struktur im Repository
+HM
+- vergleich zwischen unterschiedliche Kryptos
+- vergleich mit ohne labels, heisst candle stick muster in geben und er lernt mit ihnen selbst.
+- verglecih lernphase vom agent 5 jahre,3 monate 1 woche etc.
+- mit ohne constraint
