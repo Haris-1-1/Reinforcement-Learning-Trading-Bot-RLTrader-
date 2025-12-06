@@ -1,0 +1,79 @@
+# Default Configuration for RL Trading Bot
+
+data:
+  symbol: "BTC-USD"
+  start_date: "2020-01-01"
+  end_date: "2024-01-01"
+  interval: "1d"  # 1d, 1h, 15m, etc.
+  test_split: 0.2  # 20% for testing
+
+environment:
+  initial_cash: 10000.0
+  trading_fee_maker: 0.001  # 0.1%
+  trading_fee_taker: 0.002  # 0.2%
+  slippage: 0.001  # 0.1%
+  trade_frequency_penalty: 0.0001
+  max_position_size: 1.0  # 100% of capital
+  min_position_size: 0.0
+  enable_execution_delay: false
+  execution_delay_steps: 0
+
+agent:
+  type: "dqn"  # Options: "q_learning", "dqn", "ppo"
+
+  # Q-Learning specific
+  q_learning:
+    learning_rate: 0.1
+    gamma: 0.99
+    epsilon_start: 1.0
+    epsilon_end: 0.01
+    epsilon_decay: 0.995
+    n_bins: 20
+
+  # DQN specific
+  dqn:
+    learning_rate: 0.0001
+    gamma: 0.99
+    buffer_size: 100000
+    learning_starts: 1000
+    batch_size: 64
+    tau: 0.005
+    train_freq: 4
+    gradient_steps: 1
+    target_update_interval: 1000
+    exploration_fraction: 0.1
+    exploration_initial_eps: 1.0
+    exploration_final_eps: 0.05
+    policy_kwargs:
+      net_arch: [128, 128]
+
+  # PPO specific
+  ppo:
+    learning_rate: 0.0003
+    n_steps: 2048
+    batch_size: 64
+    n_epochs: 10
+    gamma: 0.99
+    gae_lambda: 0.95
+    clip_range: 0.2
+    ent_coef: 0.0
+    vf_coef: 0.5
+    max_grad_norm: 0.5
+    policy_kwargs:
+      net_arch: [128, 128]
+
+training:
+  total_timesteps: 100000
+  save_freq: 10000
+  log_interval: 1000
+  eval_freq: 5000
+  n_eval_episodes: 5
+  save_path: "results/"
+  tensorboard_log: "results/tensorboard/"
+
+experiment:
+  name: "default_experiment"
+  description: "Default configuration experiment"
+  seed: 42
+  enable_constraints: true
+  compare_with_baseline: true  # Compare with Buy & Hold

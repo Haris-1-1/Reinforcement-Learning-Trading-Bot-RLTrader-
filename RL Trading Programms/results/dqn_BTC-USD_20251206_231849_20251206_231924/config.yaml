@@ -1,0 +1,29 @@
+agent:
+  type: dqn
+data:
+  end_date: '2024-01-01'
+  interval: 1d
+  start_date: '2020-01-01'
+  symbol: BTC-USD
+  test_split: 0.2
+environment:
+  enable_execution_delay: false
+  execution_delay_steps: 0
+  initial_cash: 10000
+  max_position_size: 1.0
+  slippage: 0.001
+  trade_frequency_penalty: 0.0001
+  trading_fee_maker: 0.001
+  trading_fee_taker: 0.001
+experiment:
+  compare_with_baseline: true
+  description: dqn on BTC-USD
+  enable_constraints: true
+  name: dqn_BTC-USD_20251206_231849
+  seed: 42
+training:
+  log_interval: 1000
+  save_freq: 10000
+  save_path: results/
+  tensorboard_log: results/tensorboard/
+  total_timesteps: 100000
