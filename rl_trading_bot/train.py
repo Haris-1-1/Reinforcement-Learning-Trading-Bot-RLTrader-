@@ -45,7 +45,7 @@ def train_agent():
             'trading_fee_maker': 0.001,
             'trading_fee_taker': 0.002,
             'slippage': 0.001,
-            'trade_frequency_penalty': 0.00005  # REDUZIERT!
+            'trade_frequency_penalty': 0.001  # REDUZIERT!
         },
         'q_learning': {
             'learning_rate': 0.1,
