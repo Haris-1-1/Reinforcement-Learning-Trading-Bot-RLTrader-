@@ -32,11 +32,13 @@ def train_agent():
     # ════════════════════════════════════════════════════════════════
     # CONFIGURATION
     # ════════════════════════════════════════════════════════════════
+    # CONFIGURATION
+    # ════════════════════════════════════════════════════════════════
     config = {
         'data': {
             'symbol': 'BTC-USD',
-            'start_date': '2020-01-01',
-            'end_date': '2024-01-01',
+            'start_date': '2023-01-01',
+            'end_date': '2025-11-11',
             'interval': '1d',
             'test_split': 0.2
         },
@@ -45,18 +47,18 @@ def train_agent():
             'trading_fee_maker': 0.001,
             'trading_fee_taker': 0.002,
             'slippage': 0.001,
-            'trade_frequency_penalty': 0.001  # REDUZIERT!
+            'trade_frequency_penalty': 0.005  # REDUZIERT!
         },
         'q_learning': {
             'learning_rate': 0.1,
-            'gamma': 0.99,
+            'gamma': 0.999,
             'epsilon_start': 1.0,
             'epsilon_end': 0.01,
-            'epsilon_decay': 0.99,  # SCHNELLER! (war 0.995)
+            'epsilon_decay': 0.995,  # SCHNELLER! (war 0.995)
             'n_bins': 15
         },
         'training': {
-            'total_timesteps': 100000,  # MEHR! (war 50000)
+            'total_timesteps': 500000,  # MEHR! (war 50000)
             'log_interval': 10000
         }
     }
