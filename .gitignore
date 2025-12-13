@@ -9,7 +9,6 @@ __pycache__/
 
 # Environments
 .venv/
-env/
 
 # Daten / Modelle
 data/raw/*
