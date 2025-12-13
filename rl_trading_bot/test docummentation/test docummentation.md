@@ -4019,3 +4019,1024 @@ Total Episodes: 629
 
 🏆 AGENT BEATS BUY & HOLD! 🏆
 PS C:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-> 
+
+v24
+config = {
+        'data': {
+            'symbol': 'BTC-USD',
+            'start_date': '2025-10-20',
+            'end_date': '2025-11-11',
+            'interval': '5m',
+            'test_split': 0.2
+        },
+        'environment': {
+            'initial_cash': 10000.0,
+            'trading_fee_maker': 0.001,
+            'trading_fee_taker': 0.002,
+            'slippage': 0.001,
+            'trade_frequency_penalty': 0.008  # REDUZIERT!
+        },
+        'q_learning': {
+            'learning_rate': 0.1,
+            'gamma': 0.995,
+            'epsilon_start': 1.0,
+            'epsilon_end': 0.01,
+            'epsilon_decay': 0.999,  # SCHNELLER! (war 0.995)
+            'n_bins': 15
+        },
+        'training': {
+            'total_timesteps': 2000000,  # MEHR! (war 50000)
+            'log_interval': 20000
+        }
+    }
+
+🚀 RL TRADING BOT - Q-LEARNING TRAINING v2
+======================================================================
+FIXES: Real prices, faster epsilon decay, more training
+======================================================================
+
+======================================================================
+📊 STEP 1: LOADING DATA
+======================================================================
+Loading BTC-USD data from 2025-10-20 to 2025-11-11...
+c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True 
+  data = yf.download(
+Loaded 6319 rows of data
+Date range: 2025-10-20 00:00:00+00:00 to 2025-11-10 23:55:00+00:00
+Price range: $99040.66 - $116070.29
+Calculating technical indicators...
+Added technical indicators. Remaining rows after dropna: 6259
+Train set: 5007 rows (80%)
+Test set: 1252 rows (20%)
+
+💰 Original Train Prices: $99040.66 - $116070.29
+💰 Original Test Prices: $99343.85 - $106535.13
+
+Normalizing features for neural network...
+Features normalized ✓
+
+📈 Train data: 5007 days
+📈 Test data: 1252 days
+
+======================================================================
+🏗️ STEP 2: CREATING ENVIRONMENT
+======================================================================
+✅ Using REAL prices for trading: $99040.66 - $116070.29
+   Price change over period: -6.6%
+   Using 21 features for state
+
+======================================================================
+🤖 STEP 3: CREATING Q-LEARNING AGENT
+======================================================================
+Q-table shape: (15, 15, 15, 2, 3)
+Epsilon decay: 0.999 (reaches 0.01 after ~4602 episodes)
+
+======================================================================
+🎯 STEP 4: TRAINING
+======================================================================
+
+============================================================
+Q-LEARNING TRAINING
+============================================================
+Total timesteps: 2,000,000
+Epsilon: 1.00 → 0.01
+Decay rate: 0.999
+============================================================
+
+Step  20,000/2,000,000 | Ep   3 | ε=0.997 | Avg Reward: -23.1034
+Step  40,000/2,000,000 | Ep   7 | ε=0.993 | Avg Reward: -22.8878
+Step  60,000/2,000,000 | Ep  11 | ε=0.989 | Avg Reward: -22.7111
+Step  80,000/2,000,000 | Ep  15 | ε=0.985 | Avg Reward: -22.6638
+Step 100,000/2,000,000 | Ep  19 | ε=0.981 | Avg Reward: -22.7129
+  └─ Episode 20: Reward=-21.8134 | Portfolio=$80 | Trades=1591 | ε=0.980
+Step 120,000/2,000,000 | Ep  23 | ε=0.977 | Avg Reward: -22.4588
+Step 140,000/2,000,000 | Ep  27 | ε=0.973 | Avg Reward: -22.1565
+Step 160,000/2,000,000 | Ep  31 | ε=0.969 | Avg Reward: -22.0105
+Step 180,000/2,000,000 | Ep  35 | ε=0.966 | Avg Reward: -22.2401
+Step 200,000/2,000,000 | Ep  39 | ε=0.962 | Avg Reward: -21.9990
+  └─ Episode 40: Reward=-21.9014 | Portfolio=$79 | Trades=1595 | ε=0.961
+Step 220,000/2,000,000 | Ep  43 | ε=0.958 | Avg Reward: -21.9163
+Step 240,000/2,000,000 | Ep  47 | ε=0.954 | Avg Reward: -21.6935
+Step 260,000/2,000,000 | Ep  51 | ε=0.950 | Avg Reward: -21.6366
+Step 280,000/2,000,000 | Ep  55 | ε=0.946 | Avg Reward: -21.3047
+Step 300,000/2,000,000 | Ep  59 | ε=0.943 | Avg Reward: -21.0917
+  └─ Episode 60: Reward=-21.2975 | Portfolio=$80 | Trades=1579 | ε=0.942
+Step 320,000/2,000,000 | Ep  63 | ε=0.939 | Avg Reward: -20.8511
+Step 340,000/2,000,000 | Ep  67 | ε=0.935 | Avg Reward: -20.8141
+Step 360,000/2,000,000 | Ep  71 | ε=0.931 | Avg Reward: -20.9604
+Step 380,000/2,000,000 | Ep  75 | ε=0.928 | Avg Reward: -20.8896
+Step 400,000/2,000,000 | Ep  79 | ε=0.924 | Avg Reward: -20.6747
+  └─ Episode 80: Reward=-20.4474 | Portfolio=$99 | Trades=1515 | ε=0.923
+Step 420,000/2,000,000 | Ep  83 | ε=0.920 | Avg Reward: -20.4976
+Step 440,000/2,000,000 | Ep  87 | ε=0.917 | Avg Reward: -20.3574
+Step 460,000/2,000,000 | Ep  91 | ε=0.913 | Avg Reward: -20.3627
+Step 480,000/2,000,000 | Ep  95 | ε=0.909 | Avg Reward: -20.4371
+Step 500,000/2,000,000 | Ep  99 | ε=0.906 | Avg Reward: -20.6275
+  └─ Episode 100: Reward=-19.6029 | Portfolio=$117 | Trades=1444 | ε=0.905
+Step 520,000/2,000,000 | Ep 103 | ε=0.902 | Avg Reward: -20.4311
+Step 540,000/2,000,000 | Ep 107 | ε=0.898 | Avg Reward: -20.1390
+Step 560,000/2,000,000 | Ep 111 | ε=0.895 | Avg Reward: -19.8909
+Step 580,000/2,000,000 | Ep 115 | ε=0.891 | Avg Reward: -19.7233
+Step 600,000/2,000,000 | Ep 119 | ε=0.888 | Avg Reward: -19.7639
+  └─ Episode 120: Reward=-20.2460 | Portfolio=$101 | Trades=1517 | ε=0.887
+Step 620,000/2,000,000 | Ep 123 | ε=0.884 | Avg Reward: -19.7713
+Step 640,000/2,000,000 | Ep 127 | ε=0.881 | Avg Reward: -19.6827
+Step 660,000/2,000,000 | Ep 131 | ε=0.877 | Avg Reward: -19.6934
+Step 680,000/2,000,000 | Ep 135 | ε=0.874 | Avg Reward: -19.4526
+Step 700,000/2,000,000 | Ep 139 | ε=0.870 | Avg Reward: -19.4599
+  └─ Episode 140: Reward=-19.8723 | Portfolio=$109 | Trades=1494 | ε=0.869
+Step 720,000/2,000,000 | Ep 143 | ε=0.867 | Avg Reward: -19.3317
+Step 740,000/2,000,000 | Ep 147 | ε=0.863 | Avg Reward: -19.4900
+Step 760,000/2,000,000 | Ep 151 | ε=0.860 | Avg Reward: -19.3556
+Step 780,000/2,000,000 | Ep 155 | ε=0.856 | Avg Reward: -19.2518
+Step 800,000/2,000,000 | Ep 159 | ε=0.853 | Avg Reward: -19.0340
+  └─ Episode 160: Reward=-19.4286 | Portfolio=$110 | Trades=1464 | ε=0.852
+Step 820,000/2,000,000 | Ep 163 | ε=0.850 | Avg Reward: -19.0798
+Step 840,000/2,000,000 | Ep 167 | ε=0.846 | Avg Reward: -18.9288
+Step 860,000/2,000,000 | Ep 171 | ε=0.843 | Avg Reward: -18.6479
+Step 880,000/2,000,000 | Ep 175 | ε=0.839 | Avg Reward: -18.5557
+Step 900,000/2,000,000 | Ep 179 | ε=0.836 | Avg Reward: -18.4320
+  └─ Episode 180: Reward=-18.7705 | Portfolio=$132 | Trades=1418 | ε=0.835
+Step 920,000/2,000,000 | Ep 183 | ε=0.833 | Avg Reward: -18.4920
+Step 940,000/2,000,000 | Ep 187 | ε=0.829 | Avg Reward: -18.5007
+Step 960,000/2,000,000 | Ep 191 | ε=0.826 | Avg Reward: -18.4656
+Step 980,000/2,000,000 | Ep 195 | ε=0.823 | Avg Reward: -18.3380
+Step 1,000,000/2,000,000 | Ep 199 | ε=0.819 | Avg Reward: -18.2875
+  └─ Episode 200: Reward=-17.8439 | Portfolio=$180 | Trades=1360 | ε=0.819
+Step 1,020,000/2,000,000 | Ep 203 | ε=0.816 | Avg Reward: -18.0298
+Step 1,040,000/2,000,000 | Ep 207 | ε=0.813 | Avg Reward: -17.8072
+Step 1,060,000/2,000,000 | Ep 211 | ε=0.810 | Avg Reward: -17.7833
+Step 1,080,000/2,000,000 | Ep 215 | ε=0.806 | Avg Reward: -17.6170
+Step 1,100,000/2,000,000 | Ep 219 | ε=0.803 | Avg Reward: -17.6810
+  └─ Episode 220: Reward=-17.3039 | Portfolio=$185 | Trades=1308 | ε=0.802
+Step 1,120,000/2,000,000 | Ep 223 | ε=0.800 | Avg Reward: -17.7079
+Step 1,140,000/2,000,000 | Ep 227 | ε=0.797 | Avg Reward: -17.5361
+Step 1,160,000/2,000,000 | Ep 231 | ε=0.794 | Avg Reward: -17.5504
+Step 1,180,000/2,000,000 | Ep 235 | ε=0.790 | Avg Reward: -17.3892
+Step 1,200,000/2,000,000 | Ep 239 | ε=0.787 | Avg Reward: -17.1825
+  └─ Episode 240: Reward=-16.6751 | Portfolio=$225 | Trades=1260 | ε=0.787
+Step 1,220,000/2,000,000 | Ep 243 | ε=0.784 | Avg Reward: -17.0964
+Step 1,240,000/2,000,000 | Ep 247 | ε=0.781 | Avg Reward: -17.1357
+Step 1,260,000/2,000,000 | Ep 251 | ε=0.778 | Avg Reward: -17.3582
+Step 1,280,000/2,000,000 | Ep 255 | ε=0.775 | Avg Reward: -17.2225
+Step 1,300,000/2,000,000 | Ep 259 | ε=0.772 | Avg Reward: -17.1485
+  └─ Episode 260: Reward=-16.5485 | Portfolio=$219 | Trades=1266 | ε=0.771
+Step 1,320,000/2,000,000 | Ep 263 | ε=0.769 | Avg Reward: -17.0293
+Step 1,340,000/2,000,000 | Ep 267 | ε=0.766 | Avg Reward: -16.8813
+Step 1,360,000/2,000,000 | Ep 271 | ε=0.763 | Avg Reward: -16.8066
+Step 1,380,000/2,000,000 | Ep 275 | ε=0.759 | Avg Reward: -16.7587
+Step 1,400,000/2,000,000 | Ep 279 | ε=0.756 | Avg Reward: -16.5754
+  └─ Episode 280: Reward=-16.1499 | Portfolio=$237 | Trades=1242 | ε=0.756
+Step 1,420,000/2,000,000 | Ep 283 | ε=0.753 | Avg Reward: -16.3708
+Step 1,440,000/2,000,000 | Ep 287 | ε=0.750 | Avg Reward: -16.2709
+Step 1,460,000/2,000,000 | Ep 291 | ε=0.747 | Avg Reward: -16.2920
+Step 1,480,000/2,000,000 | Ep 295 | ε=0.744 | Avg Reward: -16.1735
+Step 1,500,000/2,000,000 | Ep 299 | ε=0.741 | Avg Reward: -16.3289
+  └─ Episode 300: Reward=-15.3491 | Portfolio=$276 | Trades=1193 | ε=0.741
+Step 1,520,000/2,000,000 | Ep 303 | ε=0.738 | Avg Reward: -16.0996
+Step 1,540,000/2,000,000 | Ep 307 | ε=0.736 | Avg Reward: -16.1675
+Step 1,560,000/2,000,000 | Ep 311 | ε=0.733 | Avg Reward: -15.9173
+Step 1,580,000/2,000,000 | Ep 315 | ε=0.730 | Avg Reward: -15.8017
+Step 1,600,000/2,000,000 | Ep 319 | ε=0.727 | Avg Reward: -15.6886
+  └─ Episode 320: Reward=-15.7933 | Portfolio=$258 | Trades=1210 | ε=0.726
+Step 1,620,000/2,000,000 | Ep 323 | ε=0.724 | Avg Reward: -15.7337
+Step 1,640,000/2,000,000 | Ep 327 | ε=0.721 | Avg Reward: -15.7565
+Step 1,660,000/2,000,000 | Ep 331 | ε=0.718 | Avg Reward: -15.6804
+Step 1,680,000/2,000,000 | Ep 335 | ε=0.715 | Avg Reward: -15.6536
+Step 1,700,000/2,000,000 | Ep 339 | ε=0.712 | Avg Reward: -15.5269
+  └─ Episode 340: Reward=-15.4682 | Portfolio=$268 | Trades=1193 | ε=0.712
+Step 1,720,000/2,000,000 | Ep 343 | ε=0.710 | Avg Reward: -15.3585
+Step 1,740,000/2,000,000 | Ep 347 | ε=0.707 | Avg Reward: -15.3654
+Step 1,760,000/2,000,000 | Ep 351 | ε=0.704 | Avg Reward: -15.3635
+Step 1,780,000/2,000,000 | Ep 355 | ε=0.701 | Avg Reward: -15.1176
+Step 1,800,000/2,000,000 | Ep 359 | ε=0.698 | Avg Reward: -15.0951
+  └─ Episode 360: Reward=-15.0057 | Portfolio=$283 | Trades=1183 | ε=0.698
+Step 1,820,000/2,000,000 | Ep 363 | ε=0.695 | Avg Reward: -15.1980
+Step 1,840,000/2,000,000 | Ep 367 | ε=0.693 | Avg Reward: -15.0438
+Step 1,860,000/2,000,000 | Ep 371 | ε=0.690 | Avg Reward: -14.9345
+Step 1,880,000/2,000,000 | Ep 375 | ε=0.687 | Avg Reward: -14.8137
+Step 1,900,000/2,000,000 | Ep 379 | ε=0.684 | Avg Reward: -14.8377
+  └─ Episode 380: Reward=-14.2686 | Portfolio=$338 | Trades=1111 | ε=0.684
+Step 1,920,000/2,000,000 | Ep 383 | ε=0.682 | Avg Reward: -14.7485
+Step 1,940,000/2,000,000 | Ep 387 | ε=0.679 | Avg Reward: -14.5643
+Step 1,960,000/2,000,000 | Ep 391 | ε=0.676 | Avg Reward: -14.5561
+Step 1,980,000/2,000,000 | Ep 395 | ε=0.674 | Avg Reward: -14.4011
+Step 2,000,000/2,000,000 | Ep 399 | ε=0.671 | Avg Reward: -14.3640
+  └─ Episode 400: Reward=-7.9658 | Portfolio=$1,512 | Trades=628 | ε=0.670
+
+============================================================
+TRAINING COMPLETE!
+============================================================
+Episodes: 400
+Final Epsilon: 0.6702
+Mean Reward: -18.1805
+Best Episode Reward: -7.9658
+============================================================
+
+======================================================================
+💾 STEP 5: SAVING MODEL
+======================================================================
+Model saved to results/q_learning_v2_20251213_010806.pkl
+Config saved to results/config_v2_20251213_010806.json
+
+======================================================================
+📊 STEP 6: EVALUATION ON TRAINING DATA
+======================================================================
+Initial: $10,000.00
+Final:   $10,000.00
+Return:  +0.00%
+Trades:  0
+Fees:    $0.00
+
+======================================================================
+🧪 STEP 7: EVALUATION ON TEST DATA
+======================================================================
+✅ Using REAL prices for trading: $99343.85 - $106535.13
+   Price change over period: 2.8%
+   Using 21 features for state
+Initial: $10,000.00
+Final:   $10,000.00
+Return:  +0.00%
+Trades:  0
+Fees:    $0.00
+
+======================================================================
+📈 STEP 8: BUY & HOLD COMPARISON
+======================================================================
+
+Strategy             |        Train |         Test
+--------------------------------------------------
+Q-Learning Agent     |       +0.00% |       +0.00%
+Buy & Hold           |       -6.61% |       +2.84%
+--------------------------------------------------
+Outperformance       |       +6.61% |       -2.84%
+
+💰 Final Values:
+   Agent Train: $10,000.00  |  Buy&Hold: $9,339.32
+   Agent Test:  $10,000.00  |  Buy&Hold: $10,283.92
+
+======================================================================
+✅ TRAINING COMPLETE!
+======================================================================
+Model: results/q_learning_v2_20251213_010806.pkl
+Final Epsilon: 0.6702
+Total Episodes: 400
+
+⚠️ Agent lost money - needs more training or tuning
+PS C:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-> 
+
+v24
+======================================================================
+🚀 RL TRADING BOT - Q-LEARNING TRAINING v2
+======================================================================
+FIXES: Real prices, faster epsilon decay, more training
+======================================================================
+
+======================================================================
+📊 STEP 1: LOADING DATA
+======================================================================
+Loading BTC-USD data from 2025-10-20 to 2025-11-11...
+c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True
+  data = yf.download(
+Loaded 6319 rows of data
+Date range: 2025-10-20 00:00:00+00:00 to 2025-11-10 23:55:00+00:00
+Price range: $99040.66 - $116070.29
+Calculating technical indicators...
+Added technical indicators. Remaining rows after dropna: 6259
+Train set: 5007 rows (80%)
+Test set: 1252 rows (20%)
+
+💰 Original Train Prices: $99040.66 - $116070.29
+💰 Original Test Prices: $99343.85 - $106535.13
+
+Normalizing features for neural network...
+Features normalized ✓
+
+📈 Train data: 5007 days
+📈 Test data: 1252 days
+
+======================================================================
+🏗️ STEP 2: CREATING ENVIRONMENT
+======================================================================
+✅ Using REAL prices for trading: $99040.66 - $116070.29
+   Price change over period: -6.6%
+   Using 21 features for state
+
+======================================================================
+🤖 STEP 3: CREATING Q-LEARNING AGENT
+======================================================================
+Q-table shape: (15, 15, 15, 2, 3)
+Epsilon decay: 0.99 (reaches 0.01 after ~458 episodes)
+
+======================================================================
+🎯 STEP 4: TRAINING
+======================================================================
+
+============================================================
+Q-LEARNING TRAINING
+============================================================
+Total timesteps: 2,000,000
+Epsilon: 1.00 → 0.01
+Decay rate: 0.99
+============================================================
+
+Step  10,000/2,000,000 | Ep   1 | ε=0.990 | Avg Reward: -4.8447
+Step  20,000/2,000,000 | Ep   3 | ε=0.970 | Avg Reward: -4.9289
+Step  30,000/2,000,000 | Ep   5 | ε=0.951 | Avg Reward: -4.9547
+Step  40,000/2,000,000 | Ep   7 | ε=0.932 | Avg Reward: -4.9096
+Step  50,000/2,000,000 | Ep   9 | ε=0.914 | Avg Reward: -4.8344
+Step  60,000/2,000,000 | Ep  11 | ε=0.895 | Avg Reward: -4.7786
+Step  70,000/2,000,000 | Ep  13 | ε=0.878 | Avg Reward: -4.6806
+Step  80,000/2,000,000 | Ep  15 | ε=0.860 | Avg Reward: -4.5472
+Step  90,000/2,000,000 | Ep  17 | ε=0.843 | Avg Reward: -4.4908
+Step 100,000/2,000,000 | Ep  19 | ε=0.826 | Avg Reward: -4.4256
+  └─ Episode 20: Reward=-4.1829 | Portfolio=$151 | Trades=1382 | ε=0.818
+Step 110,000/2,000,000 | Ep  21 | ε=0.810 | Avg Reward: -4.3445
+Step 120,000/2,000,000 | Ep  23 | ε=0.794 | Avg Reward: -4.2538
+Step 130,000/2,000,000 | Ep  25 | ε=0.778 | Avg Reward: -4.1835
+Step 140,000/2,000,000 | Ep  27 | ε=0.762 | Avg Reward: -4.0753
+Step 150,000/2,000,000 | Ep  29 | ε=0.747 | Avg Reward: -4.0095
+Step 160,000/2,000,000 | Ep  31 | ε=0.732 | Avg Reward: -3.9378
+Step 170,000/2,000,000 | Ep  33 | ε=0.718 | Avg Reward: -3.8473
+Step 180,000/2,000,000 | Ep  35 | ε=0.703 | Avg Reward: -3.7684
+Step 190,000/2,000,000 | Ep  37 | ε=0.689 | Avg Reward: -3.6719
+Step 200,000/2,000,000 | Ep  39 | ε=0.676 | Avg Reward: -3.5894
+  └─ Episode 40: Reward=-3.4418 | Portfolio=$318 | Trades=1151 | ε=0.669
+Step 210,000/2,000,000 | Ep  41 | ε=0.662 | Avg Reward: -3.5111
+Step 220,000/2,000,000 | Ep  43 | ε=0.649 | Avg Reward: -3.4538
+Step 230,000/2,000,000 | Ep  45 | ε=0.636 | Avg Reward: -3.3866
+Step 240,000/2,000,000 | Ep  47 | ε=0.624 | Avg Reward: -3.3206
+Step 250,000/2,000,000 | Ep  49 | ε=0.611 | Avg Reward: -3.2498
+Step 260,000/2,000,000 | Ep  51 | ε=0.599 | Avg Reward: -3.1830
+Step 270,000/2,000,000 | Ep  53 | ε=0.587 | Avg Reward: -3.1353
+Step 280,000/2,000,000 | Ep  55 | ε=0.575 | Avg Reward: -3.0906
+Step 290,000/2,000,000 | Ep  57 | ε=0.564 | Avg Reward: -3.0360
+Step 300,000/2,000,000 | Ep  59 | ε=0.553 | Avg Reward: -2.9809
+  └─ Episode 60: Reward=-2.7474 | Portfolio=$637 | Trades=911 | ε=0.547
+Step 310,000/2,000,000 | Ep  61 | ε=0.542 | Avg Reward: -2.9126
+Step 320,000/2,000,000 | Ep  63 | ε=0.531 | Avg Reward: -2.8289
+Step 330,000/2,000,000 | Ep  65 | ε=0.520 | Avg Reward: -2.7448
+Step 340,000/2,000,000 | Ep  67 | ε=0.510 | Avg Reward: -2.6888
+Step 350,000/2,000,000 | Ep  69 | ε=0.500 | Avg Reward: -2.6461
+Step 360,000/2,000,000 | Ep  71 | ε=0.490 | Avg Reward: -2.6313
+Step 370,000/2,000,000 | Ep  73 | ε=0.480 | Avg Reward: -2.6099
+Step 380,000/2,000,000 | Ep  75 | ε=0.471 | Avg Reward: -2.5882
+Step 390,000/2,000,000 | Ep  77 | ε=0.461 | Avg Reward: -2.5227
+Step 400,000/2,000,000 | Ep  79 | ε=0.452 | Avg Reward: -2.4683
+  └─ Episode 80: Reward=-2.2477 | Portfolio=$1,050 | Trades=749 | ε=0.448
+Step 410,000/2,000,000 | Ep  81 | ε=0.443 | Avg Reward: -2.3984
+Step 420,000/2,000,000 | Ep  83 | ε=0.434 | Avg Reward: -2.3541
+Step 430,000/2,000,000 | Ep  85 | ε=0.426 | Avg Reward: -2.2784
+Step 440,000/2,000,000 | Ep  87 | ε=0.417 | Avg Reward: -2.2547
+Step 450,000/2,000,000 | Ep  89 | ε=0.409 | Avg Reward: -2.2133
+Step 460,000/2,000,000 | Ep  91 | ε=0.401 | Avg Reward: -2.1696
+Step 470,000/2,000,000 | Ep  93 | ε=0.393 | Avg Reward: -2.1007
+Step 480,000/2,000,000 | Ep  95 | ε=0.385 | Avg Reward: -2.0605
+Step 490,000/2,000,000 | Ep  97 | ε=0.377 | Avg Reward: -2.0260
+Step 500,000/2,000,000 | Ep  99 | ε=0.370 | Avg Reward: -1.9655
+  └─ Episode 100: Reward=-1.8725 | Portfolio=$1,529 | Trades=622 | ε=0.366
+Step 510,000/2,000,000 | Ep 101 | ε=0.362 | Avg Reward: -1.9283
+Step 520,000/2,000,000 | Ep 103 | ε=0.355 | Avg Reward: -1.9157
+Step 530,000/2,000,000 | Ep 105 | ε=0.348 | Avg Reward: -1.8834
+Step 540,000/2,000,000 | Ep 107 | ε=0.341 | Avg Reward: -1.8234
+Step 550,000/2,000,000 | Ep 109 | ε=0.334 | Avg Reward: -1.7671
+Step 560,000/2,000,000 | Ep 111 | ε=0.328 | Avg Reward: -1.7080
+Step 570,000/2,000,000 | Ep 113 | ε=0.321 | Avg Reward: -1.6732
+Step 580,000/2,000,000 | Ep 115 | ε=0.315 | Avg Reward: -1.6565
+Step 590,000/2,000,000 | Ep 117 | ε=0.309 | Avg Reward: -1.6326
+Step 600,000/2,000,000 | Ep 119 | ε=0.302 | Avg Reward: -1.6325
+  └─ Episode 120: Reward=-1.4584 | Portfolio=$2,316 | Trades=500 | ε=0.299
+Step 610,000/2,000,000 | Ep 121 | ε=0.296 | Avg Reward: -1.6019
+Step 620,000/2,000,000 | Ep 123 | ε=0.290 | Avg Reward: -1.5709
+Step 630,000/2,000,000 | Ep 125 | ε=0.285 | Avg Reward: -1.5278
+Step 640,000/2,000,000 | Ep 127 | ε=0.279 | Avg Reward: -1.5135
+Step 650,000/2,000,000 | Ep 129 | ε=0.273 | Avg Reward: -1.4895
+Step 660,000/2,000,000 | Ep 131 | ε=0.268 | Avg Reward: -1.4792
+Step 670,000/2,000,000 | Ep 133 | ε=0.263 | Avg Reward: -1.4484
+Step 680,000/2,000,000 | Ep 135 | ε=0.257 | Avg Reward: -1.4220
+Step 690,000/2,000,000 | Ep 137 | ε=0.252 | Avg Reward: -1.3718
+Step 700,000/2,000,000 | Ep 139 | ε=0.247 | Avg Reward: -1.3332
+  └─ Episode 140: Reward=-1.3719 | Portfolio=$2,525 | Trades=437 | ε=0.245
+Step 710,000/2,000,000 | Ep 141 | ε=0.242 | Avg Reward: -1.3181
+Step 720,000/2,000,000 | Ep 143 | ε=0.238 | Avg Reward: -1.2578
+Step 730,000/2,000,000 | Ep 145 | ε=0.233 | Avg Reward: -1.2418
+Step 740,000/2,000,000 | Ep 147 | ε=0.228 | Avg Reward: -1.2362
+Step 750,000/2,000,000 | Ep 149 | ε=0.224 | Avg Reward: -1.2176
+Step 760,000/2,000,000 | Ep 151 | ε=0.219 | Avg Reward: -1.2001
+Step 770,000/2,000,000 | Ep 153 | ε=0.215 | Avg Reward: -1.1948
+Step 780,000/2,000,000 | Ep 155 | ε=0.211 | Avg Reward: -1.1654
+Step 790,000/2,000,000 | Ep 157 | ε=0.206 | Avg Reward: -1.1379
+Step 800,000/2,000,000 | Ep 159 | ε=0.202 | Avg Reward: -1.1030
+  └─ Episode 160: Reward=-0.9737 | Portfolio=$3,761 | Trades=342 | ε=0.200
+Step 810,000/2,000,000 | Ep 161 | ε=0.198 | Avg Reward: -1.0554
+Step 820,000/2,000,000 | Ep 163 | ε=0.194 | Avg Reward: -1.0400
+Step 830,000/2,000,000 | Ep 165 | ε=0.190 | Avg Reward: -0.9883
+Step 840,000/2,000,000 | Ep 167 | ε=0.187 | Avg Reward: -0.9611
+Step 850,000/2,000,000 | Ep 169 | ε=0.183 | Avg Reward: -0.9487
+Step 860,000/2,000,000 | Ep 171 | ε=0.179 | Avg Reward: -0.9379
+Step 870,000/2,000,000 | Ep 173 | ε=0.176 | Avg Reward: -0.9324
+Step 880,000/2,000,000 | Ep 175 | ε=0.172 | Avg Reward: -0.9393
+Step 890,000/2,000,000 | Ep 177 | ε=0.169 | Avg Reward: -0.9297
+Step 900,000/2,000,000 | Ep 179 | ε=0.165 | Avg Reward: -0.9058
+  └─ Episode 180: Reward=-0.6766 | Portfolio=$5,065 | Trades=264 | ε=0.164
+Step 910,000/2,000,000 | Ep 181 | ε=0.162 | Avg Reward: -0.8663
+Step 920,000/2,000,000 | Ep 183 | ε=0.159 | Avg Reward: -0.8303
+Step 930,000/2,000,000 | Ep 185 | ε=0.156 | Avg Reward: -0.8178
+Step 940,000/2,000,000 | Ep 187 | ε=0.153 | Avg Reward: -0.8029
+Step 950,000/2,000,000 | Ep 189 | ε=0.150 | Avg Reward: -0.8030
+Step 960,000/2,000,000 | Ep 191 | ε=0.147 | Avg Reward: -0.8286
+Step 970,000/2,000,000 | Ep 193 | ε=0.144 | Avg Reward: -0.8169
+Step 980,000/2,000,000 | Ep 195 | ε=0.141 | Avg Reward: -0.8078
+Step 990,000/2,000,000 | Ep 197 | ε=0.138 | Avg Reward: -0.7887
+Step 1,000,000/2,000,000 | Ep 199 | ε=0.135 | Avg Reward: -0.7641
+  └─ Episode 200: Reward=-0.6957 | Portfolio=$4,970 | Trades=224 | ε=0.134
+Step 1,010,000/2,000,000 | Ep 201 | ε=0.133 | Avg Reward: -0.7318
+Step 1,020,000/2,000,000 | Ep 203 | ε=0.130 | Avg Reward: -0.7175
+Step 1,030,000/2,000,000 | Ep 205 | ε=0.127 | Avg Reward: -0.6996
+Step 1,040,000/2,000,000 | Ep 207 | ε=0.125 | Avg Reward: -0.6783
+Step 1,050,000/2,000,000 | Ep 209 | ε=0.122 | Avg Reward: -0.6534
+Step 1,060,000/2,000,000 | Ep 211 | ε=0.120 | Avg Reward: -0.6264
+Step 1,070,000/2,000,000 | Ep 213 | ε=0.118 | Avg Reward: -0.6203
+Step 1,080,000/2,000,000 | Ep 215 | ε=0.115 | Avg Reward: -0.6065
+Step 1,090,000/2,000,000 | Ep 217 | ε=0.113 | Avg Reward: -0.6025
+Step 1,100,000/2,000,000 | Ep 219 | ε=0.111 | Avg Reward: -0.6178
+  └─ Episode 220: Reward=-0.6178 | Portfolio=$5,371 | Trades=209 | ε=0.110
+Step 1,110,000/2,000,000 | Ep 221 | ε=0.108 | Avg Reward: -0.6206
+Step 1,120,000/2,000,000 | Ep 223 | ε=0.106 | Avg Reward: -0.6167
+Step 1,130,000/2,000,000 | Ep 225 | ε=0.104 | Avg Reward: -0.5876
+Step 1,140,000/2,000,000 | Ep 227 | ε=0.102 | Avg Reward: -0.5538
+Step 1,150,000/2,000,000 | Ep 229 | ε=0.100 | Avg Reward: -0.5226
+Step 1,160,000/2,000,000 | Ep 231 | ε=0.098 | Avg Reward: -0.5125
+Step 1,170,000/2,000,000 | Ep 233 | ε=0.096 | Avg Reward: -0.4850
+Step 1,180,000/2,000,000 | Ep 235 | ε=0.094 | Avg Reward: -0.4980
+Step 1,190,000/2,000,000 | Ep 237 | ε=0.092 | Avg Reward: -0.5086
+Step 1,200,000/2,000,000 | Ep 239 | ε=0.091 | Avg Reward: -0.5180
+  └─ Episode 240: Reward=-0.4374 | Portfolio=$6,437 | Trades=157 | ε=0.090
+Step 1,210,000/2,000,000 | Ep 241 | ε=0.089 | Avg Reward: -0.5007
+Step 1,220,000/2,000,000 | Ep 243 | ε=0.087 | Avg Reward: -0.5027
+Step 1,230,000/2,000,000 | Ep 245 | ε=0.085 | Avg Reward: -0.4869
+Step 1,240,000/2,000,000 | Ep 247 | ε=0.084 | Avg Reward: -0.4769
+Step 1,250,000/2,000,000 | Ep 249 | ε=0.082 | Avg Reward: -0.4538
+Step 1,260,000/2,000,000 | Ep 251 | ε=0.080 | Avg Reward: -0.4675
+Step 1,270,000/2,000,000 | Ep 253 | ε=0.079 | Avg Reward: -0.4560
+Step 1,280,000/2,000,000 | Ep 255 | ε=0.077 | Avg Reward: -0.4625
+Step 1,290,000/2,000,000 | Ep 257 | ε=0.076 | Avg Reward: -0.4421
+Step 1,300,000/2,000,000 | Ep 259 | ε=0.074 | Avg Reward: -0.4312
+  └─ Episode 260: Reward=-0.4517 | Portfolio=$6,344 | Trades=136 | ε=0.073
+Step 1,310,000/2,000,000 | Ep 261 | ε=0.073 | Avg Reward: -0.4126
+Step 1,320,000/2,000,000 | Ep 263 | ε=0.071 | Avg Reward: -0.4051
+Step 1,330,000/2,000,000 | Ep 265 | ε=0.070 | Avg Reward: -0.3863
+Step 1,340,000/2,000,000 | Ep 267 | ε=0.068 | Avg Reward: -0.3845
+Step 1,350,000/2,000,000 | Ep 269 | ε=0.067 | Avg Reward: -0.3813
+Step 1,360,000/2,000,000 | Ep 271 | ε=0.066 | Avg Reward: -0.3717
+Step 1,370,000/2,000,000 | Ep 273 | ε=0.064 | Avg Reward: -0.3728
+Step 1,380,000/2,000,000 | Ep 275 | ε=0.063 | Avg Reward: -0.3609
+Step 1,390,000/2,000,000 | Ep 277 | ε=0.062 | Avg Reward: -0.3695
+Step 1,400,000/2,000,000 | Ep 279 | ε=0.061 | Avg Reward: -0.3540
+  └─ Episode 280: Reward=-0.3916 | Portfolio=$6,740 | Trades=128 | ε=0.060
+Step 1,410,000/2,000,000 | Ep 281 | ε=0.059 | Avg Reward: -0.3524
+Step 1,420,000/2,000,000 | Ep 283 | ε=0.058 | Avg Reward: -0.3332
+Step 1,430,000/2,000,000 | Ep 285 | ε=0.057 | Avg Reward: -0.3345
+Step 1,440,000/2,000,000 | Ep 287 | ε=0.056 | Avg Reward: -0.3233
+Step 1,450,000/2,000,000 | Ep 289 | ε=0.055 | Avg Reward: -0.3319
+Step 1,460,000/2,000,000 | Ep 291 | ε=0.054 | Avg Reward: -0.3188
+Step 1,470,000/2,000,000 | Ep 293 | ε=0.053 | Avg Reward: -0.3099
+Step 1,480,000/2,000,000 | Ep 295 | ε=0.052 | Avg Reward: -0.3003
+Step 1,490,000/2,000,000 | Ep 297 | ε=0.051 | Avg Reward: -0.2938
+Step 1,500,000/2,000,000 | Ep 299 | ε=0.050 | Avg Reward: -0.2800
+  └─ Episode 300: Reward=-0.2770 | Portfolio=$7,557 | Trades=85 | ε=0.049
+Step 1,510,000/2,000,000 | Ep 301 | ε=0.049 | Avg Reward: -0.2786
+Step 1,520,000/2,000,000 | Ep 303 | ε=0.048 | Avg Reward: -0.2769
+Step 1,530,000/2,000,000 | Ep 305 | ε=0.047 | Avg Reward: -0.2795
+Step 1,540,000/2,000,000 | Ep 307 | ε=0.046 | Avg Reward: -0.2741
+Step 1,550,000/2,000,000 | Ep 309 | ε=0.045 | Avg Reward: -0.2671
+Step 1,560,000/2,000,000 | Ep 311 | ε=0.044 | Avg Reward: -0.2457
+Step 1,570,000/2,000,000 | Ep 313 | ε=0.043 | Avg Reward: -0.2446
+Step 1,580,000/2,000,000 | Ep 315 | ε=0.042 | Avg Reward: -0.2364
+Step 1,590,000/2,000,000 | Ep 317 | ε=0.041 | Avg Reward: -0.2202
+Step 1,600,000/2,000,000 | Ep 319 | ε=0.041 | Avg Reward: -0.2147
+  └─ Episode 320: Reward=-0.1733 | Portfolio=$8,384 | Trades=82 | ε=0.040
+Step 1,610,000/2,000,000 | Ep 321 | ε=0.040 | Avg Reward: -0.2284
+Step 1,620,000/2,000,000 | Ep 323 | ε=0.039 | Avg Reward: -0.2217
+Step 1,630,000/2,000,000 | Ep 325 | ε=0.038 | Avg Reward: -0.2194
+Step 1,640,000/2,000,000 | Ep 327 | ε=0.037 | Avg Reward: -0.2389
+Step 1,650,000/2,000,000 | Ep 329 | ε=0.037 | Avg Reward: -0.2422
+Step 1,660,000/2,000,000 | Ep 331 | ε=0.036 | Avg Reward: -0.2251
+Step 1,670,000/2,000,000 | Ep 333 | ε=0.035 | Avg Reward: -0.2341
+Step 1,680,000/2,000,000 | Ep 335 | ε=0.034 | Avg Reward: -0.2396
+Step 1,690,000/2,000,000 | Ep 337 | ε=0.034 | Avg Reward: -0.2251
+Step 1,700,000/2,000,000 | Ep 339 | ε=0.033 | Avg Reward: -0.2211
+  └─ Episode 340: Reward=-0.1565 | Portfolio=$8,524 | Trades=47 | ε=0.033
+Step 1,710,000/2,000,000 | Ep 341 | ε=0.032 | Avg Reward: -0.2198
+Step 1,720,000/2,000,000 | Ep 343 | ε=0.032 | Avg Reward: -0.1976
+Step 1,730,000/2,000,000 | Ep 345 | ε=0.031 | Avg Reward: -0.1752
+Step 1,740,000/2,000,000 | Ep 347 | ε=0.031 | Avg Reward: -0.1711
+Step 1,750,000/2,000,000 | Ep 349 | ε=0.030 | Avg Reward: -0.1734
+Step 1,760,000/2,000,000 | Ep 351 | ε=0.029 | Avg Reward: -0.1730
+Step 1,770,000/2,000,000 | Ep 353 | ε=0.029 | Avg Reward: -0.1889
+Step 1,780,000/2,000,000 | Ep 355 | ε=0.028 | Avg Reward: -0.1964
+Step 1,790,000/2,000,000 | Ep 357 | ε=0.028 | Avg Reward: -0.2064
+Step 1,800,000/2,000,000 | Ep 359 | ε=0.027 | Avg Reward: -0.1942
+  └─ Episode 360: Reward=-0.1415 | Portfolio=$8,656 | Trades=63 | ε=0.027
+Step 1,810,000/2,000,000 | Ep 361 | ε=0.027 | Avg Reward: -0.1950
+Step 1,820,000/2,000,000 | Ep 363 | ε=0.026 | Avg Reward: -0.1834
+Step 1,830,000/2,000,000 | Ep 365 | ε=0.026 | Avg Reward: -0.1778
+Step 1,840,000/2,000,000 | Ep 367 | ε=0.025 | Avg Reward: -0.1553
+Step 1,850,000/2,000,000 | Ep 369 | ε=0.025 | Avg Reward: -0.1469
+Step 1,860,000/2,000,000 | Ep 371 | ε=0.024 | Avg Reward: -0.1252
+Step 1,870,000/2,000,000 | Ep 373 | ε=0.024 | Avg Reward: -0.1244
+Step 1,880,000/2,000,000 | Ep 375 | ε=0.023 | Avg Reward: -0.1082
+Step 1,890,000/2,000,000 | Ep 377 | ε=0.023 | Avg Reward: -0.1152
+Step 1,900,000/2,000,000 | Ep 379 | ε=0.022 | Avg Reward: -0.1151
+  └─ Episode 380: Reward=-0.1288 | Portfolio=$8,763 | Trades=43 | ε=0.022
+Step 1,910,000/2,000,000 | Ep 381 | ε=0.022 | Avg Reward: -0.1264
+Step 1,920,000/2,000,000 | Ep 383 | ε=0.021 | Avg Reward: -0.1164
+Step 1,930,000/2,000,000 | Ep 385 | ε=0.021 | Avg Reward: -0.1145
+Step 1,940,000/2,000,000 | Ep 387 | ε=0.020 | Avg Reward: -0.1186
+Step 1,950,000/2,000,000 | Ep 389 | ε=0.020 | Avg Reward: -0.1182
+Step 1,960,000/2,000,000 | Ep 391 | ε=0.020 | Avg Reward: -0.1322
+Step 1,970,000/2,000,000 | Ep 393 | ε=0.019 | Avg Reward: -0.1427
+Step 1,980,000/2,000,000 | Ep 395 | ε=0.019 | Avg Reward: -0.1443
+Step 1,990,000/2,000,000 | Ep 397 | ε=0.019 | Avg Reward: -0.1362
+Step 2,000,000/2,000,000 | Ep 399 | ε=0.018 | Avg Reward: -0.1340
+  └─ Episode 400: Reward=-0.0357 | Portfolio=$9,638 | Trades=13 | ε=0.018
+
+============================================================
+TRAINING COMPLETE!
+============================================================
+Episodes: 400
+Final Epsilon: 0.0180
+Mean Reward: -1.2560
+Best Episode Reward: -0.0062
+============================================================
+
+======================================================================
+💾 STEP 5: SAVING MODEL
+======================================================================
+Model saved to results/q_learning_v2_20251213_015102.pkl
+Config saved to results/config_v2_20251213_015102.json
+
+======================================================================
+📊 STEP 6: EVALUATION ON TRAINING DATA
+======================================================================
+Initial: $10,000.00
+Final:   $9,676.55
+Return:  -3.23%
+Trades:  9
+Fees:    $179.57
+
+======================================================================
+🧪 STEP 7: EVALUATION ON TEST DATA
+======================================================================
+✅ Using REAL prices for trading: $99343.85 - $106535.13
+   Price change over period: 2.8%
+   Using 21 features for state
+Initial: $10,000.00
+Final:   $10,536.25
+Return:  +5.36%
+Trades:  1
+Fees:    $19.96
+
+======================================================================
+📈 STEP 8: BUY & HOLD COMPARISON
+======================================================================
+
+Strategy             |        Train |         Test
+--------------------------------------------------
+Q-Learning Agent     |       -3.23% |       +5.36%
+Buy & Hold           |       -6.61% |       +2.84%
+--------------------------------------------------
+Outperformance       |       +3.37% |       +2.52%
+
+💰 Final Values:
+   Agent Train: $9,676.55  |  Buy&Hold: $9,339.32
+   Agent Test:  $10,536.25  |  Buy&Hold: $10,283.92
+
+======================================================================
+✅ TRAINING COMPLETE!
+======================================================================
+Model: results/q_learning_v2_20251213_015102.pkl
+Final Epsilon: 0.0180
+Total Episodes: 400
+config = {
+        'data': {
+            'symbol': 'BTC-USD',
+            'start_date': '2025-10-20',
+            'end_date': '2025-11-11',
+            'interval': '5m',
+            'test_split': 0.2
+        },
+        'environment': {
+            'initial_cash': 10000.0,
+            'trading_fee_maker': 0.001,
+            'trading_fee_taker': 0.002,
+            'slippage': 0.001,
+            'trade_frequency_penalty': 0.00  # REDUZIERT!
+        },
+        'q_learning': {
+            'learning_rate': 0.1,
+            'gamma': 0.99,
+            'epsilon_start': 1.0,
+            'epsilon_end': 0.01,
+            'epsilon_decay': 0.99,  # SCHNELLER! (war 0.995)
+            'n_bins': 15
+        },
+        'training': {
+            'total_timesteps': 2000000,  # MEHR! (war 50000)
+            'log_interval': 10000
+        }
+    }
+v26
+======================================================================
+🚀 RL TRADING BOT - Q-LEARNING TRAINING v2
+======================================================================
+FIXES: Real prices, faster epsilon decay, more training
+======================================================================
+
+======================================================================
+📊 STEP 1: LOADING DATA
+======================================================================
+Loading BTC-USD data from 2025-10-20 to 2025-11-11...
+c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True
+  data = yf.download(
+Loaded 6319 rows of data
+Date range: 2025-10-20 00:00:00+00:00 to 2025-11-10 23:55:00+00:00
+Price range: $99040.66 - $116070.29
+Calculating technical indicators...
+Added technical indicators. Remaining rows after dropna: 6259
+Train set: 5007 rows (80%)
+Test set: 1252 rows (20%)
+
+💰 Original Train Prices: $99040.66 - $116070.29
+💰 Original Test Prices: $99343.85 - $106535.13
+
+Normalizing features for neural network...
+Features normalized ✓
+
+📈 Train data: 5007 days
+📈 Test data: 1252 days
+
+======================================================================
+🏗️ STEP 2: CREATING ENVIRONMENT
+======================================================================
+✅ Using REAL prices for trading: $99040.66 - $116070.29
+   Price change over period: -6.6%
+   Using 21 features for state
+
+======================================================================
+🤖 STEP 3: CREATING Q-LEARNING AGENT
+======================================================================
+Q-table shape: (15, 15, 15, 2, 3)
+Epsilon decay: 0.99 (reaches 0.01 after ~458 episodes)
+
+======================================================================
+🎯 STEP 4: TRAINING
+======================================================================
+
+============================================================
+Q-LEARNING TRAINING
+============================================================
+Total timesteps: 2,000,000
+Epsilon: 1.00 → 0.01
+Decay rate: 0.99
+============================================================
+
+Step  10,000/2,000,000 | Ep   1 | ε=0.990 | Avg Reward: +0.0616
+Step  20,000/2,000,000 | Ep   3 | ε=0.970 | Avg Reward: +0.0368
+Step  30,000/2,000,000 | Ep   5 | ε=0.951 | Avg Reward: +0.0299
+Step  40,000/2,000,000 | Ep   7 | ε=0.932 | Avg Reward: +0.0259
+Step  50,000/2,000,000 | Ep   9 | ε=0.914 | Avg Reward: +0.0171
+Step  60,000/2,000,000 | Ep  11 | ε=0.895 | Avg Reward: +0.0150
+Step  70,000/2,000,000 | Ep  13 | ε=0.878 | Avg Reward: +0.0087
+Step  80,000/2,000,000 | Ep  15 | ε=0.860 | Avg Reward: +0.0105
+Step  90,000/2,000,000 | Ep  17 | ε=0.843 | Avg Reward: +0.0087
+Step 100,000/2,000,000 | Ep  19 | ε=0.826 | Avg Reward: +0.0223
+  └─ Episode 20: Reward=-0.0154 | Portfolio=$9,825 | Trades=1751 | ε=0.818
+Step 110,000/2,000,000 | Ep  21 | ε=0.810 | Avg Reward: +0.0251
+Step 120,000/2,000,000 | Ep  23 | ε=0.794 | Avg Reward: +0.0227
+Step 130,000/2,000,000 | Ep  25 | ε=0.778 | Avg Reward: +0.0299
+Step 140,000/2,000,000 | Ep  27 | ε=0.762 | Avg Reward: +0.0446
+Step 150,000/2,000,000 | Ep  29 | ε=0.747 | Avg Reward: +0.0347
+Step 160,000/2,000,000 | Ep  31 | ε=0.732 | Avg Reward: +0.0430
+Step 170,000/2,000,000 | Ep  33 | ε=0.718 | Avg Reward: +0.0584
+Step 180,000/2,000,000 | Ep  35 | ε=0.703 | Avg Reward: +0.0659
+Step 190,000/2,000,000 | Ep  37 | ε=0.689 | Avg Reward: +0.0761
+Step 200,000/2,000,000 | Ep  39 | ε=0.676 | Avg Reward: +0.0911
+  └─ Episode 40: Reward=+0.1026 | Portfolio=$11,056 | Trades=1742 | ε=0.669
+Step 210,000/2,000,000 | Ep  41 | ε=0.662 | Avg Reward: +0.0989
+Step 220,000/2,000,000 | Ep  43 | ε=0.649 | Avg Reward: +0.1047
+Step 230,000/2,000,000 | Ep  45 | ε=0.636 | Avg Reward: +0.1203
+Step 240,000/2,000,000 | Ep  47 | ε=0.624 | Avg Reward: +0.1278
+Step 250,000/2,000,000 | Ep  49 | ε=0.611 | Avg Reward: +0.1368
+Step 260,000/2,000,000 | Ep  51 | ε=0.599 | Avg Reward: +0.1357
+Step 270,000/2,000,000 | Ep  53 | ε=0.587 | Avg Reward: +0.1486
+Step 280,000/2,000,000 | Ep  55 | ε=0.575 | Avg Reward: +0.1541
+Step 290,000/2,000,000 | Ep  57 | ε=0.564 | Avg Reward: +0.1455
+Step 300,000/2,000,000 | Ep  59 | ε=0.553 | Avg Reward: +0.1632
+  └─ Episode 60: Reward=+0.1912 | Portfolio=$12,080 | Trades=1812 | ε=0.547
+Step 310,000/2,000,000 | Ep  61 | ε=0.542 | Avg Reward: +0.1812
+Step 320,000/2,000,000 | Ep  63 | ε=0.531 | Avg Reward: +0.1949
+Step 330,000/2,000,000 | Ep  65 | ε=0.520 | Avg Reward: +0.1924
+Step 340,000/2,000,000 | Ep  67 | ε=0.510 | Avg Reward: +0.2085
+Step 350,000/2,000,000 | Ep  69 | ε=0.500 | Avg Reward: +0.2095
+Step 360,000/2,000,000 | Ep  71 | ε=0.490 | Avg Reward: +0.2179
+Step 370,000/2,000,000 | Ep  73 | ε=0.480 | Avg Reward: +0.2235
+Step 380,000/2,000,000 | Ep  75 | ε=0.471 | Avg Reward: +0.2370
+Step 390,000/2,000,000 | Ep  77 | ε=0.461 | Avg Reward: +0.2395
+Step 400,000/2,000,000 | Ep  79 | ε=0.452 | Avg Reward: +0.2470
+  └─ Episode 80: Reward=+0.2095 | Portfolio=$12,311 | Trades=1816 | ε=0.448
+Step 410,000/2,000,000 | Ep  81 | ε=0.443 | Avg Reward: +0.2421
+Step 420,000/2,000,000 | Ep  83 | ε=0.434 | Avg Reward: +0.2370
+Step 430,000/2,000,000 | Ep  85 | ε=0.426 | Avg Reward: +0.2389
+Step 440,000/2,000,000 | Ep  87 | ε=0.417 | Avg Reward: +0.2425
+Step 450,000/2,000,000 | Ep  89 | ε=0.409 | Avg Reward: +0.2451
+Step 460,000/2,000,000 | Ep  91 | ε=0.401 | Avg Reward: +0.2557
+Step 470,000/2,000,000 | Ep  93 | ε=0.393 | Avg Reward: +0.2625
+Step 480,000/2,000,000 | Ep  95 | ε=0.385 | Avg Reward: +0.2622
+Step 490,000/2,000,000 | Ep  97 | ε=0.377 | Avg Reward: +0.2673
+Step 500,000/2,000,000 | Ep  99 | ε=0.370 | Avg Reward: +0.2670
+  └─ Episode 100: Reward=+0.2644 | Portfolio=$13,007 | Trades=1830 | ε=0.366
+Step 510,000/2,000,000 | Ep 101 | ε=0.362 | Avg Reward: +0.2667
+Step 520,000/2,000,000 | Ep 103 | ε=0.355 | Avg Reward: +0.2845
+Step 530,000/2,000,000 | Ep 105 | ε=0.348 | Avg Reward: +0.2919
+Step 540,000/2,000,000 | Ep 107 | ε=0.341 | Avg Reward: +0.2997
+Step 550,000/2,000,000 | Ep 109 | ε=0.334 | Avg Reward: +0.3044
+Step 560,000/2,000,000 | Ep 111 | ε=0.328 | Avg Reward: +0.3092
+Step 570,000/2,000,000 | Ep 113 | ε=0.321 | Avg Reward: +0.3051
+Step 580,000/2,000,000 | Ep 115 | ε=0.315 | Avg Reward: +0.3073
+Step 590,000/2,000,000 | Ep 117 | ε=0.309 | Avg Reward: +0.3099
+Step 600,000/2,000,000 | Ep 119 | ε=0.302 | Avg Reward: +0.3215
+  └─ Episode 120: Reward=+0.2948 | Portfolio=$13,408 | Trades=1686 | ε=0.299
+Step 610,000/2,000,000 | Ep 121 | ε=0.296 | Avg Reward: +0.3257
+Step 620,000/2,000,000 | Ep 123 | ε=0.290 | Avg Reward: +0.3276
+Step 630,000/2,000,000 | Ep 125 | ε=0.285 | Avg Reward: +0.3321
+Step 640,000/2,000,000 | Ep 127 | ε=0.279 | Avg Reward: +0.3330
+Step 650,000/2,000,000 | Ep 129 | ε=0.273 | Avg Reward: +0.3301
+Step 660,000/2,000,000 | Ep 131 | ε=0.268 | Avg Reward: +0.3317
+Step 670,000/2,000,000 | Ep 133 | ε=0.263 | Avg Reward: +0.3368
+Step 680,000/2,000,000 | Ep 135 | ε=0.257 | Avg Reward: +0.3413
+Step 690,000/2,000,000 | Ep 137 | ε=0.252 | Avg Reward: +0.3556
+Step 700,000/2,000,000 | Ep 139 | ε=0.247 | Avg Reward: +0.3551
+  └─ Episode 140: Reward=+0.3644 | Portfolio=$14,375 | Trades=1668 | ε=0.245
+Step 710,000/2,000,000 | Ep 141 | ε=0.242 | Avg Reward: +0.3616
+Step 720,000/2,000,000 | Ep 143 | ε=0.238 | Avg Reward: +0.3616
+Step 730,000/2,000,000 | Ep 145 | ε=0.233 | Avg Reward: +0.3565
+Step 740,000/2,000,000 | Ep 147 | ε=0.228 | Avg Reward: +0.3558
+Step 750,000/2,000,000 | Ep 149 | ε=0.224 | Avg Reward: +0.3650
+Step 760,000/2,000,000 | Ep 151 | ε=0.219 | Avg Reward: +0.3653
+Step 770,000/2,000,000 | Ep 153 | ε=0.215 | Avg Reward: +0.3720
+Step 780,000/2,000,000 | Ep 155 | ε=0.211 | Avg Reward: +0.3811
+Step 790,000/2,000,000 | Ep 157 | ε=0.206 | Avg Reward: +0.3778
+Step 800,000/2,000,000 | Ep 159 | ε=0.202 | Avg Reward: +0.3780
+  └─ Episode 160: Reward=+0.3558 | Portfolio=$14,255 | Trades=1572 | ε=0.200
+Step 810,000/2,000,000 | Ep 161 | ε=0.198 | Avg Reward: +0.3791
+Step 820,000/2,000,000 | Ep 163 | ε=0.194 | Avg Reward: +0.3780
+Step 830,000/2,000,000 | Ep 165 | ε=0.190 | Avg Reward: +0.3813
+Step 840,000/2,000,000 | Ep 167 | ε=0.187 | Avg Reward: +0.3871
+Step 850,000/2,000,000 | Ep 169 | ε=0.183 | Avg Reward: +0.3888
+Step 860,000/2,000,000 | Ep 171 | ε=0.179 | Avg Reward: +0.3921
+Step 870,000/2,000,000 | Ep 173 | ε=0.176 | Avg Reward: +0.3861
+Step 880,000/2,000,000 | Ep 175 | ε=0.172 | Avg Reward: +0.3876
+Step 890,000/2,000,000 | Ep 177 | ε=0.169 | Avg Reward: +0.3942
+Step 900,000/2,000,000 | Ep 179 | ε=0.165 | Avg Reward: +0.4047
+  └─ Episode 180: Reward=+0.4026 | Portfolio=$14,937 | Trades=1558 | ε=0.164
+Step 910,000/2,000,000 | Ep 181 | ε=0.162 | Avg Reward: +0.4069
+Step 920,000/2,000,000 | Ep 183 | ε=0.159 | Avg Reward: +0.4249
+Step 930,000/2,000,000 | Ep 185 | ε=0.156 | Avg Reward: +0.4289
+Step 940,000/2,000,000 | Ep 187 | ε=0.153 | Avg Reward: +0.4293
+Step 950,000/2,000,000 | Ep 189 | ε=0.150 | Avg Reward: +0.4293
+Step 960,000/2,000,000 | Ep 191 | ε=0.147 | Avg Reward: +0.4495
+Step 970,000/2,000,000 | Ep 193 | ε=0.144 | Avg Reward: +0.4526
+Step 980,000/2,000,000 | Ep 195 | ε=0.141 | Avg Reward: +0.4603
+Step 990,000/2,000,000 | Ep 197 | ε=0.138 | Avg Reward: +0.4659
+Step 1,000,000/2,000,000 | Ep 199 | ε=0.135 | Avg Reward: +0.4741
+  └─ Episode 200: Reward=+0.4489 | Portfolio=$15,641 | Trades=1566 | ε=0.134
+Step 1,010,000/2,000,000 | Ep 201 | ε=0.133 | Avg Reward: +0.4664
+Step 1,020,000/2,000,000 | Ep 203 | ε=0.130 | Avg Reward: +0.4625
+Step 1,030,000/2,000,000 | Ep 205 | ε=0.127 | Avg Reward: +0.4612
+Step 1,040,000/2,000,000 | Ep 207 | ε=0.125 | Avg Reward: +0.4524
+Step 1,050,000/2,000,000 | Ep 209 | ε=0.122 | Avg Reward: +0.4424
+Step 1,060,000/2,000,000 | Ep 211 | ε=0.120 | Avg Reward: +0.4384
+Step 1,070,000/2,000,000 | Ep 213 | ε=0.118 | Avg Reward: +0.4272
+Step 1,080,000/2,000,000 | Ep 215 | ε=0.115 | Avg Reward: +0.4255
+Step 1,090,000/2,000,000 | Ep 217 | ε=0.113 | Avg Reward: +0.4395
+Step 1,100,000/2,000,000 | Ep 219 | ε=0.111 | Avg Reward: +0.4443
+  └─ Episode 220: Reward=+0.4400 | Portfolio=$15,505 | Trades=1454 | ε=0.110
+Step 1,110,000/2,000,000 | Ep 221 | ε=0.108 | Avg Reward: +0.4508
+Step 1,120,000/2,000,000 | Ep 223 | ε=0.106 | Avg Reward: +0.4629
+Step 1,130,000/2,000,000 | Ep 225 | ε=0.104 | Avg Reward: +0.4709
+Step 1,140,000/2,000,000 | Ep 227 | ε=0.102 | Avg Reward: +0.4656
+Step 1,150,000/2,000,000 | Ep 229 | ε=0.100 | Avg Reward: +0.4632
+Step 1,160,000/2,000,000 | Ep 231 | ε=0.098 | Avg Reward: +0.4640
+Step 1,170,000/2,000,000 | Ep 233 | ε=0.096 | Avg Reward: +0.4661
+Step 1,180,000/2,000,000 | Ep 235 | ε=0.094 | Avg Reward: +0.4655
+Step 1,190,000/2,000,000 | Ep 237 | ε=0.092 | Avg Reward: +0.4695
+Step 1,200,000/2,000,000 | Ep 239 | ε=0.091 | Avg Reward: +0.4777
+  └─ Episode 240: Reward=+0.5066 | Portfolio=$16,573 | Trades=1452 | ε=0.090
+Step 1,210,000/2,000,000 | Ep 241 | ε=0.089 | Avg Reward: +0.4801
+Step 1,220,000/2,000,000 | Ep 243 | ε=0.087 | Avg Reward: +0.4830
+Step 1,230,000/2,000,000 | Ep 245 | ε=0.085 | Avg Reward: +0.4844
+Step 1,240,000/2,000,000 | Ep 247 | ε=0.084 | Avg Reward: +0.4869
+Step 1,250,000/2,000,000 | Ep 249 | ε=0.082 | Avg Reward: +0.4888
+Step 1,260,000/2,000,000 | Ep 251 | ε=0.080 | Avg Reward: +0.4885
+Step 1,270,000/2,000,000 | Ep 253 | ε=0.079 | Avg Reward: +0.4834
+Step 1,280,000/2,000,000 | Ep 255 | ε=0.077 | Avg Reward: +0.4784
+Step 1,290,000/2,000,000 | Ep 257 | ε=0.076 | Avg Reward: +0.4773
+Step 1,300,000/2,000,000 | Ep 259 | ε=0.074 | Avg Reward: +0.4751
+  └─ Episode 260: Reward=+0.5152 | Portfolio=$16,715 | Trades=1496 | ε=0.073
+Step 1,310,000/2,000,000 | Ep 261 | ε=0.073 | Avg Reward: +0.4829
+Step 1,320,000/2,000,000 | Ep 263 | ε=0.071 | Avg Reward: +0.4868
+Step 1,330,000/2,000,000 | Ep 265 | ε=0.070 | Avg Reward: +0.4916
+Step 1,340,000/2,000,000 | Ep 267 | ε=0.068 | Avg Reward: +0.4936
+Step 1,350,000/2,000,000 | Ep 269 | ε=0.067 | Avg Reward: +0.4898
+Step 1,360,000/2,000,000 | Ep 271 | ε=0.066 | Avg Reward: +0.4847
+Step 1,370,000/2,000,000 | Ep 273 | ε=0.064 | Avg Reward: +0.4931
+Step 1,380,000/2,000,000 | Ep 275 | ε=0.063 | Avg Reward: +0.4927
+Step 1,390,000/2,000,000 | Ep 277 | ε=0.062 | Avg Reward: +0.4880
+Step 1,400,000/2,000,000 | Ep 279 | ε=0.061 | Avg Reward: +0.4929
+  └─ Episode 280: Reward=+0.4828 | Portfolio=$16,184 | Trades=1416 | ε=0.060
+Step 1,410,000/2,000,000 | Ep 281 | ε=0.059 | Avg Reward: +0.4909
+Step 1,420,000/2,000,000 | Ep 283 | ε=0.058 | Avg Reward: +0.4857
+Step 1,430,000/2,000,000 | Ep 285 | ε=0.057 | Avg Reward: +0.4912
+Step 1,440,000/2,000,000 | Ep 287 | ε=0.056 | Avg Reward: +0.4992
+Step 1,450,000/2,000,000 | Ep 289 | ε=0.055 | Avg Reward: +0.5093
+Step 1,460,000/2,000,000 | Ep 291 | ε=0.054 | Avg Reward: +0.5161
+Step 1,470,000/2,000,000 | Ep 293 | ε=0.053 | Avg Reward: +0.5241
+Step 1,480,000/2,000,000 | Ep 295 | ε=0.052 | Avg Reward: +0.5231
+Step 1,490,000/2,000,000 | Ep 297 | ε=0.051 | Avg Reward: +0.5234
+Step 1,500,000/2,000,000 | Ep 299 | ε=0.050 | Avg Reward: +0.5169
+  └─ Episode 300: Reward=+0.5260 | Portfolio=$16,900 | Trades=1388 | ε=0.049
+Step 1,510,000/2,000,000 | Ep 301 | ε=0.049 | Avg Reward: +0.5131
+Step 1,520,000/2,000,000 | Ep 303 | ε=0.048 | Avg Reward: +0.5060
+Step 1,530,000/2,000,000 | Ep 305 | ε=0.047 | Avg Reward: +0.4990
+Step 1,540,000/2,000,000 | Ep 307 | ε=0.046 | Avg Reward: +0.4931
+Step 1,550,000/2,000,000 | Ep 309 | ε=0.045 | Avg Reward: +0.4882
+Step 1,560,000/2,000,000 | Ep 311 | ε=0.044 | Avg Reward: +0.4895
+Step 1,570,000/2,000,000 | Ep 313 | ε=0.043 | Avg Reward: +0.4990
+Step 1,580,000/2,000,000 | Ep 315 | ε=0.042 | Avg Reward: +0.5069
+Step 1,590,000/2,000,000 | Ep 317 | ε=0.041 | Avg Reward: +0.5087
+Step 1,600,000/2,000,000 | Ep 319 | ε=0.041 | Avg Reward: +0.5112
+  └─ Episode 320: Reward=+0.5394 | Portfolio=$17,126 | Trades=1352 | ε=0.040
+Step 1,610,000/2,000,000 | Ep 321 | ε=0.040 | Avg Reward: +0.5164
+Step 1,620,000/2,000,000 | Ep 323 | ε=0.039 | Avg Reward: +0.5172
+Step 1,630,000/2,000,000 | Ep 325 | ε=0.038 | Avg Reward: +0.5205
+Step 1,640,000/2,000,000 | Ep 327 | ε=0.037 | Avg Reward: +0.5275
+Step 1,650,000/2,000,000 | Ep 329 | ε=0.037 | Avg Reward: +0.5347
+Step 1,660,000/2,000,000 | Ep 331 | ε=0.036 | Avg Reward: +0.5315
+Step 1,670,000/2,000,000 | Ep 333 | ε=0.035 | Avg Reward: +0.5291
+Step 1,680,000/2,000,000 | Ep 335 | ε=0.034 | Avg Reward: +0.5261
+Step 1,690,000/2,000,000 | Ep 337 | ε=0.034 | Avg Reward: +0.5248
+Step 1,700,000/2,000,000 | Ep 339 | ε=0.033 | Avg Reward: +0.5221
+  └─ Episode 340: Reward=+0.4950 | Portfolio=$16,385 | Trades=1228 | ε=0.033
+Step 1,710,000/2,000,000 | Ep 341 | ε=0.032 | Avg Reward: +0.5181
+Step 1,720,000/2,000,000 | Ep 343 | ε=0.032 | Avg Reward: +0.5137
+Step 1,730,000/2,000,000 | Ep 345 | ε=0.031 | Avg Reward: +0.5115
+Step 1,740,000/2,000,000 | Ep 347 | ε=0.031 | Avg Reward: +0.5083
+Step 1,750,000/2,000,000 | Ep 349 | ε=0.030 | Avg Reward: +0.5077
+Step 1,760,000/2,000,000 | Ep 351 | ε=0.029 | Avg Reward: +0.5116
+Step 1,770,000/2,000,000 | Ep 353 | ε=0.029 | Avg Reward: +0.5178
+Step 1,780,000/2,000,000 | Ep 355 | ε=0.028 | Avg Reward: +0.5207
+Step 1,790,000/2,000,000 | Ep 357 | ε=0.028 | Avg Reward: +0.5264
+Step 1,800,000/2,000,000 | Ep 359 | ε=0.027 | Avg Reward: +0.5316
+  └─ Episode 360: Reward=+0.5231 | Portfolio=$16,852 | Trades=1322 | ε=0.027
+Step 1,810,000/2,000,000 | Ep 361 | ε=0.027 | Avg Reward: +0.5346
+Step 1,820,000/2,000,000 | Ep 363 | ε=0.026 | Avg Reward: +0.5347
+Step 1,830,000/2,000,000 | Ep 365 | ε=0.026 | Avg Reward: +0.5378
+Step 1,840,000/2,000,000 | Ep 367 | ε=0.025 | Avg Reward: +0.5349
+Step 1,850,000/2,000,000 | Ep 369 | ε=0.025 | Avg Reward: +0.5362
+Step 1,860,000/2,000,000 | Ep 371 | ε=0.024 | Avg Reward: +0.5378
+Step 1,870,000/2,000,000 | Ep 373 | ε=0.024 | Avg Reward: +0.5376
+Step 1,880,000/2,000,000 | Ep 375 | ε=0.023 | Avg Reward: +0.5385
+Step 1,890,000/2,000,000 | Ep 377 | ε=0.023 | Avg Reward: +0.5404
+Step 1,900,000/2,000,000 | Ep 379 | ε=0.022 | Avg Reward: +0.5395
+  └─ Episode 380: Reward=+0.5341 | Portfolio=$17,036 | Trades=1336 | ε=0.022
+Step 1,910,000/2,000,000 | Ep 381 | ε=0.022 | Avg Reward: +0.5369
+Step 1,920,000/2,000,000 | Ep 383 | ε=0.021 | Avg Reward: +0.5374
+Step 1,930,000/2,000,000 | Ep 385 | ε=0.021 | Avg Reward: +0.5365
+Step 1,940,000/2,000,000 | Ep 387 | ε=0.020 | Avg Reward: +0.5395
+Step 1,950,000/2,000,000 | Ep 389 | ε=0.020 | Avg Reward: +0.5388
+Step 1,960,000/2,000,000 | Ep 391 | ε=0.020 | Avg Reward: +0.5415
+Step 1,970,000/2,000,000 | Ep 393 | ε=0.019 | Avg Reward: +0.5391
+Step 1,980,000/2,000,000 | Ep 395 | ε=0.019 | Avg Reward: +0.5408
+Step 1,990,000/2,000,000 | Ep 397 | ε=0.019 | Avg Reward: +0.5407
+Step 2,000,000/2,000,000 | Ep 399 | ε=0.018 | Avg Reward: +0.5441
+  └─ Episode 400: Reward=+0.2612 | Portfolio=$12,976 | Trades=750 | ε=0.018
+
+============================================================
+TRAINING COMPLETE!
+============================================================
+Episodes: 400
+Final Epsilon: 0.0180
+Mean Reward: 0.3816
+Best Episode Reward: 0.5665
+============================================================
+
+======================================================================
+💾 STEP 5: SAVING MODEL
+======================================================================
+Model saved to results/q_learning_v2_20251213_021252.pkl
+Config saved to results/config_v2_20251213_021252.json
+
+======================================================================
+📊 STEP 6: EVALUATION ON TRAINING DATA
+======================================================================
+Initial: $10,000.00
+Final:   $17,539.52
+Return:  +75.40%
+Trades:  1420
+Fees:    $0.00
+
+======================================================================
+🧪 STEP 7: EVALUATION ON TEST DATA
+======================================================================
+✅ Using REAL prices for trading: $99343.85 - $106535.13
+   Price change over period: 2.8%
+   Using 21 features for state
+Initial: $10,000.00
+Final:   $10,056.71
+Return:  +0.57%
+Trades:  342
+Fees:    $0.00
+
+======================================================================
+📈 STEP 8: BUY & HOLD COMPARISON
+======================================================================
+
+Strategy             |        Train |         Test
+--------------------------------------------------
+Q-Learning Agent     |      +75.40% |       +0.57%
+Buy & Hold           |       -6.61% |       +2.84%
+--------------------------------------------------
+Outperformance       |      +82.00% |       -2.27%
+
+💰 Final Values:
+   Agent Train: $17,539.52  |  Buy&Hold: $9,339.32
+   Agent Test:  $10,056.71  |  Buy&Hold: $10,283.92
+
+======================================================================
+✅ TRAINING COMPLETE!
+======================================================================
+Model: results/q_learning_v2_20251213_021252.pkl
+Final Epsilon: 0.0180
+Total Episodes: 400
+
+✅ Agent made profit, but didn't beat Buy & Hold
+PS C:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader->
+config = {
+        'data': {
+            'symbol': 'BTC-USD',
+            'start_date': '2025-10-20',
+            'end_date': '2025-11-11',
+            'interval': '5m',
+            'test_split': 0.2
+        },
+        'environment': {
+            'initial_cash': 10000.0,
+            'trading_fee_maker': 0.00,
+            'trading_fee_taker': 0.00,
+            'slippage': 0.00,
+            'trade_frequency_penalty': 0.00  # REDUZIERT!
+        },
+        'q_learning': {
+            'learning_rate': 0.1,
+            'gamma': 0.99,
+            'epsilon_start': 1.0,
+            'epsilon_end': 0.01,
+            'epsilon_decay': 0.99,  # SCHNELLER! (war 0.995)
+            'n_bins': 15
+        },
+        'training': {
+            'total_timesteps': 2000000,  # MEHR! (war 50000)
+            'log_interval': 10000
+        }
+    }
+  
+v27
+config = {
+        'data': {
+            'symbol': 'BTC-USD',
+            'start_date': '2025-10-10',
+            'end_date': '2025-11-11',
+            'interval': '1h',
+            'test_split': 0.2
+        },
+        'environment': {
+            'initial_cash': 10000.0,
+            'trading_fee_maker': 0.001,
+            'trading_fee_taker': 0.002,
+            'slippage': 0.001,
+            'trade_frequency_penalty': 0.002  # REDUZIERT!
+        },
+        'q_learning': {
+            'learning_rate': 0.1,
+            'gamma': 0.99,
+            'epsilon_start': 1.0,
+            'epsilon_end': 0.01,
+            'epsilon_decay': 0.99,  # SCHNELLER! (war 0.995)
+            'n_bins': 15
+        },
+        'training': {
+            'total_timesteps': 1500000,  # MEHR! (war 50000)
+            'log_interval': 10000
+        }
+    }

@@ -75,7 +75,7 @@ class DataLoader:
         data = data.reset_index()
 
         print(f"Loaded {len(data)} rows of data")
-        print(f"Date range: {data['Date'].min()} to {data['Date'].max()}")
+        print(f"Date range: {data['Datetime'].min()} to {data['Datetime'].max()}")
         print(f"Price range: ${data['Close'].min():.2f} - ${data['Close'].max():.2f}")
 
         return data
