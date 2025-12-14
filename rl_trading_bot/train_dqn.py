@@ -47,7 +47,7 @@ def train_dqn_agent():
         },
         'dqn': {
             # Neural Network
-            'learning_rate': 0.0001,      # Änderbar: 0.001 (schneller) bis 0.00001 (langsamer)
+            'learning_rate': 0.001,      # Änderbar: 0.001 (schneller) bis 0.00001 (langsamer)
             'hidden_sizes': [128, 128, 64],  # Änderbar: [64, 64] (klein) bis [256, 256, 128] (groß)
             
             # Reinforcement Learning
@@ -64,7 +64,7 @@ def train_dqn_agent():
             'target_update_freq': 1000    # Änderbar: Wie oft Target Network updated wird
         },
         'training': {
-            'total_timesteps': 1000000,   # Änderbar: DQN braucht mehr als Q-Learning!
+            'total_timesteps': 100000,   # Änderbar: DQN braucht mehr als Q-Learning!
             'log_interval': 10000
         }
     }
