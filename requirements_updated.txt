@@ -1,0 +1,29 @@
+# Core RL & Deep Learning
+gymnasium>=0.29.0
+stable-baselines3>=2.2.0
+
+# PyTorch (für DQN)
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Data Processing & Analysis
+pandas>=2.0.0
+numpy>=1.24.0
+yfinance>=0.2.0
+
+# Technical Analysis
+ta>=0.11.0
+
+# Configuration
+pyyaml>=6.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.14.0
+
+# Optional: Web Interface
+streamlit>=1.28.0
+
+# Logging & Monitoring
+tensorboard>=2.13.0
