@@ -33,10 +33,10 @@ def train_ppo_agent():
     config = {
         'data': {
             'symbol': 'BTC-USD',
-            'start_date': '2023-01-01',
-            'end_date': '2025-11-11',
-            'interval': '1d',  # Änderbar: '1d', '1h', '15m', '5m'
-            'test_split': 0.2  # 20% test, 80% train
+            'start_date': '2024-01-01',
+            'end_date': '2025-12-15',
+            'interval': '1h',  
+            'test_split': 0.2
         },
         'environment': {
             'initial_cash': 10000.0,
