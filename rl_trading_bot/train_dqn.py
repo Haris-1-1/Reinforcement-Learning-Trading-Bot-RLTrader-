@@ -33,9 +33,9 @@ def train_dqn_agent():
     config = {
         'data': {
             'symbol': 'BTC-USD',
-            'start_date': '2025-01-01',
+            'start_date': '2020-01-15',
             'end_date': '2025-12-15',
-            'interval': '1h',  
+            'interval': '1d',  
             'test_split': 0.15
         },
         'environment': {

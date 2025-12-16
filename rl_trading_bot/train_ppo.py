@@ -33,9 +33,9 @@ def train_ppo_agent():
     config = {
         'data': {
             'symbol': 'BTC-USD',
-            'start_date': '2025-01-01',
-            'end_date': '2025-12-15',
-            'interval': '1h',  # Änderbar: '1d', '1h', '15m', '5m'
+            'start_date': '2025-10-20',
+            'end_date': '2025-12-10',
+            'interval': '15min',  # Änderbar: '1d', '1h', '15m', '5m'
             'test_split': 0.15  # 20% test, 80% train
         },
         'environment': {
