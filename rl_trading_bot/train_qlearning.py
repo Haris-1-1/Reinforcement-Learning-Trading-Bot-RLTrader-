@@ -19,7 +19,7 @@ from utils.data_loader import DataLoader
 from env.advanced_trading_env import AdvancedTradingEnv
 from agents.q_learning_agent import QLearningAgent
 
-
+#python rl_trading_bot\train_qlearning.py
 def train_agent():
     """Train Q-Learning agent with REAL prices."""
     
@@ -37,17 +37,17 @@ def train_agent():
     config = {
         'data': {
             'symbol': 'BTC-USD',
-            'start_date': '2024-01-01',
+            'start_date': '2025-01-01',
             'end_date': '2025-12-15',
             'interval': '1h',  
-            'test_split': 0.2
+            'test_split': 0.15
         },
         'environment': {
             'initial_cash': 10000.0,
-            'trading_fee_maker': 0.001,
+            'trading_fee_maker': 0.000,
             'trading_fee_taker': 0.002,
             'slippage': 0.001,
-            'trade_frequency_penalty': 0.005  # REDUZIERT!
+            'trade_frequency_penalty': 0.002  # REDUZIERT!
         },
         'q_learning': {
             'learning_rate': 0.1,
@@ -58,7 +58,7 @@ def train_agent():
             'n_bins': 15
         },
         'training': {
-            'total_timesteps': 500000,  # MEHR! (war 50000)
+            'total_timesteps': 1000000,  # MEHR! (war 50000)
             'log_interval': 10000
         }
     }

@@ -5,19 +5,35 @@ Loads all trained agents and runs fair comparison
 
 import sys
 import os
+
+# Add current directory to path for imports
+current_dir = os.path.dirname(os.path.abspath(__file__))
+if current_dir not in sys.path:
+    sys.path.insert(0, current_dir)
+
+# Add parent directory for agents imports
+parent_dir = os.path.dirname(current_dir)
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
+
 import numpy as np
 import pandas as pd
 from datetime import datetime
 import glob
-
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from agents.q_learning_agent import QLearningAgent
 from agents.dqn_agent import DQNAgent
 from agents.ppo_agent import PPOAgent
 from env.advanced_trading_env import AdvancedTradingEnv
 from utils.dqn_data_loader import DQNDataLoader
-from compare_agents import AgentComparison
+
+# Import from same directory
+try:
+    from compare_agents import AgentComparison
+except ImportError:
+    # If that fails, try importing from backtest module
+    import compare_agents as ca
+    AgentComparison = ca.AgentComparison
 
 
 def load_latest_model(agent_type: str, results_dir: str = 'results') -> str:
@@ -144,7 +160,7 @@ def evaluate_all_agents():
                 initial_cash=config['environment']['initial_cash']
             )
             
-            # Load Q-Learning agent
+            # Load Q-Learning agent (no config needed for loading)
             q_agent = QLearningAgent(env_q, config={'learning_rate': 0.1, 'gamma': 0.95})
             q_agent.load(q_model_path)
             
@@ -155,6 +171,8 @@ def evaluate_all_agents():
         
         except Exception as e:
             print(f"❌ Error loading Q-Learning agent: {str(e)}")
+            import traceback
+            traceback.print_exc()
     else:
         print("⚠️ No Q-Learning model found - skipping")
     
@@ -178,19 +196,20 @@ def evaluate_all_agents():
                 initial_cash=config['environment']['initial_cash']
             )
             
-            # Load DQN agent
-            dqn_agent = DQNAgent(
-                env=env_dqn,
-                learning_rate=0.0001,
-                gamma=0.99,
-                epsilon_start=0.01,  # Set to minimum for evaluation
-                epsilon_end=0.01,
-                epsilon_decay_steps=1,
-                replay_buffer_size=10000,
-                batch_size=64,
-                target_update_freq=1000,
-                hidden_sizes=[128, 128, 64]
-            )
+            # Create DQN agent with default config
+            dqn_config = {
+                'learning_rate': 0.0001,
+                'gamma': 0.99,
+                'epsilon_start': 0.01,
+                'epsilon_end': 0.01,
+                'epsilon_decay_steps': 1,
+                'replay_buffer_size': 10000,
+                'batch_size': 64,
+                'target_update_freq': 1000,
+                'hidden_sizes': [128, 128, 64]
+            }
+            
+            dqn_agent = DQNAgent(env=env_dqn, **dqn_config)
             dqn_agent.load(dqn_model_path)
             
             # Add to comparison
@@ -200,6 +219,8 @@ def evaluate_all_agents():
         
         except Exception as e:
             print(f"❌ Error loading DQN agent: {str(e)}")
+            import traceback
+            traceback.print_exc()
     else:
         print("⚠️ No DQN model found - skipping")
     
@@ -246,6 +267,8 @@ def evaluate_all_agents():
         
         except Exception as e:
             print(f"❌ Error loading PPO agent: {str(e)}")
+            import traceback
+            traceback.print_exc()
     else:
         print("⚠️ No PPO model found - skipping")
     

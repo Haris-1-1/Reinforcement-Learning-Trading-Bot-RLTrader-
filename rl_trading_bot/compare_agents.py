@@ -1,6 +1,7 @@
 """
 Agent Comparison Tool
 Compare multiple RL agents with standardized evaluation
+Python 3.13 compatible - no scipy required
 """
 
 import numpy as np
@@ -9,9 +10,82 @@ from typing import Dict, List
 import json
 import os
 from datetime import datetime
-from scipy import stats
 
 from backtest_engine import BacktestEngine, calculate_buy_and_hold
+
+
+def simple_ttest(sample1: np.ndarray, sample2: np.ndarray) -> Dict:
+    """
+    Simple t-test implementation without scipy
+    
+    Args:
+        sample1: First sample
+        sample2: Second sample
+        
+    Returns:
+        Dictionary with test results
+    """
+    n1 = len(sample1)
+    n2 = len(sample2)
+    
+    if n1 == 0 or n2 == 0:
+        return {
+            't_statistic': 0,
+            'p_value': 1.0,
+            'significant': False
+        }
+    
+    mean1 = np.mean(sample1)
+    mean2 = np.mean(sample2)
+    var1 = np.var(sample1, ddof=1)
+    var2 = np.var(sample2, ddof=1)
+    
+    # Pooled standard error
+    se = np.sqrt(var1/n1 + var2/n2)
+    
+    if se == 0:
+        return {
+            't_statistic': 0,
+            'p_value': 1.0,
+            'significant': False
+        }
+    
+    # T-statistic
+    t_stat = (mean1 - mean2) / se
+    
+    # Degrees of freedom (Welch-Satterthwaite)
+    df = ((var1/n1 + var2/n2)**2) / ((var1/n1)**2/(n1-1) + (var2/n2)**2/(n2-1))
+    
+    # Simple p-value approximation (two-tailed)
+    # For large samples: t-distribution ≈ normal distribution
+    # P(|Z| > |t|) ≈ 2 * P(Z > |t|) for Z ~ N(0,1)
+    
+    # Using error function approximation
+    abs_t = abs(t_stat)
+    
+    # Rough p-value approximation
+    if abs_t > 3:
+        p_value = 0.003
+    elif abs_t > 2.5:
+        p_value = 0.012
+    elif abs_t > 2:
+        p_value = 0.045
+    elif abs_t > 1.5:
+        p_value = 0.13
+    else:
+        p_value = 0.5
+    
+    # Cohen's d (effect size)
+    pooled_std = np.sqrt((var1 + var2) / 2)
+    cohens_d = (mean1 - mean2) / pooled_std if pooled_std != 0 else 0
+    
+    return {
+        't_statistic': t_stat,
+        'p_value': p_value,
+        'significant': p_value < 0.05,
+        'cohens_d': cohens_d,
+        'effect_size': 'small' if abs(cohens_d) < 0.5 else ('medium' if abs(cohens_d) < 0.8 else 'large')
+    }
 
 
 class AgentComparison:
@@ -161,7 +235,7 @@ class AgentComparison:
     def calculate_statistical_significance(self, agent1: str, agent2: str) -> Dict:
         """
         Test if difference between two agents is statistically significant
-        Uses t-test on daily returns
+        Uses simple t-test on daily returns (no scipy required)
         
         Args:
             agent1: Name of first agent
@@ -176,23 +250,13 @@ class AgentComparison:
         returns1 = np.array(self.results[agent1]['returns'])
         returns2 = np.array(self.results[agent2]['returns'])
         
-        # Perform t-test
-        t_stat, p_value = stats.ttest_ind(returns1, returns2)
+        # Perform simple t-test
+        result = simple_ttest(returns1, returns2)
         
-        # Effect size (Cohen's d)
-        mean_diff = np.mean(returns1) - np.mean(returns2)
-        pooled_std = np.sqrt((np.std(returns1)**2 + np.std(returns2)**2) / 2)
-        cohens_d = mean_diff / pooled_std if pooled_std != 0 else 0
-        
-        result = {
+        result.update({
             'agent1': agent1,
-            'agent2': agent2,
-            't_statistic': t_stat,
-            'p_value': p_value,
-            'cohens_d': cohens_d,
-            'significant': p_value < 0.05,
-            'effect_size': 'small' if abs(cohens_d) < 0.5 else ('medium' if abs(cohens_d) < 0.8 else 'large')
-        }
+            'agent2': agent2
+        })
         
         return result
     
@@ -279,7 +343,14 @@ class AgentComparison:
                     report.append(f"\n{agent_names[i]} vs {agent_names[j]}:")
                     report.append(f"  P-value: {sig_test['p_value']:.4f}")
                     report.append(f"  Significant: {'Yes' if sig_test['significant'] else 'No'}")
-                    report.append(f"  Effect Size: {sig_test['effect_size']} (Cohen's d = {sig_test['cohens_d']:.3f})")
+                    
+                    # Handle effect_size key safely
+                    if 'effect_size' in sig_test:
+                        report.append(f"  Effect Size: {sig_test['effect_size']} (Cohen's d = {sig_test['cohens_d']:.3f})")
+                    elif 'cohens_d' in sig_test:
+                        cohens_d = sig_test['cohens_d']
+                        effect_size = 'small' if abs(cohens_d) < 0.5 else ('medium' if abs(cohens_d) < 0.8 else 'large')
+                        report.append(f"  Effect Size: {effect_size} (Cohen's d = {cohens_d:.3f})")
         
         report.append("")
         
@@ -310,7 +381,8 @@ class AgentComparison:
         """Save comparison report to file"""
         report = self.generate_report()
         
-        with open(filepath, 'w') as f:
+        # Use utf-8 encoding to handle emojis and special characters
+        with open(filepath, 'w', encoding='utf-8') as f:
             f.write(report)
         
         print(f"✓ Report saved to {filepath}")

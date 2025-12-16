@@ -17,7 +17,7 @@ from utils.dqn_data_loader import DQNDataLoader
 from env.advanced_trading_env import AdvancedTradingEnv
 from agents.dqn_agent import DQNAgent
 
-
+#python rl_trading_bot\train_dqn.py
 def train_dqn_agent():
     """Train DQN agent."""
     
@@ -33,17 +33,17 @@ def train_dqn_agent():
     config = {
         'data': {
             'symbol': 'BTC-USD',
-            'start_date': '2024-01-01',
+            'start_date': '2025-01-01',
             'end_date': '2025-12-15',
             'interval': '1h',  
-            'test_split': 0.2
+            'test_split': 0.15
         },
         'environment': {
             'initial_cash': 10000.0,
-            'trading_fee_maker': 0.001,
+            'trading_fee_maker': 0.000,
             'trading_fee_taker': 0.002,
             'slippage': 0.001,
-            'trade_frequency_penalty': 0.005
+            'trade_frequency_penalty': 0.002
         },
         'dqn': {
             # Neural Network
@@ -64,7 +64,7 @@ def train_dqn_agent():
             'target_update_freq': 1000    # Änderbar: Wie oft Target Network updated wird
         },
         'training': {
-            'total_timesteps': 50000,   # Änderbar: DQN braucht mehr als Q-Learning!
+            'total_timesteps': 1000000,   # Änderbar: DQN braucht mehr als Q-Learning!
             'log_interval': 10000
         }
     }

@@ -1,165 +1,231 @@
 """
-Data Loader for cryptocurrency price data.
-Fetches and processes OHLCV data with technical indicators.
-
-WICHTIG: Speichert ORIGINALE Preise separat für Trading!
+Data Loader for Q-Learning Trading Bot
+Fixed version with MultiIndex handling and retry logic
 """
 
+import yfinance as yf
 import pandas as pd
 import numpy as np
-import yfinance as yf
-from typing import Tuple, Optional
-from utils.indicators import TechnicalIndicators
+from typing import Tuple
 
 
 class DataLoader:
-    """Load and process cryptocurrency market data."""
-
-    def __init__(
-        self,
-        symbol: str = 'BTC-USD',
-        start_date: str = '2020-01-01',
-        end_date: str = '2024-01-01',
-        interval: str = '1d',
-        test_split: float = 0.2
-    ):
+    """
+    Load and preprocess data for Q-Learning
+    """
+    
+    def __init__(self, 
+                 symbol: str,
+                 start_date: str,
+                 end_date: str,
+                 interval: str = '1d',
+                 test_split: float = 0.2):  # Changed to test_split for compatibility
         """
-        Initialize DataLoader.
-
+        Initialize Data Loader
+        
         Args:
-            symbol: Trading symbol (e.g., 'BTC-USD', 'ETH-USD')
-            start_date: Start date in 'YYYY-MM-DD' format
-            end_date: End date in 'YYYY-MM-DD' format
-            interval: Data interval ('1d', '1h', '15m', etc.)
-            test_split: Fraction of data to use for testing (0.0-1.0)
+            symbol: Ticker symbol (e.g., 'BTC-USD')
+            start_date: Start date (YYYY-MM-DD)
+            end_date: End date (YYYY-MM-DD)
+            interval: Data interval ('1d', '1h', etc.)
+            test_split: Fraction for testing (0.2 = 20% test, 80% train)
         """
         self.symbol = symbol
         self.start_date = start_date
         self.end_date = end_date
         self.interval = interval
         self.test_split = test_split
-
+        self.train_test_split = 1.0 - test_split  # Convert to train split internally
+        
         self.data = None
         self.train_data = None
         self.test_data = None
-        
-        # NEU: Speichere originale Preise separat
         self.original_prices_train = None
         self.original_prices_test = None
-
+        
     def load_data(self) -> pd.DataFrame:
-        """
-        Load data from yfinance.
-
-        Returns:
-            DataFrame with OHLCV data
-        """
+        """Download data from yfinance with retry logic"""
         print(f"Loading {self.symbol} data from {self.start_date} to {self.end_date}...")
-
-        data = yf.download(
-            self.symbol,
-            start=self.start_date,
-            end=self.end_date,
-            interval=self.interval,
-            progress=False
-        )
-
-        if data.empty:
-            raise ValueError(f"No data found for {self.symbol}")
-
-        # Handle multi-level columns from yfinance
+        
+        max_retries = 3
+        timeout = 30
+        
+        for attempt in range(max_retries):
+            try:
+                # Download data
+                data = yf.download(
+                    self.symbol,
+                    start=self.start_date,
+                    end=self.end_date,
+                    interval=self.interval,
+                    progress=False,
+                    auto_adjust=True,
+                    timeout=timeout
+                )
+                
+                if data.empty:
+                    if attempt < max_retries - 1:
+                        print(f"Empty data, retrying ({attempt+1}/{max_retries})...")
+                        continue
+                    raise ValueError(f"No data downloaded for {self.symbol}")
+                
+                # Success!
+                break
+                
+            except Exception as e:
+                if attempt < max_retries - 1:
+                    print(f"Download failed (attempt {attempt+1}/{max_retries}): {str(e)}")
+                    print(f"Retrying in 2 seconds...")
+                    import time
+                    time.sleep(2)
+                else:
+                    raise ValueError(f"No data downloaded for {self.symbol}")
+        
+        print(f"Loaded {len(data)} rows of data")
+        
+        # Flatten MultiIndex columns if present
         if isinstance(data.columns, pd.MultiIndex):
             data.columns = data.columns.get_level_values(0)
-
-        # Reset index to have Date as a column
-        data = data.reset_index()
-
-        print(f"Loaded {len(data)} rows of data")
-        print(f"Date range: {data['Datetime'].min()} to {data['Datetime'].max()}")
-        print(f"Price range: ${data['Close'].min():.2f} - ${data['Close'].max():.2f}")
-
-        return data
-
-    def add_technical_indicators(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Add technical indicators to dataframe."""
-        print("Calculating technical indicators...")
-        df = TechnicalIndicators.add_all_indicators(df)
-        return df
-
-    def split_train_test(self, df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
-        """Split data into train and test sets."""
-        split_idx = int(len(df) * (1 - self.test_split))
-        train_df = df.iloc[:split_idx].copy().reset_index(drop=True)
-        test_df = df.iloc[split_idx:].copy().reset_index(drop=True)
-
-        print(f"Train set: {len(train_df)} rows ({100*(1-self.test_split):.0f}%)")
-        print(f"Test set: {len(test_df)} rows ({100*self.test_split:.0f}%)")
-
-        return train_df, test_df
-
-    def prepare_data(self, normalize: bool = True) -> Tuple[pd.DataFrame, pd.DataFrame]:
-        """
-        Load, process, and split data.
+            print("✓ Flattened MultiIndex columns")
         
-        WICHTIG: Speichert originale Preise BEVOR normalisiert wird!
-
+        # Reset index to make date a column
+        data = data.reset_index()
+        
+        # Rename 'Date' to 'Datetime' for consistency
+        if 'Date' in data.columns:
+            data = data.rename(columns={'Date': 'Datetime'})
+        
+        print(f"Date range: {data['Datetime'].min()} to {data['Datetime'].max()}")
+        print(f"Columns: {list(data.columns)}")
+        
+        return data
+    
+    def add_technical_indicators(self, data: pd.DataFrame) -> pd.DataFrame:
+        """Add technical indicators"""
+        df = data.copy()
+        
+        # Simple Moving Averages
+        df['SMA_10'] = df['Close'].rolling(window=10).mean()
+        df['SMA_30'] = df['Close'].rolling(window=30).mean()
+        
+        # RSI
+        delta = df['Close'].diff()
+        gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
+        loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
+        rs = gain / loss
+        df['RSI'] = 100 - (100 / (1 + rs))
+        
+        # Volume change
+        df['Volume_Change'] = df['Volume'].pct_change()
+        
+        # Price change
+        df['Price_Change'] = df['Close'].pct_change()
+        
+        # Drop NaN
+        df = df.dropna()
+        
+        print(f"Technical indicators added. Final shape: {df.shape}")
+        
+        return df
+    
+    def prepare_data(self, normalize: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame]:
+        """
+        Load and prepare data
+        
         Args:
-            normalize: Whether to normalize features
-
+            normalize: Whether to normalize data
+            
         Returns:
             Tuple of (train_data, test_data)
         """
-        # Load raw data
+        # Load data
         self.data = self.load_data()
-
+        
         # Add technical indicators
         self.data = self.add_technical_indicators(self.data)
-
-        # Split into train/test
-        self.train_data, self.test_data = self.split_train_test(self.data)
-
-        # ════════════════════════════════════════════════════════════
-        # NEU: SPEICHERE ORIGINALE PREISE BEVOR NORMALISIERUNG!
-        # ════════════════════════════════════════════════════════════
+        
+        # Split train/test
+        split_idx = int(len(self.data) * self.train_test_split)
+        self.train_data = self.data.iloc[:split_idx].copy()
+        self.test_data = self.data.iloc[split_idx:].copy()
+        
+        # Store original prices BEFORE any normalization
         self.original_prices_train = self.train_data['Close'].values.copy()
         self.original_prices_test = self.test_data['Close'].values.copy()
         
-        print(f"\n💰 Original Train Prices: ${self.original_prices_train.min():.2f} - ${self.original_prices_train.max():.2f}")
-        print(f"💰 Original Test Prices: ${self.original_prices_test.min():.2f} - ${self.original_prices_test.max():.2f}")
-
-        # Optional normalization (nur für Features, nicht für Trading!)
+        print(f"\nData Split:")
+        print(f"  Training:   {len(self.train_data)} rows ({self.train_test_split*100:.0f}%)")
+        print(f"  Test:       {len(self.test_data)} rows ({(1-self.train_test_split)*100:.0f}%)")
+        
+        # Optional normalization (Q-Learning usually doesn't need it)
         if normalize:
-            print("\nNormalizing features for neural network...")
-            feature_cols = TechnicalIndicators.get_feature_columns()
-            self.train_data = TechnicalIndicators.normalize_features(self.train_data, feature_cols)
-            self.test_data = TechnicalIndicators.normalize_features(self.test_data, feature_cols)
-            print("Features normalized ✓")
-
+            self.train_data, self.test_data = self._normalize_data(
+                self.train_data, 
+                self.test_data
+            )
+            print("✓ Data normalized (min-max scaling)")
+        
         return self.train_data, self.test_data
     
-    def get_original_prices(self, dataset: str = 'train') -> np.ndarray:
+    def _normalize_data(self, 
+                       train_data: pd.DataFrame, 
+                       test_data: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
         """
-        Get ORIGINAL (nicht-normalisierte) Preise für Trading.
+        Normalize data using min-max scaling based on training data only
         
         Args:
-            dataset: 'train' or 'test'
+            train_data: Training dataset
+            test_data: Test dataset
             
         Returns:
-            Array mit echten USD Preisen
+            Tuple of (normalized_train, normalized_test)
         """
-        if dataset == 'train':
-            if self.original_prices_train is None:
-                raise ValueError("Data not loaded. Call prepare_data() first.")
+        train_normalized = train_data.copy()
+        test_normalized = test_data.copy()
+        
+        # Columns to normalize (exclude Datetime)
+        cols_to_normalize = [col for col in train_data.columns 
+                           if col not in ['Datetime']]
+        
+        # Calculate min and max from TRAINING data only
+        for col in cols_to_normalize:
+            min_val = train_data[col].min()
+            max_val = train_data[col].max()
+            
+            # Avoid division by zero
+            if max_val - min_val == 0:
+                train_normalized[col] = 0
+                test_normalized[col] = 0
+            else:
+                # Normalize to [0, 1] range
+                train_normalized[col] = (train_data[col] - min_val) / (max_val - min_val)
+                test_normalized[col] = (test_data[col] - min_val) / (max_val - min_val)
+        
+        return train_normalized, test_normalized
+    
+    def get_original_prices(self, split: str = 'train') -> np.ndarray:
+        """
+        Get original prices (before normalization) for backward compatibility
+        
+        Args:
+            split: 'train' or 'test'
+            
+        Returns:
+            Array of original prices
+        """
+        if split.lower() == 'train':
             return self.original_prices_train
-        else:
-            if self.original_prices_test is None:
-                raise ValueError("Data not loaded. Call prepare_data() first.")
+        elif split.lower() == 'test':
             return self.original_prices_test
+        else:
+            raise ValueError(f"Invalid split: {split}. Use 'train' or 'test'")
 
-    @staticmethod
-    def get_supported_symbols() -> list:
-        """Get list of commonly supported cryptocurrency symbols."""
-        return [
-            'BTC-USD', 'ETH-USD', 'BNB-USD', 'ADA-USD', 
-            'SOL-USD', 'DOT-USD', 'DOGE-USD', 'XRP-USD'
-        ]
+
+if __name__ == "__main__":
+    print("="*70)
+    print("Data Loader for Q-Learning - Ready to use!")
+    print("="*70)
+    print("\nUsage:")
+    print("  from utils.data_loader import DataLoader")
+    print("  loader = DataLoader('BTC-USD', '2023-01-01', '2025-12-15')")
+    print("  train_data, test_data = loader.prepare_data()")

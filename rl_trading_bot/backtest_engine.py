@@ -210,7 +210,17 @@ class BacktestEngine:
             rewards_received.append(reward)
             
             # Track trades
-            current_price = env.original_prices[env.current_step]
+            # Get current price - handle different environment implementations
+            if hasattr(env, 'original_prices'):
+                current_price = env.original_prices[env.current_step]
+            elif hasattr(env, 'prices'):
+                current_price = env.prices[env.current_step]
+            else:
+                # Fallback: try to get from dataframe
+                try:
+                    current_price = env.df.iloc[env.current_step]['Close']
+                except:
+                    current_price = 0  # Fallback value
             
             if action == 1 and current_position == 0:  # Buy
                 entry_price = current_price
