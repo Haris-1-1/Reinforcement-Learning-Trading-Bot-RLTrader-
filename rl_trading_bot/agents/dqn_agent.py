@@ -44,7 +44,7 @@ class DQNetwork(nn.Module):
         for hidden_size in hidden_sizes:
             layers.append(nn.Linear(prev_size, hidden_size))
             layers.append(nn.ReLU())
-            layers.append(nn.Dropout(0.2))  # Prevent overfitting
+            layers.append(nn.Dropout(0.4))  # Prevent overfitting
             prev_size = hidden_size
         
         # Output layer

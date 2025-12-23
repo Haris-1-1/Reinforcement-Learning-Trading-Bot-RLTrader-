@@ -47,14 +47,14 @@ def train_dqn_agent():
         },
         'dqn': {
             # Neural Network
-            'learning_rate': 0.0001,      # Änderbar: 0.001 (schneller) bis 0.00001 (langsamer)
+            'learning_rate': 0.00005,      # Änderbar: 0.001 (schneller) bis 0.00001 (langsamer)
             'hidden_sizes': [128, 128, 64],  # Änderbar: [64, 64] (klein) bis [256, 256, 128] (groß)
             
             # Reinforcement Learning
             'gamma': 0.99,                # Discount factor (0.95-0.99)
             'epsilon_start': 1.0,         # Exploration start (immer 1.0)
             'epsilon_end': 0.01,          # Exploration end (0.01-0.1)
-            'epsilon_decay_steps': 50000, # Änderbar: Schneller = weniger Steps
+            'epsilon_decay_steps': 1200000, # Änderbar: Schneller = weniger Steps
             
             # Experience Replay
             'replay_buffer_size': 10000,  # Änderbar: Mehr = mehr Memory needed
@@ -64,7 +64,7 @@ def train_dqn_agent():
             'target_update_freq': 1000    # Änderbar: Wie oft Target Network updated wird
         },
         'training': {
-            'total_timesteps': 1000000,   # Änderbar: DQN braucht mehr als Q-Learning!
+            'total_timesteps': 2000000,   # Änderbar: DQN braucht mehr als Q-Learning!
             'log_interval': 10000
         }
     }
