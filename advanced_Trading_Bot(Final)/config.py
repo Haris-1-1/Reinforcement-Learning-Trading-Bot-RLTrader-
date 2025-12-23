@@ -24,9 +24,9 @@ class DataConfig:
 class EnvironmentConfig:
     """Trading environment configuration"""
     initial_balance: float = 10000.0
-    maker_fee: float = 0.001  # 0.1%
-    taker_fee: float = 0.002  # 0.2%
-    slippage: float = 0.001  # 0.1%
+    maker_fee: float = 0.0 #01  # 0.1%
+    taker_fee: float = 0.0 #02  # 0.2%
+    slippage: float = 0.0 #01  # 0.1%
     max_drawdown_penalty: float = 0.5
     reward_scaling: float = 1.0
     use_atr_stop: bool = True

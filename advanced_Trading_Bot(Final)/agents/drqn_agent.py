@@ -355,7 +355,8 @@ class DRQNAgent:
         valid_actions[0] = 1
         
         # Action 1: Buy (valid only if we have cash and no position)
-        if cash > current_price * 1.1 and position == 0:  # 10% Buffer
+        min_trade_amount = 10.0 
+        if cash > min_trade_amount and position == 0:
             valid_actions[1] = 1
         
         # Action 2: Sell (valid only if we have holdings)

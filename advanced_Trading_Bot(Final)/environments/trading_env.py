@@ -252,39 +252,52 @@ class AdvancedTradingEnv(gym.Env):
         else:
             execution_price = current_price
         
+        # IN: advanced_Trading_Bot(Final)/environments/trading_env.py
+
         if action == 1:  # Buy
-            if self.position == 0 and self.balance > execution_price:
-                print(f"DEBUG BUY: balance={self.balance}, price={execution_price}, can_buy={self.balance > execution_price}")
+            # ... (Der Teil mit DEBUG BUY BLOCKED print ist okay, lass ihn oder lösch ihn) ...
+            
+            # --- HIER BEGINNT DIE KORREKTUR ---
+            
+            # 1. Berechne, wie viel Geld wir für den Kauf haben (Abzüglich Gebühren!)
+            # Formel: Available = Balance / (1 + fee_rate)
+            available_for_purchase = self.balance / (1 + self.taker_fee)
+            
+            # 2. Berechne Anzahl der Shares
+            shares_to_buy = available_for_purchase / execution_price
+            
+            # 3. Berechne Gebühr und totale Kosten zur Kontrolle
+            fee = shares_to_buy * execution_price * self.taker_fee
+            cost = (shares_to_buy * execution_price) + fee
+            
+            # Sicherheitspuffer für Fließkomma-Ungenauigkeiten (Rundungsfehler)
+            if cost <= self.balance + 0.01: 
+                self.shares_held = shares_to_buy
+                self.balance -= cost
+                # Falls Balance minimal negativ wird durch Rundung, setze auf 0
+                if self.balance < 0: self.balance = 0
+                
+                self.total_shares_bought += shares_to_buy
+                self.position = 1
+                self.entry_price = execution_price
+                
+                # Set stop loss
+                self.stop_loss_price = self._calculate_stop_loss(execution_price)
+                
+                # Record trade
+                self.trades.append({
+                    'step': self.current_step,
+                    'action': 'BUY',
+                    'price': execution_price,
+                    'shares': shares_to_buy,
+                    'cost': cost,
+                    'balance': self.balance
+                })
+                
+                trade_executed = True
+                print(f"✅ BUY EXECUTED! Price: {execution_price:.2f}, Shares: {shares_to_buy:.6f}")
             else:
-                print(f"DEBUG BUY BLOCKED: position={self.position}, balance={self.balance}, price={execution_price}")
-                # Calculate position size (use all available balance)
-                shares_to_buy = self.balance / execution_price
-                
-                # Apply taker fee (market order)
-                fee = shares_to_buy * execution_price * self.taker_fee
-                cost = shares_to_buy * execution_price + fee
-                
-                if cost <= self.balance:
-                    self.shares_held = shares_to_buy
-                    self.balance -= cost
-                    self.total_shares_bought += shares_to_buy
-                    self.position = 1
-                    self.entry_price = execution_price
-                    
-                    # Set stop loss
-                    self.stop_loss_price = self._calculate_stop_loss(execution_price)
-                    
-                    # Record trade
-                    self.trades.append({
-                        'step': self.current_step,
-                        'action': 'BUY',
-                        'price': execution_price,
-                        'shares': shares_to_buy,
-                        'cost': cost,
-                        'balance': self.balance
-                    })
-                    
-                    trade_executed = True
+                print(f"❌ BUY FAILED: Cost {cost:.2f} > Balance {self.balance:.2f}")
         
         elif action == 2:  # Sell
             if self.position == 1 and self.shares_held > 0:
@@ -364,7 +377,7 @@ class AdvancedTradingEnv(gym.Env):
         
         # Reward component 3: Trade execution penalty (discourages excessive trading)
         if trade_executed:
-            reward -= 0.01  # Small penalty for transaction costs
+            reward -= 0  # Small penalty for transaction costs
         
         # Reward component 4: Holding position reward
         if self.position == 1:

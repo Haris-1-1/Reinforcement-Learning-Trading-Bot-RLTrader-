@@ -165,9 +165,9 @@ class TradingBotTrainer:
             initial_balance=self.initial_balance,
             sequence_length=self.sequence_length,
             feature_columns=feature_columns,
-            maker_fee=0.001,
-            taker_fee=0.002,
-            slippage=0.001
+            maker_fee=0.00,
+            taker_fee=0.00,
+            slippage=0.00
         )
         
         # Create test environment
@@ -176,9 +176,9 @@ class TradingBotTrainer:
             initial_balance=self.initial_balance,
             sequence_length=self.sequence_length,
             feature_columns=feature_columns,
-            maker_fee=0.001,
-            taker_fee=0.002,
-            slippage=0.001
+            maker_fee=0.00,
+            taker_fee=0.00,
+            slippage=0.00
         )
         
         print(f"\n✅ Environments created")
