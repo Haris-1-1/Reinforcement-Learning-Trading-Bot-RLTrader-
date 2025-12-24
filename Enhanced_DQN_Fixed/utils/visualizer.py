@@ -7,7 +7,6 @@ Creates comprehensive plots for training analysis
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from typing import List, Dict, Optional
 import os
 
 class TrainingVisualizer:
@@ -31,11 +30,11 @@ class TrainingVisualizer:
     
     def plot_training_progress(
         self,
-        episode_rewards: List[float],
-        episode_portfolios: List[float],
-        episode_trades: List[int],
-        epsilon_history: List[float],
-        loss_history: List[float],
+        episode_rewards: list[float],
+        episode_portfolios: list[float],
+        episode_trades: list[int],
+        epsilon_history: list[float],
+        loss_history: list[float],
         initial_cash: float = 10000.0
     ):
         """
@@ -179,14 +178,14 @@ class TrainingVisualizer:
     
     def plot_benchmark_comparison(
         self,
-        results: Dict[str, float],
+        results: dict[str, float],
         initial_cash: float = 10000.0
     ):
         """
         Creates bar chart comparing bot vs benchmarks
         
         Args:
-            results: Dict with keys: bot_return, buy_hold, ma_crossover, random
+            results: dict with keys: bot_return, buy_hold, ma_crossover, random
             initial_cash: Starting capital
         """
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))

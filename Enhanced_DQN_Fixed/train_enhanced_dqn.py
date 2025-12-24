@@ -31,8 +31,8 @@ from utils.visualizer import TrainingVisualizer
 CONFIG = {
     "data": {
         "symbol": "BTC-USD",
-        "start_date": "2020-01-01",
-        "end_date": "2024-01-01",
+        "start_date": "2024-01-01",
+        "end_date": "2025-11-01",
         "interval": "1h",
         "window_size": 24,
         "test_split": 0.15
@@ -202,15 +202,8 @@ def train():
         print("ERROR: Data loading failed!")
         return
     
-    # Get feature count (automatically detected)
-    feature_cols = [c for c in train_df.columns if c not in ['Date', 'Open', 'High', 'Low', 'Close', 'Volume']]
-    feature_count = len(feature_cols)
+    # Get window size from config
     window_size = CONFIG['data']['window_size']
-    
-    print(f"\nModel Configuration:")
-    print(f"  Features per step: {feature_count}")
-    print(f"  Window size: {window_size}")
-    print(f"  Input dimension: {window_size * feature_count + 3}")  # +3 for portfolio features
     
     # --- 2. INITIALIZE ENVIRONMENT & AGENT ---
     print("\nInitializing environment and agent...")
@@ -224,8 +217,16 @@ def train():
         slippage=CONFIG['environment']['slippage']
     )
     
+    # CRITICAL: Get actual feature count from environment (after it filters non-numeric columns)
+    actual_feature_count = env.n_features
+    
+    print(f"\nAgent Configuration:")
+    print(f"  Actual features in environment: {actual_feature_count}")
+    print(f"  Window size: {window_size}")
+    print(f"  Total input dimension: {window_size * actual_feature_count + 3}")  # +3 for portfolio features
+    
     agent = Agent(
-        state_size=feature_count,
+        state_size=actual_feature_count,  # Use actual count from environment!
         action_size=3,  # Hold, Buy, Sell
         window_size=window_size
     )

@@ -6,7 +6,6 @@ Gymnasium-compatible environment for DQN trading
 
 import numpy as np
 import pandas as pd
-from typing import Tuple, Dict, Any
 
 class TradingEnvironment:
     """
@@ -45,13 +44,26 @@ class TradingEnvironment:
         self.fee = fee
         self.slippage = slippage
         
+        # CRITICAL: Remove Date column if it exists (causes Timestamp error)
+        if 'Date' in self.df.columns:
+            self.df = self.df.drop('Date', axis=1)
+        
         # Validation
         if len(self.df) != len(self.prices):
             raise ValueError(f"DataFrame length ({len(self.df)}) != prices length ({len(self.prices)})")
         
-        # Feature columns (alle außer Date/Open/High/Low/Close/Volume)
-        excluded_cols = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume']
-        self.feature_cols = [col for col in self.df.columns if col not in excluded_cols]
+        # Feature columns (alle außer Open/High/Low/Close/Volume)
+        excluded_cols = ['Open', 'High', 'Low', 'Close', 'Volume']
+        potential_features = [col for col in self.df.columns if col not in excluded_cols]
+        
+        # Only keep numeric columns
+        self.feature_cols = []
+        for col in potential_features:
+            if pd.api.types.is_numeric_dtype(self.df[col]):
+                self.feature_cols.append(col)
+            else:
+                print(f"  Warning: Skipping non-numeric column '{col}'")
+        
         self.n_features = len(self.feature_cols)
         
         print(f"Environment initialized:")
@@ -114,8 +126,20 @@ class TradingEnvironment:
             end_idx = self.current_step + 1
             window_data = self.df.iloc[start_idx:end_idx][self.feature_cols].values
         
-        # 2. Flatten window
-        flat_window = window_data.flatten().astype(np.float32)
+        # 2. Flatten window - convert to float32 with error handling
+        try:
+            flat_window = window_data.astype(np.float32).flatten()
+        except (ValueError, TypeError) as e:
+            # Fallback: force conversion column by column
+            print(f"Warning: Data conversion issue at step {self.current_step}: {e}")
+            flat_list = []
+            for row in window_data:
+                for val in row:
+                    try:
+                        flat_list.append(float(val))
+                    except:
+                        flat_list.append(0.0)
+            flat_window = np.array(flat_list, dtype=np.float32)
         
         # 3. Portfolio features
         current_price = self._get_price(self.current_step)
@@ -137,7 +161,7 @@ class TradingEnvironment:
         
         return observation
     
-    def _get_info(self) -> Dict[str, Any]:
+    def _get_info(self) -> dict[str, any]:
         """Returns info dict with current state"""
         return {
             'step': self.current_step,
@@ -150,7 +174,7 @@ class TradingEnvironment:
             'profit': self.portfolio_value - self.initial_cash
         }
     
-    def reset(self) -> Tuple[np.ndarray, Dict]:
+    def reset(self) -> tuple[np.ndarray, dict]:
         """
         Reset environment to initial state
         
@@ -169,7 +193,7 @@ class TradingEnvironment:
         
         return self._get_observation(), self._get_info()
     
-    def step(self, action: int) -> Tuple[np.ndarray, float, bool, bool, Dict]:
+    def step(self, action: int) -> tuple[np.ndarray, float, bool, bool, dict]:
         """
         Execute one step
         
@@ -258,7 +282,7 @@ class TradingEnvironment:
         """Returns DataFrame of all trades"""
         return pd.DataFrame(self.trades)
     
-    def get_portfolio_history(self) -> Dict:
+    def get_portfolio_history(self) -> dict:
         """Returns portfolio history for plotting"""
         return {
             'final_value': self.portfolio_value,

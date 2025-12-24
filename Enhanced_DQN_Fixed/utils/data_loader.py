@@ -159,7 +159,7 @@ class DataLoader:
         
         return df
     
-    def prepare_data(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    def prepare_data(self) -> tuple[pd.DataFrame, pd.DataFrame]:
         """
         Main function: Load data → Add indicators → Add time features → Train supervised → Scale
         
@@ -251,6 +251,12 @@ class DataLoader:
         # Replace in DataFrames
         train_df[feature_cols] = train_features_scaled
         test_df[feature_cols] = test_features_scaled
+        
+        # CRITICAL: Remove Date column from both DataFrames (causes Timestamp error in environment)
+        if 'Date' in train_df.columns:
+            train_df = train_df.drop('Date', axis=1)
+        if 'Date' in test_df.columns:
+            test_df = test_df.drop('Date', axis=1)
         
         print(f"  Train samples: {len(train_df)}")
         print(f"  Test samples: {len(test_df)}")

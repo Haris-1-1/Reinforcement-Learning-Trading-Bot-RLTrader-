@@ -151,6 +151,9 @@ class Agent:
             return random.randrange(self.action_size)
         
         # Exploitation: Use policy network
+        # Ensure state is 1D before adding batch dimension
+        if len(state.shape) > 1:
+            state = state.flatten()
         state = torch.FloatTensor(state).view(1, -1).to(self.device)
         
         with torch.no_grad():
@@ -171,9 +174,8 @@ class Agent:
         Args:
             next_action_mask: Action mask for next state (needed for Double DQN)
         """
-        # Flatten arrays to save memory
-        state = state.flatten()
-        next_state = next_state.flatten()
+        # DON'T flatten - state and next_state are already 1D arrays from environment
+        # Flattening can cause dimension mismatches
         
         # Store with action mask for next state
         if next_action_mask is None:
@@ -192,13 +194,29 @@ class Agent:
         # Sample mini-batch
         minibatch = random.sample(self.memory, self.batch_size)
         
-        # Prepare batch tensors
-        states = torch.FloatTensor(np.array([i[0] for i in minibatch])).to(self.device)
+        # Prepare batch tensors - ensure 2D shape [batch_size, features]
+        states_list = [i[0] for i in minibatch]
+        next_states_list = [i[3] for i in minibatch]
+        
+        # Convert to numpy arrays first, then to tensors
+        states = torch.FloatTensor(np.array(states_list)).to(self.device)
         actions = torch.LongTensor(np.array([i[1] for i in minibatch])).to(self.device)
         rewards = torch.FloatTensor(np.array([i[2] for i in minibatch])).to(self.device)
-        next_states = torch.FloatTensor(np.array([i[3] for i in minibatch])).to(self.device)
+        next_states = torch.FloatTensor(np.array(next_states_list)).to(self.device)
         dones = torch.FloatTensor(np.array([i[4] for i in minibatch])).to(self.device)
         next_masks = torch.FloatTensor(np.array([i[5] for i in minibatch])).to(self.device)
+        
+        # CRITICAL: Squeeze any extra dimensions to get [batch_size, features]
+        while len(states.shape) > 2:
+            states = states.squeeze(1)
+        while len(next_states.shape) > 2:
+            next_states = next_states.squeeze(1)
+        
+        # Ensure we have 2D tensors
+        if len(states.shape) == 1:
+            states = states.unsqueeze(0)
+        if len(next_states.shape) == 1:
+            next_states = next_states.unsqueeze(0)
         
         # --- DOUBLE DQN WITH ACTION MASKING ---
         
@@ -210,7 +228,7 @@ class Agent:
             next_q_policy = next_q_policy + (next_masks - 1) * 1e9
             
             # Get best actions
-            next_actions = next_q_policy.argmax(1)
+            next_actions = next_q_policy.argmax(dim=1)
             
             # 2. Target net evaluates THOSE actions
             next_q_target = self.target_net(next_states)
