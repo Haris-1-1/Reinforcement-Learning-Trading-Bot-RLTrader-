@@ -1,265 +1,312 @@
-import gymnasium as gym
-from gymnasium import spaces
+import os
+import sys
+import json
 import numpy as np
 import pandas as pd
-from typing import Optional, Tuple, Dict, Any, List
+import torch
+import time
+from datetime import datetime
+from tqdm import tqdm
 
-class AdvancedTradingEnv(gym.Env):
+# --- PFAD-FIX ---
+# Fügt das aktuelle Verzeichnis zum Python-Pfad hinzu
+current_dir = os.path.dirname(os.path.abspath(__file__))
+if current_dir not in sys.path:
+    sys.path.append(current_dir)
+
+# --- IMPORTS ---
+# Wir nutzen die neuen Klassen, die wir gerade gebaut haben
+from utils.data_loader import DataLoader
+from utils.agent import Agent  # Unser Dueling Double DQN
+from utils.environment import TradingEnvironment
+from utils.indicators import TechnicalIndicators
+
+# --- KONFIGURATION ---
+# Alle Einstellungen zentral an einem Ort (wie in deinem Original)
+CONFIG = {
+    "data": {
+        "symbol": "BTC-USD",
+        "start_date": "2020-01-01",
+        "end_date": "2024-01-01",
+        "interval": "1h",
+        "window_size": 24,
+        "test_split": 0.15
+    },
+    "environment": {
+        "initial_cash": 10000.0,
+        "fee": 0.001,  # 0.1% Handelsgebühr
+    },
+    "agent": {
+        "batch_size": 64,
+        "episodes": 50,
+        "target_update_freq": 1000,
+        "learning_rate": 0.0001,
+        "epsilon_start": 1.0,
+        "epsilon_min": 0.05,
+        "epsilon_decay": 0.99995
+    },
+    "paths": {
+        "models": "models/",
+        "logs": "logs/"
+    }
+}
+
+def ensure_directories():
+    """Erstellt Order für Modelle und Logs, falls nicht vorhanden."""
+    for path in CONFIG["paths"].values():
+        if not os.path.exists(path):
+            os.makedirs(path)
+            print(f"Verzeichnis erstellt: {path}")
+
+def run_benchmark_strategies(prices, initial_cash):
     """
-    Enhanced Trading Environment für DQN mit Windowing und Action Masking.
+    Berechnet Benchmarks (Buy & Hold, Random, SMA Crossover)
+    um zu beweisen, dass der Bot wirklich 'intelligent' ist.
     """
-    metadata = {'render_modes': ['human']}
+    print("\nBerechne Benchmarks...")
+    
+    # 1. Buy & Hold
+    bh_return = (prices[-1] / prices[0]) - 1
+    bh_final = initial_cash * (1 + bh_return)
 
-    def __init__(
-        self,
-        df: pd.DataFrame,
-        original_prices: np.ndarray,
-        initial_cash: float = 10000.0,
-        trading_fee_maker: float = 0.001,
-        trading_fee_taker: float = 0.002,
-        slippage: float = 0.001,
-        trade_frequency_penalty: float = 0.00005,
-        window_size: int = 10,  # NEU: Das Gedächtnis des Agenten
-        feature_columns: Optional[List[str]] = None
-    ):
-        super().__init__()
-
-        self.df = df.reset_index(drop=True)
-        self.prices = original_prices.astype(float)
-        self.initial_cash = float(initial_cash)
-        
-        # Einstellungen
-        self.trading_fee_maker = trading_fee_maker
-        self.trading_fee_taker = trading_fee_taker
-        self.slippage = slippage
-        self.trade_frequency_penalty = trade_frequency_penalty
-        self.window_size = window_size
-
-        # Validation
-        if len(self.prices) != len(self.df):
-            raise ValueError("Länge von df und original_prices muss übereinstimmen!")
-
-        # 1. Feature Definition (Smart Money Features müssen im df sein)
-        # Wir erwarten, dass df bereits A-D Line, Vol_Ratio, Time Encoding etc. enthält
-        if feature_columns is None:
-            # Fallback: Alle numerischen Spalten außer Datum/Target
-            self.feature_columns = [col for col in df.columns if col not in ['Date', 'Target', 'Open', 'High', 'Low', 'Close', 'Volume']]
-        else:
-            self.feature_columns = feature_columns
-
-        self.n_market_features = len(self.feature_columns)
-        self.n_portfolio_features = 3  # Cash-Ratio, Position, Unrealized PnL
-
-        print(f"Environment initialisiert:")
-        print(f" - Window Size: {self.window_size}")
-        print(f" - Features pro Step: {self.n_market_features}")
-        print(f" - Total Input Size (DQN): {self.window_size * self.n_market_features + self.n_portfolio_features}")
-
-        # 2. Observation Space (Das Fenster + Portfolio Status)
-        # Shape: (Window_Size * Market_Features) + Portfolio_Features
-        total_obs_size = (self.window_size * self.n_market_features) + self.n_portfolio_features
-        
-        self.observation_space = spaces.Box(
-            low=-np.inf, high=np.inf, shape=(total_obs_size,), dtype=np.float32
-        )
-
-        # 3. Action Space: 0=Hold, 1=Buy, 2=Sell
-        self.action_space = spaces.Discrete(3)
-
-        # Interne Variablen
-        self.current_step = 0
-        self.max_steps = len(self.df) - 1
-        
-        # Portfolio State
-        self.cash = 0.0
-        self.coins = 0.0
-        self.position = 0.0 # 0.0 = Flat, 1.0 = Invested
-        self.entry_price = 0.0 # Für PnL Berechnung
-        
-        # Tracking
-        self.portfolio_value = 0.0
-        self.last_portfolio_value = 0.0
-        self.trades = []
-        self.trade_count = 0
-        self.last_trade_step = -100
-
-    def _get_price(self, step: int) -> float:
-        return float(self.prices[step])
-
-    def get_action_mask(self) -> np.ndarray:
-        """
-        Gibt eine Maske zurück, welche Aktionen gerade erlaubt sind.
-        [Hold, Buy, Sell] -> 1 = Erlaubt, 0 = Verboten
-        """
-        mask = np.array([1, 1, 1], dtype=np.int8)
-        
-        # Wenn wir voll investiert sind, können wir nicht kaufen
-        if self.position >= 0.99:
-            mask[1] = 0 # Buy verboten
+    # 2. Random Trading (Mittelwert aus 10 Runs)
+    random_returns = []
+    for _ in range(10):
+        cash = initial_cash
+        coins = 0
+        fee = CONFIG["environment"]["fee"]
+        for i in range(len(prices)-1):
+            action = np.random.choice([0, 1, 2]) # 0=Hold, 1=Buy, 2=Sell
+            current_price = prices[i]
             
-        # Wenn wir gar nichts haben, können wir nicht verkaufen
-        if self.position <= 0.01:
-            mask[2] = 0 # Sell verboten
+            if action == 1 and cash > 0: # Buy
+                coins = (cash * (1 - fee)) / current_price
+                cash = 0
+            elif action == 2 and coins > 0: # Sell
+                cash = (coins * current_price) * (1 - fee)
+                coins = 0
+        
+        final = cash + (coins * prices[-1])
+        random_returns.append((final - initial_cash) / initial_cash)
+    random_avg_return = np.mean(random_returns)
+
+    # 3. Simple MA Crossover (20/50)
+    # Wir erstellen kurz einen DF für die Berechnung
+    df_ma = pd.DataFrame({'Close': prices})
+    df_ma['SMA20'] = df_ma['Close'].rolling(window=20).mean()
+    df_ma['SMA50'] = df_ma['Close'].rolling(window=50).mean()
+    
+    cash, coins = initial_cash, 0
+    fee = CONFIG["environment"]["fee"]
+    
+    for i in range(50, len(prices)-1):
+        price = prices[i]
+        sma20 = df_ma['SMA20'].iloc[i]
+        sma50 = df_ma['SMA50'].iloc[i]
+        
+        if sma20 > sma50 and cash > 0: # Golden Cross -> Buy
+            coins = (cash * (1 - fee)) / price
+            cash = 0
+        elif sma20 < sma50 and coins > 0: # Death Cross -> Sell
+            cash = (coins * price) * (1 - fee)
+            coins = 0
             
-        return mask
+    ma_final = cash + (coins * prices[-1])
+    ma_return = (ma_final - initial_cash) / initial_cash
 
-    def _get_observation(self) -> np.ndarray:
-        """
-        Erstellt das 'Windowed' Observation Array.
-        """
-        # 1. Market Data Window holen
-        # Wenn wir am Anfang sind (step < window_size), müssen wir padden (auffüllen)
-        if self.current_step < self.window_size:
-            # Padding mit Nullen oder der ersten Zeile
-            padding_needed = self.window_size - (self.current_step + 1)
-            # Daten vom Start bis jetzt
-            real_data = self.df.iloc[0 : self.current_step + 1][self.feature_columns].values
-            # Padding erstellen (wir wiederholen einfach die erste Zeile, das ist neutraler als Nullen)
-            padding = np.tile(real_data[0], (padding_needed, 1))
-            window_data = np.vstack([padding, real_data])
-        else:
-            # Normaler Fall: Hole die letzten 'window_size' Zeilen
-            start_idx = self.current_step - self.window_size + 1
-            end_idx = self.current_step + 1
-            window_data = self.df.iloc[start_idx : end_idx][self.feature_columns].values
+    return bh_return, random_avg_return, ma_return
 
-        # 2. Flatten (Flachdrücken für MLP)
-        flat_window = window_data.flatten().astype(np.float32)
+def save_checkpoint(agent, episode, portfolio_value, is_best=False):
+    """Speichert das Modell sicher ab."""
+    filename = f"checkpoint_ep{episode}.pth"
+    if is_best:
+        filename = "best_model.pth"
+    
+    path = os.path.join(CONFIG["paths"]["models"], filename)
+    
+    # Wir speichern nicht nur die Gewichte, sondern auch Optimizer-Status und Config
+    checkpoint = {
+        'episode': episode,
+        'model_state_dict': agent.policy_net.state_dict(),
+        'optimizer_state_dict': agent.optimizer.state_dict(),
+        'epsilon': agent.epsilon,
+        'portfolio_value': portfolio_value,
+        'config': CONFIG
+    }
+    torch.save(checkpoint, path)
+    if is_best:
+        print(f" -> NEUES BESTES MODELL GESPEICHERT: ${portfolio_value:.2f}")
 
-        # 3. Portfolio Features berechnen
-        current_price = self._get_price(self.current_step)
-        
-        # Unrealized PnL (nur relevant wenn investiert)
-        if self.position > 0 and self.entry_price > 0:
-            unrealized_pnl = (current_price - self.entry_price) / self.entry_price
-        else:
-            unrealized_pnl = 0.0
+def train_enhanced_bot():
+    ensure_directories()
+    
+    # --- 1. DATEN LADEN ---
+    print(f"\n[{datetime.now().strftime('%H:%M:%S')}] Starte Data Loader...")
+    loader = DataLoader(
+        symbol=CONFIG['data']['symbol'],
+        start_date=CONFIG['data']['start_date'],
+        end_date=CONFIG['data']['end_date'],
+        interval=CONFIG['data']['interval'],
+        test_split=CONFIG['data']['test_split']
+    )
+    
+    # Bereitet Ichimoku, Whale-Signale, Zyklus etc. vor
+    train_df, test_df = loader.prepare_data()
+    
+    if train_df is None:
+        print("KRITISCHER FEHLER: Keine Daten geladen.")
+        return
 
-        portfolio_features = np.array([
-            self.cash / self.initial_cash,  # Cash Ratio (Normalized)
-            self.position,                  # Position (0 or 1)
-            unrealized_pnl                  # Wie gut läuft der aktuelle Trade?
-        ], dtype=np.float32)
+    # Automatische Erkennung der Input-Größe
+    feature_count = len(train_df.columns)
+    window_size = CONFIG['data']['window_size']
+    input_dim = window_size * feature_count
+    
+    print(f"Feature Engineering abgeschlossen.")
+    print(f" -> Features pro Step: {feature_count}")
+    print(f" -> NN Input Dimension: {input_dim}")
 
-        # 4. Zusammenfügen
-        return np.concatenate([flat_window, portfolio_features])
+    # --- 2. INITIALISIERUNG ---
+    env = TradingEnvironment(
+        df=train_df, 
+        original_prices=loader.original_prices_train, 
+        window_size=window_size,
+        initial_cash=CONFIG['environment']['initial_cash'],
+        fee=CONFIG['environment']['fee']
+    )
+    
+    agent = Agent(
+        state_size=feature_count, 
+        action_size=3, 
+        window_size=window_size
+    )
+    
+    # Config Werte in Agenten laden (überschreibt Defaults)
+    agent.batch_size = CONFIG['agent']['batch_size']
+    agent.epsilon = CONFIG['agent']['epsilon_start']
+    agent.epsilon_min = CONFIG['agent']['epsilon_min']
+    agent.epsilon_decay = CONFIG['agent']['epsilon_decay']
+    agent.learning_rate = CONFIG['agent']['learning_rate']
 
-    def _get_info(self) -> Dict:
-        """Zusätzliche Infos, wichtig für Debugging und Masking."""
-        return {
-            'step': self.current_step,
-            'portfolio_value': self.portfolio_value,
-            'position': self.position,
-            'action_mask': self.get_action_mask(), # WICHTIG für den Agenten
-            'trade_count': self.trade_count
-        }
+    print("\n" + "="*60)
+    print(f" STARTING DUELING DOUBLE DQN TRAINING")
+    print(f" Episoden: {CONFIG['agent']['episodes']} | Device: {agent.device}")
+    print("="*60)
 
-    def reset(self, seed=None, options=None):
-        super().reset(seed=seed)
+    # --- 3. TRAINING LOOP ---
+    best_portfolio = 0
+    total_steps_global = 0
+    
+    for e in range(1, CONFIG['agent']['episodes'] + 1):
+        state = env.reset()
+        state = np.reshape(state, [1, input_dim])
         
-        # Start etwas später, damit wir echte Historie für das Window haben, 
-        # aber wir lösen das oben durch Padding, also Start bei 0 ist ok.
-        self.current_step = 0
+        done = False
+        episode_profit = 0
         
-        self.cash = self.initial_cash
-        self.coins = 0.0
-        self.position = 0.0
-        self.entry_price = 0.0
+        # Schöner Progress Bar
+        pbar = tqdm(total=len(train_df), desc=f"Ep {e}/{CONFIG['agent']['episodes']}", unit="step")
         
-        self.portfolio_value = self.initial_cash
-        self.last_portfolio_value = self.initial_cash
-        
-        self.trades = []
-        self.trade_count = 0
-        
-        return self._get_observation(), self._get_info()
-
-    def step(self, action: int):
-        current_price = self._get_price(self.current_step)
-        self.last_portfolio_value = self.portfolio_value
-        
-        # --- INVALID ACTION CHECK (Physikalisches Gesetz) ---
-        # Wenn der Agent etwas Unmögliches versucht, zwingen wir ihn zu HOLD (0)
-        # und geben ihm optional eine kleine Strafe.
-        mask = self.get_action_mask()
-        if mask[action] == 0:
-            # Ungültige Aktion!
-            # Wir ändern die Aktion zu HOLD, damit das Env nicht crasht
-            action = 0 
-            # Optional: Kleiner negativer Reward als "Erziehung", 
-            # aber Masking im Agenten ist besser.
-        
-        # --- EXECUTION ---
-        reward_penalty = 0.0
-        
-        # BUY
-        if action == 1: 
-            # Berechne Kosten
-            exec_price = current_price * (1 + self.slippage)
-            fee = self.cash * self.trading_fee_taker
-            cost = self.cash - fee
+        while not done:
+            # A. Entscheidung (Act)
+            action = agent.act(state)
             
-            # Ausführen
-            self.coins = cost / exec_price
-            self.cash = 0.0
-            self.position = 1.0
-            self.entry_price = exec_price
+            # B. Ausführung (Step)
+            next_state, reward, done, info = env.step(action)
+            next_state = np.reshape(next_state, [1, input_dim])
             
-            self.trade_count += 1
-            self.last_trade_step = self.current_step
+            # C. Speichern (Remember)
+            agent.remember(state, action, reward, next_state, done)
             
-            # Logging
-            self.trades.append({
-                'step': self.current_step, 'action': 'BUY', 'price': exec_price, 
-                'value': self.portfolio_value
+            # D. Lernen (Replay)
+            agent.replay()
+            
+            # E. Target Net Update (Double DQN Logik)
+            if total_steps_global % CONFIG['agent']['target_update_freq'] == 0:
+                agent.update_target_network()
+            
+            state = next_state
+            total_steps_global += 1
+            episode_profit = info['profit']
+            
+            # Logging im Progress Bar
+            pbar.set_postfix({
+                "Epsilon": f"{agent.epsilon:.2f}", 
+                "Portfolio": f"${info['portfolio_value']:.0f}"
             })
+            pbar.update(1)
 
-        # SELL
-        elif action == 2:
-            # Berechne Erlös
-            exec_price = current_price * (1 - self.slippage)
-            gross_value = self.coins * exec_price
-            fee = gross_value * self.trading_fee_taker
-            
-            # Ausführen
-            self.cash = gross_value - fee
-            self.coins = 0.0
-            self.position = 0.0
-            self.entry_price = 0.0
-            
-            self.trade_count += 1
-            self.last_trade_step = self.current_step
-            
-            # Logging
-            self.trades.append({
-                'step': self.current_step, 'action': 'SELL', 'price': exec_price, 
-                'value': self.portfolio_value
-            })
-            
-        # --- REWARD BERECHNUNG ---
-        # 1. Neuer Portfolio Wert
-        new_price = self._get_price(self.current_step) # Wir nehmen Close des gleichen Steps als Bewertung
-        # (In Backtesting oft next Open, aber Close ist ok für RL Training)
+        pbar.close()
         
-        self.portfolio_value = self.cash + (self.coins * new_price)
+        # --- NACH DER EPISODE ---
+        final_value = env.portfolio_value
         
-        # 2. Percentage Returns (Log Returns sind numerisch stabiler für RL)
-        if self.last_portfolio_value > 0:
-            step_reward = np.log(self.portfolio_value / self.last_portfolio_value)
-        else:
-            step_reward = 0.0
-            
-        # 3. Frequency Penalty (gegen Overtrading)
-        if action != 0:
-            # Strafe jeden Trade leicht, damit er nur tradet wenn der Gewinn > Kosten ist
-            step_reward -= self.trade_frequency_penalty
+        # Bestes Modell speichern
+        if final_value > best_portfolio:
+            best_portfolio = final_value
+            save_checkpoint(agent, e, final_value, is_best=True)
+        
+        # Regelmäßiges Backup (alle 5 Episoden)
+        if e % 5 == 0:
+            save_checkpoint(agent, e, final_value, is_best=False)
 
-        # --- NEXT STEP ---
-        self.current_step += 1
-        terminated = self.current_step >= self.max_steps
-        truncated = False
-        
-        return self._get_observation(), step_reward, terminated, truncated, self._get_info()
+    print("\nTraining abgeschlossen.")
+    
+    # --- 4. EVALUATION & BENCHMARKS ---
+    print("\n" + "="*60)
+    print(" FINAL EVALUATION (TEST DATA)")
+    print("="*60)
+    
+    # Test-Environment
+    test_env = TradingEnvironment(
+        df=test_df, 
+        original_prices=loader.original_prices_test, 
+        window_size=window_size,
+        initial_cash=CONFIG['environment']['initial_cash'],
+        fee=CONFIG['environment']['fee']
+    )
+    
+    state = test_env.reset()
+    state = np.reshape(state, [1, input_dim])
+    done = False
+    agent.is_eval = True # Wichtig: Zufall ausschalten!
+    
+    while not done:
+        action = agent.act(state)
+        next_state, _, done, info = test_env.step(action)
+        state = np.reshape(next_state, [1, input_dim])
 
-    def get_trades_df(self):
-        return pd.DataFrame(self.trades)
+    # Ergebnisse berechnen
+    bot_final = info['portfolio_value']
+    bot_return = (bot_final - CONFIG['environment']['initial_cash']) / CONFIG['environment']['initial_cash']
+    
+    # Benchmarks laufen lassen
+    bh_ret, rand_ret, ma_ret = run_benchmark_strategies(
+        loader.original_prices_test, 
+        CONFIG['environment']['initial_cash']
+    )
+    
+    # --- FINALES REPORTING ---
+    print("\n" + "#"*50)
+    print(f" RESULTS SUMMARY ({CONFIG['data']['symbol']})")
+    print("#"*50)
+    print(f"{'STRATEGY':<25} | {'RETURN':<10} | {'FINAL BALANCE'}")
+    print("-" * 50)
+    print(f"{'DUELING DDQN (Bot)':<25} | {bot_return*100:>+8.2f}% | ${bot_final:.2f}")
+    print(f"{'Buy & Hold':<25} | {bh_ret*100:>+8.2f}% | ${CONFIG['environment']['initial_cash']*(1+bh_ret):.2f}")
+    print(f"{'MA Crossover (20/50)':<25} | {ma_ret*100:>+8.2f}% | ${CONFIG['environment']['initial_cash']*(1+ma_ret):.2f}")
+    print(f"{'Random Trading':<25} | {rand_ret*100:>+8.2f}% | ${CONFIG['environment']['initial_cash']*(1+rand_ret):.2f}")
+    print("#"*50)
+    
+    # Speichern des finalen Zustands
+    save_checkpoint(agent, CONFIG['agent']['episodes'], bot_final, is_best=False)
+
+if __name__ == "__main__":
+    try:
+        train_enhanced_bot()
+    except KeyboardInterrupt:
+        print("\nTraining durch Benutzer abgebrochen.")
+    except Exception as e:
+        print(f"\nCRITICAL ERROR: {e}")
+        import traceback
+        traceback.print_exc()

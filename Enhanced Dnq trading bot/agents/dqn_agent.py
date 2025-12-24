@@ -1,131 +1,152 @@
 import numpy as np
+import random
+from collections import deque
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import random
-from collections import deque
-from typing import Dict, List
 
-class DQNetwork(nn.Module):
-    """
-    Härtung gegen Overfitting durch Dropout und kompakte Architektur.
-    """
-    def __init__(self, state_dim: int, action_dim: int, hidden_sizes: List[int]):
-        super(DQNetwork, self).__init__()
-        layers = []
-        prev_size = state_dim
+# --- 1. DAS DUELING NEURONALE NETZWERK ---
+class DuelingDQNNetwork(nn.Module):
+    def __init__(self, input_dim, output_dim):
+        super(DuelingDQNNetwork, self).__init__()
         
-        for i, h in enumerate(hidden_sizes):
-            layers.append(nn.Linear(prev_size, h))
-            layers.append(nn.ReLU())
-            # Dropout hilft gegen das Auswendiglernen von Rauschen
-            layers.append(nn.Dropout(p=0.2)) 
-            prev_size = h
-            
-        layers.append(nn.Linear(prev_size, action_dim))
-        self.model = nn.Sequential(*layers)
+        # Feature Extraction Layer (Gemeinsam)
+        self.feature_layer = nn.Sequential(
+            nn.Linear(input_dim, 256),
+            nn.ReLU(),
+            nn.Dropout(0.2),  # Schutz gegen Overfitting
+            nn.Linear(256, 256),
+            nn.ReLU(),
+            nn.Dropout(0.2)
+        )
+        
+        # Stream 1: Value (Wie gut ist der Marktzustand generell?)
+        self.value_stream = nn.Sequential(
+            nn.Linear(256, 128),
+            nn.ReLU(),
+            nn.Linear(128, 1)  # Gibt EINEN Wert zurück (Zustandswert)
+        )
+        
+        # Stream 2: Advantage (Wie viel besser ist eine Aktion als die andere?)
+        self.advantage_stream = nn.Sequential(
+            nn.Linear(256, 128),
+            nn.ReLU(),
+            nn.Linear(128, output_dim)  # Gibt Werte für ALLE Aktionen zurück
+        )
 
-    def forward(self, x):
-        return self.model(x)
+    def forward(self, state):
+        features = self.feature_layer(state)
+        values = self.value_stream(features)
+        advantages = self.advantage_stream(features)
+        
+        # Kombinieren: Q(s,a) = V(s) + (A(s,a) - Mean(A(s,a)))
+        qvals = values + (advantages - advantages.mean())
+        return qvals
 
-class DQNAgent:
-    def __init__(self, env, config: Dict):
-        self.env = env
-        self.config = config
+# --- 2. DER AGENT ---
+class Agent:
+    def __init__(self, state_size, action_size, window_size, is_eval=False):
+        self.state_size = state_size
+        self.action_size = action_size
+        self.window_size = window_size
         
-        # Hyperparameter aus deiner Exp 11 Config
-        dqn_cfg = config.get('dqn', {})
-        self.lr = dqn_cfg.get('learning_rate', 0.0001)
-        self.gamma = dqn_cfg.get('gamma', 0.99)
-        self.batch_size = dqn_cfg.get('batch_size', 64)
-        self.epsilon = dqn_cfg.get('epsilon_start', 1.0)
-        self.eps_end = dqn_cfg.get('epsilon_end', 0.01)
-        self.eps_decay = dqn_cfg.get('epsilon_decay_steps', 50000)
-        self.target_update_freq = dqn_cfg.get('target_update_freq', 1000)
+        # Input Dimension für das Netz = Window Size * Features pro Step
+        self.input_dim = state_size * window_size
         
+        self.memory = deque(maxlen=100000)  # Großes Gedächtnis
+        self.inventory = []
+        
+        self.is_eval = is_eval
+        
+        # Hyperparameter
+        self.gamma = 0.99         # Discount Factor (Zukunftsgewichtung)
+        self.epsilon = 1.0        # Start-Exploration (100% Zufall)
+        self.epsilon_min = 0.05   # Mindest-Exploration (5% Zufall)
+        self.epsilon_decay = 0.99995 # Sehr langsamer Decay für komplexes Lernen
+        self.learning_rate = 0.0001
+        self.batch_size = 64
+        
+        # Hardware-Beschleunigung
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         
-        # Dimensionen (Input = Window_Size * Features + Portfolio)
-        self.state_dim = env.observation_space.shape[0]
-        self.action_dim = env.action_space.n
+        # --- DOUBLE DQN SETUP ---
+        # 1. Policy Net: Trifft Entscheidungen
+        self.policy_net = DuelingDQNNetwork(self.input_dim, action_size).to(self.device)
+        # 2. Target Net: Bewertet Entscheidungen (stabil)
+        self.target_net = DuelingDQNNetwork(self.input_dim, action_size).to(self.device)
         
-        # Netzwerke
-        self.policy_net = DQNetwork(self.state_dim, self.action_dim, dqn_cfg.get('hidden_sizes', [128, 128])).to(self.device)
-        self.target_net = DQNetwork(self.state_dim, self.action_dim, dqn_cfg.get('hidden_sizes', [128, 128])).to(self.device)
+        # Synchronisieren am Start
+        self.update_target_network()
+        
+        self.optimizer = optim.Adam(self.policy_net.parameters(), lr=self.learning_rate)
+        self.loss_fn = nn.MSELoss()
+
+    def update_target_network(self):
+        """Kopiert Gewichte vom Policy-Net ins Target-Net"""
         self.target_net.load_state_dict(self.policy_net.state_dict())
+
+    def act(self, state):
+        """Wählt eine Aktion basierend auf dem Zustand (Epsilon-Greedy)"""
+        if not self.is_eval and np.random.rand() <= self.epsilon:
+            return random.randrange(self.action_size)
+
+        # Zustand vorbereiten
+        state = torch.FloatTensor(state).view(1, -1).to(self.device)
         
-        # Optimizer: AdamW mit Weight Decay gegen Overfitting
-        self.optimizer = optim.AdamW(self.policy_net.parameters(), lr=self.lr, weight_decay=1e-4)
-        self.memory = deque(maxlen=dqn_cfg.get('replay_buffer_size', 10000))
-        self.steps_done = 0
-
-    def predict(self, state: np.ndarray, deterministic: bool = False, action_mask: np.ndarray = None):
-        """
-        Wählt eine Aktion unter Berücksichtigung des Action Maskings.
-        """
-        # Epsilon-Greedy Exploration
-        if not deterministic and random.random() < self.epsilon:
-            if action_mask is not None:
-                # Nur aus erlaubten Aktionen wählen
-                allowed_indices = np.where(action_mask == 1)[0]
-                return random.choice(allowed_indices)
-            return self.env.action_space.sample()
-
-        # Exploitation
         with torch.no_grad():
-            state_t = torch.FloatTensor(state).unsqueeze(0).to(self.device)
-            q_values = self.policy_net(state_t)
+            q_values = self.policy_net(state)
             
-            # Action Masking Anwendung
-            if action_mask is not None:
-                mask_t = torch.FloatTensor(action_mask).to(self.device)
-                # Setze verbotene Aktionen auf einen extrem niedrigen Wert
-                q_values = q_values + (mask_t - 1) * 1e9
-                
-            return q_values.argmax().item()
+        return np.argmax(q_values.cpu().data.numpy())
 
-    def train_step(self):
+    def remember(self, state, action, reward, next_state, done):
+        """Speichert Erfahrung im Replay Buffer"""
+        # Flache Arrays speichern um Speicher zu sparen
+        state = state.flatten()
+        next_state = next_state.flatten()
+        self.memory.append((state, action, reward, next_state, done))
+
+    def replay(self):
+        """Trainiert das Netzwerk mit Erfahrungen (Double DQN Logic)"""
         if len(self.memory) < self.batch_size:
-            return None
-        
-        # Sample Batch
-        batch = random.sample(self.memory, self.batch_size)
-        states, actions, rewards, next_states, dones, masks = zip(*batch)
-        
-        states = torch.FloatTensor(np.array(states)).to(self.device)
-        actions = torch.LongTensor(np.array(actions)).to(self.device)
-        rewards = torch.FloatTensor(np.array(rewards)).to(self.device)
-        next_states = torch.FloatTensor(np.array(next_states)).to(self.device)
-        dones = torch.FloatTensor(np.array(dones)).to(self.device)
-        masks = torch.FloatTensor(np.array(masks)).to(self.device)
+            return
 
-        # Q(s, a)
-        current_q = self.policy_net(states).gather(1, actions.unsqueeze(1)).squeeze(1)
+        # Mini-Batch ziehen
+        minibatch = random.sample(self.memory, self.batch_size)
         
-        # Next Q mit Action Masking auf dem Target Network
+        # Daten vorbereiten (Batch-Verarbeitung ist viel schneller)
+        states = torch.FloatTensor(np.array([i[0] for i in minibatch])).to(self.device)
+        actions = torch.LongTensor(np.array([i[1] for i in minibatch])).to(self.device)
+        rewards = torch.FloatTensor(np.array([i[2] for i in minibatch])).to(self.device)
+        next_states = torch.FloatTensor(np.array([i[3] for i in minibatch])).to(self.device)
+        dones = torch.FloatTensor(np.array([i[4] for i in minibatch])).to(self.device)
+
+        # --- DOUBLE DQN MAGIC ---
+        # 1. Policy Net wählt die beste Aktion für den nächsten Zustand
         with torch.no_grad():
+            next_actions = self.policy_net(next_states).argmax(1)
+            
+            # 2. Target Net berechnet den Q-Wert für DIESE Aktion
             next_q_values = self.target_net(next_states)
-            # Maskiere ungültige Aktionen im nächsten Schritt
-            next_q_values = next_q_values + (masks - 1) * 1e9
-            max_next_q = next_q_values.max(1)[0]
-            target_q = rewards + (1 - dones) * self.gamma * max_next_q
+            # Wir nehmen den Wert, der zur Aktion vom Policy Net gehört
+            next_q_values = next_q_values.gather(1, next_actions.unsqueeze(1)).squeeze(1)
+            
+            # Bellman Gleichung
+            target_q_values = rewards + (self.gamma * next_q_values * (1 - dones))
 
-        loss = nn.MSELoss()(current_q, target_q)
+        # Aktuelle Vorhersage des Policy Nets
+        current_q_values = self.policy_net(states).gather(1, actions.unsqueeze(1)).squeeze(1)
+
+        # Loss berechnen und Backpropagation
+        loss = self.loss_fn(current_q_values, target_q_values)
         
         self.optimizer.zero_grad()
         loss.backward()
-        # Gradient Clipping zur Stabilisierung
-        torch.nn.utils.clip_grad_norm_(self.policy_net.parameters(), 1.0)
-        self.optimizer.step()
         
+        # Gradient Clipping (verhindert explodierende Gradienten)
+        torch.nn.utils.clip_grad_norm_(self.policy_net.parameters(), 1.0)
+        
+        self.optimizer.step()
+
         # Epsilon Decay
-        if self.epsilon > self.eps_end:
-            self.epsilon -= (1.0 - self.eps_end) / self.eps_decay
-            
-        return loss.item()
-
-    def store_transition(self, s, a, r, s_next, done, mask):
-        self.memory.append((s, a, r, s_next, done, mask))
-
-    def update_target_network(self):
-        self.target_net.load_state_dict(self.policy_net.state_dict())
+        if self.epsilon > self.epsilon_min:
+            self.epsilon *= self.epsilon_decay
