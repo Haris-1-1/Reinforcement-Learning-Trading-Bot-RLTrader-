@@ -295,10 +295,7 @@ class AdvancedTradingEnv(gym.Env):
                 })
                 
                 trade_executed = True
-                print(f"✅ BUY EXECUTED! Price: {execution_price:.2f}, Shares: {shares_to_buy:.6f}")
-            else:
-                print(f"❌ BUY FAILED: Cost {cost:.2f} > Balance {self.balance:.2f}")
-        
+                
         elif action == 2:  # Sell
             if self.position == 1 and self.shares_held > 0:
                 # Sell all shares

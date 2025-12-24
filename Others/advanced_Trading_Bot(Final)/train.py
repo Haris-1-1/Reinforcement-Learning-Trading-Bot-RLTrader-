@@ -37,7 +37,7 @@ class TradingBotTrainer:
     def __init__(
         self,
         ticker: str = "BTC-USD",
-        interval: str = "15m",
+        interval: str = "1h",
         train_start: str = "2020-01-01",
         train_end: str = "2024-06-01",
         test_start: str = "2024-06-01",
@@ -165,8 +165,8 @@ class TradingBotTrainer:
             initial_balance=self.initial_balance,
             sequence_length=self.sequence_length,
             feature_columns=feature_columns,
-            maker_fee=0.00,
-            taker_fee=0.00,
+            maker_fee=0.005,
+            taker_fee=0.001,
             slippage=0.00
         )
         
@@ -176,8 +176,8 @@ class TradingBotTrainer:
             initial_balance=self.initial_balance,
             sequence_length=self.sequence_length,
             feature_columns=feature_columns,
-            maker_fee=0.00,
-            taker_fee=0.00,
+            maker_fee=0.005,
+            taker_fee=0.001,
             slippage=0.00
         )
         
@@ -517,8 +517,8 @@ def main():
         ticker="BTC-USD",
         interval="1h",  # Using 1h for faster training (15m has too many candles)
         train_start="2024-01-01",
-        train_end="2025-06-01",
-        test_start="2025-09-02",
+        train_end="2024-12-31",
+        test_start="2025-01-01",
         test_end="2025-12-01",
         sequence_length=30,
         initial_balance=10000.0,
