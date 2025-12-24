@@ -22,6 +22,7 @@ if current_dir not in sys.path:
 from utils.data_loader import DataLoader
 from agents.dqn_agent import Agent
 from env.trading_env import TradingEnvironment
+from utils.visualizer import TrainingVisualizer
 
 # ========================================
 # CONFIGURATION
@@ -237,6 +238,10 @@ def train():
     best_portfolio = 0
     total_steps = 0
     episode_rewards = []
+    episode_portfolios = []
+    episode_trades = []
+    epsilon_history = []
+    loss_history = []
     
     for episode in range(1, CONFIG['agent']['episodes'] + 1):
         state, info = env.reset()
@@ -262,6 +267,12 @@ def train():
             
             # 4. Train
             loss = agent.replay()
+            if loss is not None:
+                loss_history.append(loss)
+            
+            # Track epsilon
+            if total_steps % 100 == 0:
+                epsilon_history.append(agent.epsilon)
             
             # 5. Update target network
             if total_steps % CONFIG['agent']['target_update_freq'] == 0:
@@ -285,6 +296,8 @@ def train():
         # Episode complete
         final_value = env.portfolio_value
         episode_rewards.append(episode_reward)
+        episode_portfolios.append(final_value)
+        episode_trades.append(env.trade_count)
         
         print(f"Episode {episode}: Portfolio=${final_value:.2f} | Reward={episode_reward:.4f} | Trades={env.trade_count}")
         
@@ -300,6 +313,21 @@ def train():
     print("\n" + "="*70)
     print("TRAINING COMPLETE")
     print("="*70)
+    
+    # --- CREATE TRAINING PLOTS ---
+    print("\nCreating training visualizations...")
+    visualizer = TrainingVisualizer(save_dir="plots")
+    
+    visualizer.plot_training_progress(
+        episode_rewards=episode_rewards,
+        episode_portfolios=episode_portfolios,
+        episode_trades=episode_trades,
+        epsilon_history=epsilon_history,
+        loss_history=loss_history,
+        initial_cash=CONFIG['environment']['initial_cash']
+    )
+    
+    print("Training plots created!\n")
     
     # --- 4. EVALUATION ---
     print("\n" + "="*70)
@@ -357,6 +385,30 @@ def train():
     print(f"{'MA Crossover (20/50)':<30} {benchmarks['ma_crossover']['return']*100:>+11.2f}% ${benchmarks['ma_crossover']['final_value']:>14,.2f}")
     print(f"{'Random Trading (avg)':<30} {benchmarks['random']['return']*100:>+11.2f}% ${benchmarks['random']['final_value']:>14,.2f}")
     print("-" * 70)
+    
+    # --- CREATE EVALUATION PLOTS ---
+    print("\nCreating evaluation visualizations...")
+    
+    # Benchmark comparison
+    visualizer.plot_benchmark_comparison(
+        results={
+            'bot_return': bot_return,
+            'buy_hold': benchmarks['buy_hold']['return'],
+            'ma_crossover': benchmarks['ma_crossover']['return'],
+            'random': benchmarks['random']['return']
+        },
+        initial_cash=CONFIG['environment']['initial_cash']
+    )
+    
+    # Trade analysis
+    trades_df = test_env.get_trades_df()
+    if len(trades_df) > 0:
+        visualizer.plot_trade_analysis(
+            trades_df=trades_df,
+            prices=loader.original_prices_test
+        )
+    
+    print("All plots saved to 'plots/' directory!")
     
     # Save results
     results = {
