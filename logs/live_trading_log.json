@@ -1,0 +1,87 @@
+{
+  "config": {
+    "symbol": "BTC-USD",
+    "interval": "1m",
+    "window_size": 24,
+    "initial_cash": 10000.0,
+    "fee": 0.001,
+    "slippage": 0.0005,
+    "update_interval": 60,
+    "model_path": "models/best_model.pth",
+    "log_file": "logs/live_trading_log.json"
+  },
+  "trades": [
+    {
+      "timestamp": "2025-12-25 10:26:53",
+      "action": "BUY",
+      "price": 87497.132953125,
+      "coins": 0.11417516966358157,
+      "portfolio_value": 9985.007496251876
+    }
+  ],
+  "portfolio_history": [
+    {
+      "timestamp": "2025-12-25 10:26:53",
+      "price": 87453.40625,
+      "portfolio_value": 9985.007496251876,
+      "profit": -14.992503748124363,
+      "profit_pct": -0.14992503748124364,
+      "position": 1.0,
+      "cash": 0.0,
+      "coins": 0.11417516966358157
+    },
+    {
+      "timestamp": "2025-12-25 10:27:54",
+      "price": 87453.40625,
+      "portfolio_value": 9985.007496251876,
+      "profit": -14.992503748124363,
+      "profit_pct": -0.14992503748124364,
+      "position": 1.0,
+      "cash": 0.0,
+      "coins": 0.11417516966358157
+    },
+    {
+      "timestamp": "2025-12-25 10:28:55",
+      "price": 87455.4765625,
+      "portfolio_value": 9985.24387453282,
+      "profit": -14.756125467180027,
+      "profit_pct": -0.14756125467180028,
+      "position": 1.0,
+      "cash": 0.0,
+      "coins": 0.11417516966358157
+    },
+    {
+      "timestamp": "2025-12-25 10:29:55",
+      "price": 87455.4765625,
+      "portfolio_value": 9985.24387453282,
+      "profit": -14.756125467180027,
+      "profit_pct": -0.14756125467180028,
+      "position": 1.0,
+      "cash": 0.0,
+      "coins": 0.11417516966358157
+    },
+    {
+      "timestamp": "2025-12-25 10:30:56",
+      "price": 87428.8125,
+      "portfolio_value": 9982.199500672961,
+      "profit": -17.80049932703878,
+      "profit_pct": -0.17800499327038777,
+      "position": 1.0,
+      "cash": 0.0,
+      "coins": 0.11417516966358157
+    }
+  ],
+  "final_stats": {
+    "total_trades": 1,
+    "final_portfolio": {
+      "timestamp": "2025-12-25 10:30:56",
+      "price": 87428.8125,
+      "portfolio_value": 9982.199500672961,
+      "profit": -17.80049932703878,
+      "profit_pct": -0.17800499327038777,
+      "position": 1.0,
+      "cash": 0.0,
+      "coins": 0.11417516966358157
+    }
+  }
+}

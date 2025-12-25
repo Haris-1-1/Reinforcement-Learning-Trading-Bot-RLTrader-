@@ -1,0 +1,87 @@
+{
+  "config": {
+    "symbol": "BTC-USD",
+    "interval": "1m",
+    "window_size": 24,
+    "initial_cash": 10000.0,
+    "fee": 0.001,
+    "slippage": 0.0005,
+    "update_interval": 60,
+    "model_path": "../models/best_model.pth",
+    "log_file": "../logs/live_trading_log.json"
+  },
+  "trades": [
+    {
+      "timestamp": "2025-12-25 10:43:28",
+      "action": "BUY",
+      "price": 87457.98839062499,
+      "coins": 0.11422627233752923,
+      "portfolio_value": 9985.007496251876
+    }
+  ],
+  "portfolio_history": [
+    {
+      "timestamp": "2025-12-25 10:41:27",
+      "price": 87398.5546875,
+      "portfolio_value": 10000.0,
+      "profit": 0.0,
+      "profit_pct": 0.0,
+      "position": 0.0,
+      "cash": 10000.0,
+      "coins": 0.0
+    },
+    {
+      "timestamp": "2025-12-25 10:42:28",
+      "price": 87409.875,
+      "portfolio_value": 10000.0,
+      "profit": 0.0,
+      "profit_pct": 0.0,
+      "position": 0.0,
+      "cash": 10000.0,
+      "coins": 0.0
+    },
+    {
+      "timestamp": "2025-12-25 10:43:28",
+      "price": 87414.28125,
+      "portfolio_value": 9985.007496251876,
+      "profit": -14.992503748124363,
+      "profit_pct": -0.14992503748124364,
+      "position": 1.0,
+      "cash": 0.0,
+      "coins": 0.11422627233752923
+    },
+    {
+      "timestamp": "2025-12-25 10:44:29",
+      "price": 87432.265625,
+      "portfolio_value": 9987.061784368445,
+      "profit": -12.938215631555067,
+      "profit_pct": -0.12938215631555067,
+      "position": 1.0,
+      "cash": 0.0,
+      "coins": 0.11422627233752923
+    },
+    {
+      "timestamp": "2025-12-25 10:45:29",
+      "price": 87432.265625,
+      "portfolio_value": 9987.061784368445,
+      "profit": -12.938215631555067,
+      "profit_pct": -0.12938215631555067,
+      "position": 1.0,
+      "cash": 0.0,
+      "coins": 0.11422627233752923
+    }
+  ],
+  "final_stats": {
+    "total_trades": 1,
+    "final_portfolio": {
+      "timestamp": "2025-12-25 10:45:29",
+      "price": 87432.265625,
+      "portfolio_value": 9987.061784368445,
+      "profit": -12.938215631555067,
+      "profit_pct": -0.12938215631555067,
+      "position": 1.0,
+      "cash": 0.0,
+      "coins": 0.11422627233752923
+    }
+  }
+}
