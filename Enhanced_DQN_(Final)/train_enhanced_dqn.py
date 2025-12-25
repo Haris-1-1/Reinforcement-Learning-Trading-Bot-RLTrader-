@@ -45,11 +45,11 @@ CONFIG = {
     "agent": {
         "batch_size": 64,
         "episodes": 50,
-        "target_update_freq": 1000,
-        "learning_rate": 0.0001,
+        "target_update_freq": 2000,
+        "learning_rate": 0.00005,
         "epsilon_start": 1.0,
-        "epsilon_min": 0.05,
-        "epsilon_decay": 0.99995
+        "epsilon_min": 0.15,
+        "epsilon_decay": 0.99999
     },
     "paths": {
         "models": "models/",

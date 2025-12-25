@@ -254,7 +254,10 @@ class Agent:
         
         # Epsilon decay
         if self.epsilon > self.epsilon_min:
-            self.epsilon *= self.epsilon_decay
+            # LINEAR decay instead of exponential for better control
+            # Decrease epsilon by a fixed amount per step
+            decay_amount = (1.0 - self.epsilon_min) / 1000000  # Will reach min after ~1M steps
+            self.epsilon = max(self.epsilon_min, self.epsilon - decay_amount)
         
         return loss.item()
 

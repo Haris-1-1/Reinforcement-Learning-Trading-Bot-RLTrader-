@@ -1,0 +1,48 @@
+{
+  "symbol": "BTC-USD",
+  "test_period": "2024-01-01 to 2025-11-01",
+  "bot_return": 0.2622965098417022,
+  "bot_final_value": 12622.965098417022,
+  "benchmarks": {
+    "buy_hold": {
+      "return": -0.0716599013400907,
+      "final_value": 9283.400986599094
+    },
+    "random": {
+      "return": -0.5629484239679483,
+      "final_value": 4370.515760320517
+    },
+    "ma_crossover": {
+      "return": -0.05253718323161011,
+      "final_value": 9474.628167683899
+    }
+  },
+  "config": {
+    "data": {
+      "symbol": "BTC-USD",
+      "start_date": "2024-01-01",
+      "end_date": "2025-11-01",
+      "interval": "1h",
+      "window_size": 24,
+      "test_split": 0.15
+    },
+    "environment": {
+      "initial_cash": 10000.0,
+      "fee": 0.001,
+      "slippage": 0.0005
+    },
+    "agent": {
+      "batch_size": 64,
+      "episodes": 50,
+      "target_update_freq": 2000,
+      "learning_rate": 5e-05,
+      "epsilon_start": 1.0,
+      "epsilon_min": 0.15,
+      "epsilon_decay": 0.99999
+    },
+    "paths": {
+      "models": "models/",
+      "logs": "logs/"
+    }
+  }
+}
