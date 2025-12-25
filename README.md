@@ -203,7 +203,6 @@ Dieses Projekt ist unter der MIT-Lizenz lizenziert.
 
 ## Ressourcen
 
-- [Vollständige Projektdokumentation (PDF)](Rl%20doku%20für%20git.pdf)
 - [Phase 1: Agenten-Vergleich](docs/PHASE1_AGENT_COMPARISON.md)
 - [Phase 2: Enhanced DQN](docs/PHASE2_ENHANCED_DQN.md)
 - [Phase 3: Finales System](docs/PHASE3_FINAL_SYSTEM.md)
