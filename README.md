@@ -191,7 +191,7 @@ Vergleich gegen:
 
 **Haris Salii & Fenlin Chirakal**
 
-Reinforcement Learning Projekt - 2024/2025
+Reinforcement Learning Projekt - 2025
 
 ---
 
@@ -202,7 +202,6 @@ Dieses Projekt ist unter der MIT-Lizenz lizenziert.
 ---
 
 ## Ressourcen
-- [Web-Doku:](docs/index.html)
 - [Phase 1: Agenten-Vergleich](docs/PHASE1_AGENT_COMPARISON.md)
 - [Phase 2: Enhanced DQN](docs/PHASE2_ENHANCED_DQN.md)
 - [Phase 3: Finales System](docs/PHASE3_FINAL_SYSTEM.md)
