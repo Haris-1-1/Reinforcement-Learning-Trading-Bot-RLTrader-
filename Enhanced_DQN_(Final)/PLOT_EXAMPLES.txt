@@ -10,14 +10,14 @@ Nach dem Training werden automatisch 3 Plot-Dateien erstellt:
 
 ╔══════════════════════════════════════════════════════════════════════════╗
 ║                                                                          ║
-║  📊 PANEL 1: Portfolio Value Over Training                               ║
+║   PANEL 1: Portfolio Value Over Training                               ║
 ║  ────────────────────────────────────────────────────────────────────   ║
 ║                                                                          ║
 ║       $15k ┤                                    ╭──●  ← Best Episode    ║
 ║            │                              ╭────╯                         ║
 ║       $12k ┤                        ╭────╯                               ║
 ║            │                  ╭────╯                                     ║
-║  Initial→ $10k ┼─────────────●─────────────────────────────────────    ║
+║  Initial $10k ┼─────────────●─────────────────────────────────────    ║
 ║            │       ╰─╮                                                   ║
 ║        $8k ┤          ╰─╮                                                ║
 ║            │             ╰──╮                                            ║
@@ -30,7 +30,7 @@ Nach dem Training werden automatisch 3 Plot-Dateien erstellt:
 ║                                                                          ║
 ╠══════════════════════════════════════════════════════════════════════════╣
 ║                                                                          ║
-║  📊 PANEL 2: Cumulative Return                                           ║
+║   PANEL 2: Cumulative Return                                           ║
 ║  ────────────────────────────────────────────────────────────────────   ║
 ║                                                                          ║
 ║      +30% ┤                                    ╭───                      ║
@@ -49,7 +49,7 @@ Nach dem Training werden automatisch 3 Plot-Dateien erstellt:
 ║                                                                          ║
 ╠══════════════════════════════════════════════════════════════════════════╣
 ║                                                                          ║
-║  📊 PANEL 3: Episode Rewards (Log Returns)                               ║
+║   PANEL 3: Episode Rewards (Log Returns)                               ║
 ║  ────────────────────────────────────────────────────────────────────   ║
 ║                                                                          ║
 ║      0.3 ┤     ●                    ●                                    ║
@@ -68,7 +68,7 @@ Nach dem Training werden automatisch 3 Plot-Dateien erstellt:
 ║                                                                          ║
 ╠══════════════════════════════════════════════════════════════════════════╣
 ║                                                                          ║
-║  📊 PANEL 4: Trading Frequency                                           ║
+║   PANEL 4: Trading Frequency                                           ║
 ║  ────────────────────────────────────────────────────────────────────   ║
 ║                                                                          ║
 ║     100 ┤   ▐▌                          ▐▌                              ║
@@ -76,7 +76,7 @@ Nach dem Training werden automatisch 3 Plot-Dateien erstellt:
 ║      80 ┤   ▐▌    ▐▌    ▐▌              ▐▌    ▐▌    ▐▌                  ║
 ║         │   ▐▌    ▐▌    ▐▌    ▐▌        ▐▌    ▐▌    ▐▌                  ║
 ║      60 ┤   ▐▌    ▐▌    ▐▌    ▐▌    ▐▌  ▐▌    ▐▌    ▐▌    ▐▌            ║
-║  Avg→ 45├---●-----●-----●-----●-----●---●-----●-----●-----●---         ║
+║  Avg 45├---●-----●-----●-----●-----●---●-----●-----●-----●---         ║
 ║      40 ┤   ▐▌    ▐▌    ▐▌    ▐▌    ▐▌  ▐▌    ▐▌    ▐▌    ▐▌    ▐▌      ║
 ║         │   ▐▌    ▐▌    ▐▌    ▐▌    ▐▌  ▐▌    ▐▌    ▐▌    ▐▌    ▐▌      ║
 ║      20 ┤   ▐▌    ▐▌    ▐▌    ▐▌    ▐▌  ▐▌    ▐▌    ▐▌    ▐▌    ▐▌      ║
@@ -87,7 +87,7 @@ Nach dem Training werden automatisch 3 Plot-Dateien erstellt:
 ║                                                                          ║
 ╠══════════════════════════════════════════════════════════════════════════╣
 ║                                                                          ║
-║  📊 PANEL 5: Epsilon Decay (Exploration → Exploitation)                  ║
+║   PANEL 5: Epsilon Decay (Exploration  Exploitation)                  ║
 ║  ────────────────────────────────────────────────────────────────────   ║
 ║                                                                          ║
 ║     1.0 ┤●                                                               ║
@@ -109,7 +109,7 @@ Nach dem Training werden automatisch 3 Plot-Dateien erstellt:
 ║                                                                          ║
 ╠══════════════════════════════════════════════════════════════════════════╣
 ║                                                                          ║
-║  📊 PANEL 6: Training Loss                                               ║
+║   PANEL 6: Training Loss                                               ║
 ║  ────────────────────────────────────────────────────────────────────   ║
 ║                                                                          ║
 ║     0.5 ┤●●●●                                                            ║
@@ -136,14 +136,14 @@ WAS DU SIEHST:
 - Oben Rechts: Finale Return in %
 - Mitte Links: Rewards oszillieren aber Trend nach oben
 - Mitte Rechts: Trading Frequency relativ konstant
-- Unten Links: Epsilon sinkt von 1.0 → 0.05 (weniger Exploration)
+- Unten Links: Epsilon sinkt von 1.0  0.05 (weniger Exploration)
 - Unten Rechts: Loss sinkt und stabilisiert sich
 
 INTERPRETATION:
-✅ Portfolio steigt = Agent lernt
-✅ Loss sinkt = Training funktioniert
-✅ Epsilon sinkt = Wechsel von Exploration zu Exploitation
-✅ Trades relativ stabil = Keine Überreaktion
+ Portfolio steigt = Agent lernt
+ Loss sinkt = Training funktioniert
+ Epsilon sinkt = Wechsel von Exploration zu Exploitation
+ Trades relativ stabil = Keine Überreaktion
 
 ================================================================================
 2. BENCHMARK_COMPARISON.PNG (2 Panels)
@@ -151,7 +151,7 @@ INTERPRETATION:
 
 ╔══════════════════════════════════════════════════════════════════════════╗
 ║                                                                          ║
-║  📊 PANEL 1: Strategy Returns Comparison                                 ║
+║   PANEL 1: Strategy Returns Comparison                                 ║
 ║  ────────────────────────────────────────────────────────────────────   ║
 ║                                                                          ║
 ║      +30% ┤                                                              ║
@@ -178,7 +178,7 @@ INTERPRETATION:
 ║                                                                          ║
 ╠══════════════════════════════════════════════════════════════════════════╣
 ║                                                                          ║
-║  📊 PANEL 2: Final Portfolio Comparison                                  ║
+║   PANEL 2: Final Portfolio Comparison                                  ║
 ║  ────────────────────────────────────────────────────────────────────   ║
 ║                                                                          ║
 ║   $14k ┤                                                                 ║
@@ -189,7 +189,7 @@ INTERPRETATION:
 ║        │      ▓▓▓▓▓▓▓  ░░░░░░                                            ║
 ║   $11k ┤      ▓▓▓▓▓▓▓  ░░░░░░  $11,820                                   ║
 ║        │      ▓▓▓▓▓▓▓  ░░░░░░    ↑     ▒▒▒▒▒                             ║
-║ Initial→$10k ┼──●───●───●───●────●─────●─────●── (Red Dashed)           ║
+║ Initial$10k ┼──●───●───●───●────●─────●─────●── (Red Dashed)           ║
 ║        │      ▓▓▓▓▓▓▓  ░░░░░░  ▒▒▒▒▒  $11,250                            ║
 ║    $9k ┤      ▓▓▓▓▓▓▓  ░░░░░░  ▒▒▒▒▒    ↑                                ║
 ║        │     Enhanced  Buy &    MA                                       ║
@@ -209,9 +209,9 @@ WAS DU SIEHST:
 - Rote gestrichelte Linie = Initial Capital ($10,000)
 
 INTERPRETATION:
-✅ Bot return > Buy & Hold = Agent lernt Markt zu timen
-✅ Bot >> Random = Nicht nur Glück, echtes Lernen
-✅ Bot > MA Crossover = Besser als klassische TA Strategie
+ Bot return > Buy & Hold = Agent lernt Markt zu timen
+ Bot >> Random = Nicht nur Glück, echtes Lernen
+ Bot > MA Crossover = Besser als klassische TA Strategie
 
 ================================================================================
 3. TRADE_ANALYSIS.PNG (2 Panels)
@@ -219,7 +219,7 @@ INTERPRETATION:
 
 ╔══════════════════════════════════════════════════════════════════════════╗
 ║                                                                          ║
-║  📊 PANEL 1: Trade Execution on Price Chart                              ║
+║   PANEL 1: Trade Execution on Price Chart                              ║
 ║  ────────────────────────────────────────────────────────────────────   ║
 ║                                                                          ║
 ║   $50k ┤                    ╱╲              ╱╲    ▼ (Sell)               ║
@@ -242,7 +242,7 @@ INTERPRETATION:
 ║                                                                          ║
 ╠══════════════════════════════════════════════════════════════════════════╣
 ║                                                                          ║
-║  📊 PANEL 2: Portfolio Value at Each Trade                               ║
+║   PANEL 2: Portfolio Value at Each Trade                               ║
 ║  ────────────────────────────────────────────────────────────────────   ║
 ║                                                                          ║
 ║   $13k ┤                                            ●───●               ║
@@ -251,7 +251,7 @@ INTERPRETATION:
 ║        │                          ●───●                                  ║
 ║   $11k ┤                    ●───●                                        ║
 ║        │              ●───●                                              ║
-║ Initial→$10k ┼────●───────────────────────────────────────              ║
+║ Initial$10k ┼────●───────────────────────────────────────              ║
 ║        │                                                                 ║
 ║    $9k ┤                                                                 ║
 ║        └────┬────┬────┬────┬────┬────┬────┬────┬────┬────               ║
@@ -267,9 +267,9 @@ WAS DU SIEHST:
 - Unten: Wie Portfolio bei jedem Trade wächst
 
 INTERPRETATION:
-✅ Grüne ▲ bei Tiefs = Bot kauft günstig
-✅ Rote ▼ bei Hochs = Bot verkauft teuer
-✅ Portfolio steigt kontinuierlich = Profitable Trades
+ Grüne ▲ bei Tiefs = Bot kauft günstig
+ Rote ▼ bei Hochs = Bot verkauft teuer
+ Portfolio steigt kontinuierlich = Profitable Trades
 
 ================================================================================
 WO WERDEN DIE PLOTS GESPEICHERT?
@@ -290,18 +290,18 @@ WIE INTERPRETIERE ICH DIE PLOTS?
 ================================================================================
 
 GUTE ZEICHEN (Bot lernt):
-✅ Portfolio Value steigt über Zeit
-✅ Loss sinkt und stabilisiert sich
-✅ Returns besser als Benchmarks
-✅ Epsilon sinkt smooth von 1.0 → 0.05
-✅ Buys bei niedrigen Preisen, Sells bei hohen
+ Portfolio Value steigt über Zeit
+ Loss sinkt und stabilisiert sich
+ Returns besser als Benchmarks
+ Epsilon sinkt smooth von 1.0  0.05
+ Buys bei niedrigen Preisen, Sells bei hohen
 
 SCHLECHTE ZEICHEN (Bot lernt nicht):
-❌ Portfolio Value oszilliert wild ohne Trend
-❌ Loss bleibt hoch oder steigt
-❌ Returns schlechter als Buy & Hold
-❌ Zu viele Trades (>200 pro Episode)
-❌ Random Buy/Sell Muster
+ Portfolio Value oszilliert wild ohne Trend
+ Loss bleibt hoch oder steigt
+ Returns schlechter als Buy & Hold
+ Zu viele Trades (>200 pro Episode)
+ Random Buy/Sell Muster
 
 ================================================================================
 BEISPIEL FÜR ERFOLGREICHEN TRAININGSLAUF:
@@ -314,6 +314,6 @@ Episode 30:  Portfolio=$11,890 (konsistent)
 Episode 40:  Portfolio=$12,345 (sehr gut!)
 Episode 50:  Portfolio=$12,543 (BEST!)
 
-Final Test: +25.43% vs. Buy & Hold +18.20% → SUCCESS! 🎉
+Final Test: +25.43% vs. Buy & Hold +18.20%  SUCCESS! 
 
 ================================================================================

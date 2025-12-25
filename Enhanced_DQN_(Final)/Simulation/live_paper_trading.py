@@ -142,7 +142,7 @@ class LivePaperTrader:
         self.agent.policy_net.load_state_dict(checkpoint['model_state_dict'])
         self.agent.epsilon = 0.0  # No exploration in live trading!
         
-        print(f"✅ Model loaded successfully")
+        print(f"Model loaded successfully")
         print(f"   Training Episode: {checkpoint.get('episode', 'Unknown')}")
         print(f"   Portfolio at save: ${checkpoint.get('portfolio_value', 0):,.2f}\n")
         
@@ -187,12 +187,12 @@ class LivePaperTrader:
             df = df.reset_index()
             
             if len(df) < 100:
-                print(f"⚠️  Warning: Only {len(df)} bars fetched")
+                print(f"Warning: Only {len(df)} bars fetched")
             
             return df
             
         except Exception as e:
-            print(f"❌ Error fetching data: {e}")
+            print(f"Error fetching data: {e}")
             return None
     
     def _add_technical_indicators(self, df: pd.DataFrame) -> pd.DataFrame:
@@ -231,7 +231,7 @@ class LivePaperTrader:
         if hasattr(self, 'state_size'):
             expected_features = self.state_size
             if len(all_features) != expected_features:
-                print(f"⚠️  Warning: Feature count mismatch!")
+                print(f"Warning: Feature count mismatch!")
                 print(f"   Expected: {expected_features} features")
                 print(f"   Generated: {len(all_features)} features")
                 print(f"   This might cause issues - using what we have...")
@@ -256,7 +256,7 @@ class LivePaperTrader:
         # CRITICAL: Ensure we have the right number of features
         if hasattr(self, 'state_size'):
             if len(existing_cols) < self.state_size:
-                print(f"⚠️  Warning: Missing features!")
+                print(f"Warning: Missing features!")
                 print(f"   Need {self.state_size}, have {len(existing_cols)}")
                 print(f"   Padding with zeros...")
                 
@@ -268,7 +268,7 @@ class LivePaperTrader:
                     existing_cols.append(col_name)
             
             elif len(existing_cols) > self.state_size:
-                print(f"⚠️  Warning: Too many features!")
+                print(f"Warning: Too many features!")
                 print(f"   Need {self.state_size}, have {len(existing_cols)}")
                 print(f"   Truncating to first {self.state_size}...")
                 existing_cols = existing_cols[:self.state_size]
@@ -289,7 +289,7 @@ class LivePaperTrader:
             all_data = df[existing_cols].values
             self.scaler.fit(all_data)
             self.scaler_fitted = True
-            print(f"✅ Feature scaler fitted ({len(existing_cols)} features)\n")
+            print(f"Feature scaler fitted ({len(existing_cols)} features)\n")
         
         # Transform window
         window_scaled = self.scaler.transform(window_data)
@@ -317,7 +317,7 @@ class LivePaperTrader:
         # FINAL CHECK: Verify dimension
         expected_dim = (self.state_size * self.window_size) + 3
         if len(observation) != expected_dim:
-            print(f"❌ ERROR: Observation dimension mismatch!")
+            print(f"ERROR: Observation dimension mismatch!")
             print(f"   Expected: {expected_dim}")
             print(f"   Got: {len(observation)}")
             raise ValueError(f"Observation dimension mismatch: {len(observation)} != {expected_dim}")
@@ -366,7 +366,7 @@ class LivePaperTrader:
             }
             self.trades.append(trade)
             
-            print(f"🟢 BUY  @ ${exec_price:,.2f} | Coins: {self.coins:.6f}")
+            print(f"BUY  @ ${exec_price:,.2f} | Coins: {self.coins:.6f}")
         
         # SELL
         elif action == 2 and self.coins > 0:
@@ -391,11 +391,11 @@ class LivePaperTrader:
             }
             self.trades.append(trade)
             
-            print(f"🔴 SELL @ ${exec_price:,.2f} | Cash: ${self.cash:,.2f} | P/L: ${profit:+,.2f}")
+            print(f"SELL @ ${exec_price:,.2f} | Cash: ${self.cash:,.2f} | P/L: ${profit:+,.2f}")
         
         # HOLD
         else:
-            print(f"⚪ HOLD @ ${current_price:,.2f}")
+            print(f"HOLD @ ${current_price:,.2f}")
     
     def get_portfolio_value(self, current_price: float) -> float:
         """Calculate current portfolio value"""
@@ -419,8 +419,8 @@ class LivePaperTrader:
         }
         
         self.portfolio_history.append(status)
-        
-        print(f"\n📊 Portfolio: ${portfolio_value:,.2f} | P/L: ${profit:+,.2f} ({profit_pct:+.2f}%)")
+
+        print(f"\nPortfolio: ${portfolio_value:,.2f} | P/L: ${profit:+,.2f} ({profit_pct:+.2f}%)")
         print(f"   Position: {self.position:.1%} | Cash: ${self.cash:,.2f} | Coins: {self.coins:.6f}")
     
     def _save_logs(self):
@@ -440,8 +440,8 @@ class LivePaperTrader:
         
         with open(log_file, 'w') as f:
             json.dump(logs, f, indent=2)
-        
-        print(f"\n💾 Logs saved to: {log_file}")
+
+        print(f"\nLogs saved to: {log_file}")
     
     def run(self, duration_minutes: int = 60):
         """
@@ -450,7 +450,7 @@ class LivePaperTrader:
         Args:
             duration_minutes: How long to run (in minutes)
         """
-        print(f"\n🚀 Starting Live Paper Trading")
+        print(f"\nStarting Live Paper Trading")
         print(f"   Duration: {duration_minutes} minutes")
         print(f"   Update interval: {self.config['update_interval']} seconds\n")
         print("="*70)
@@ -466,13 +466,13 @@ class LivePaperTrader:
                 
                 print(f"\n[{current_time.strftime('%H:%M:%S')}] Iteration {iteration}")
                 print("-" * 70)
-                
+
                 # 1. Fetch latest data
-                print("📥 Fetching latest data...")
+                print("Fetching latest data...")
                 df = self._fetch_latest_data()
-                
+
                 if df is None or len(df) < 50:
-                    print("⚠️  Insufficient data, waiting...")
+                    print("Insufficient data, waiting...")
                     time.sleep(self.config['update_interval'])
                     continue
                 
@@ -484,7 +484,7 @@ class LivePaperTrader:
                 
                 # 4. Get current price
                 current_price = df['Close'].iloc[-1]
-                print(f"💰 Current Price: ${current_price:,.2f}")
+                print(f"Current Price: ${current_price:,.2f}")
                 
                 # 5. Get action from agent
                 action_mask = self._get_action_mask()
@@ -501,11 +501,11 @@ class LivePaperTrader:
                 
                 # 9. Wait for next update
                 remaining_time = self.config['update_interval']
-                print(f"\n⏳ Next update in {remaining_time}s...")
+                print(f"\nNext update in {remaining_time}s...")
                 time.sleep(remaining_time)
         
         except KeyboardInterrupt:
-            print("\n\n⚠️  Trading interrupted by user")
+            print("\n\nTrading interrupted by user")
         
         finally:
             # Final report
@@ -540,7 +540,7 @@ def main():
     
     # Check if model exists
     if not os.path.exists(LIVE_CONFIG['model_path']):
-        print(f"❌ ERROR: Model not found at {LIVE_CONFIG['model_path']}")
+        print(f"ERROR: Model not found at {LIVE_CONFIG['model_path']}")
         print("Please train the model first using train_enhanced_dqn.py")
         return
     
@@ -585,6 +585,6 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("\n\nProgram interrupted by user.")
     except Exception as e:
-        print(f"\n\n❌ CRITICAL ERROR: {e}")
+        print(f"\n\nCRITICAL ERROR: {e}")
         import traceback
         traceback.print_exc()

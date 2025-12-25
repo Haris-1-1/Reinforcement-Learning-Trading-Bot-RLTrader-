@@ -128,7 +128,7 @@ class TrainingVisualizer:
         ax5.plot(epsilon_history, 'c-', linewidth=2)
         ax5.set_xlabel('Training Step', fontsize=12)
         ax5.set_ylabel('Epsilon (Exploration Rate)', fontsize=12)
-        ax5.set_title('Epsilon Decay (Exploration → Exploitation)', fontsize=14, fontweight='bold')
+        ax5.set_title('Epsilon Decay (Exploration  Exploitation)', fontsize=14, fontweight='bold')
         ax5.grid(True, alpha=0.3)
         ax5.set_ylim([0, 1.05])
         

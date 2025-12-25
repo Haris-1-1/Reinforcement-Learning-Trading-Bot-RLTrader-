@@ -2,16 +2,16 @@
 ENHANCED DQN TRADING BOT - INSTALLATION & QUICK START GUIDE
 ================================================================================
 
-⏰ TOTAL TIME: 5 Minutes Setup + 2-4 Hours Training
+ TOTAL TIME: 5 Minutes Setup + 2-4 Hours Training
 
 ================================================================================
 STEP 1: SYSTEM REQUIREMENTS
 ================================================================================
 
-✅ Python 3.8 or higher
-✅ 8GB RAM minimum (16GB recommended)
-✅ GPU optional (but speeds up training 3-5x)
-✅ Internet connection (for data download)
+ Python 3.8 or higher
+ 8GB RAM minimum (16GB recommended)
+ GPU optional (but speeds up training 3-5x)
+ Internet connection (for data download)
 
 ================================================================================
 STEP 2: INSTALL DEPENDENCIES
@@ -51,9 +51,9 @@ cd Enhanced_DQN_Fixed
 
 Test import:
 
-python -c "from utils.indicators import TechnicalIndicators; print('✅ Imports working!')"
+python -c "from utils.indicators import TechnicalIndicators; print(' Imports working!')"
 
-If you see "✅ Imports working!" - you're ready!
+If you see " Imports working!" - you're ready!
 
 ================================================================================
 STEP 5: RUN TRAINING (DEFAULT SETTINGS)
@@ -77,20 +77,20 @@ STEP 6: CUSTOMIZE (OPTIONAL)
 Edit train_enhanced_dqn.py to change:
 
 1. SYMBOL:
-   "symbol": "BTC-USD"  →  "ETH-USD", "AAPL", etc.
+   "symbol": "BTC-USD"    "ETH-USD", "AAPL", etc.
 
 2. TIME PERIOD:
-   "start_date": "2020-01-01"  →  "2018-01-01"
-   "end_date": "2024-01-01"    →  "2024-12-31"
+   "start_date": "2020-01-01"    "2018-01-01"
+   "end_date": "2024-01-01"      "2024-12-31"
 
 3. INTERVAL:
-   "interval": "1h"  →  "15m", "5m", "1d"
+   "interval": "1h"    "15m", "5m", "1d"
 
 4. EPISODES:
-   "episodes": 50  →  100, 200 (more = better but slower)
+   "episodes": 50    100, 200 (more = better but slower)
 
 5. CAPITAL:
-   "initial_cash": 10000.0  →  Any amount
+   "initial_cash": 10000.0    Any amount
 
 ================================================================================
 STEP 7: MONITOR TRAINING
@@ -158,8 +158,8 @@ QUICK TEST RUN (5 MINUTES)
 Want to test quickly? Edit train_enhanced_dqn.py:
 
 Change:
-  "episodes": 50  →  "episodes": 5
-  "start_date": "2020-01-01"  →  "2023-01-01"
+  "episodes": 50    "episodes": 5
+  "start_date": "2020-01-01"    "2023-01-01"
 
 This will run much faster for testing purposes.
 
@@ -192,12 +192,12 @@ action = agent.act(state, action_mask=info['action_mask'])
 NEXT STEPS
 ================================================================================
 
-1. ✅ Install dependencies
-2. ✅ Run train_enhanced_dqn.py
-3. ✅ Wait for training to complete (2-4 hours)
-4. ✅ Review results
-5. ✅ Experiment with different symbols/parameters
-6. ✅ Read README.md for more details
+1.  Install dependencies
+2.  Run train_enhanced_dqn.py
+3.  Wait for training to complete (2-4 hours)
+4.  Review results
+5.  Experiment with different symbols/parameters
+6.  Read README.md for more details
 
 ================================================================================
 SUPPORT
@@ -216,6 +216,6 @@ Run this command:
 
 python train_enhanced_dqn.py
 
-And watch your bot learn to trade! 🚀
+And watch your bot learn to trade! 
 
 ================================================================================

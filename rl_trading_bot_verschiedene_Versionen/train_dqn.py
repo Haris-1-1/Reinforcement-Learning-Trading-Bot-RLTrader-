@@ -22,7 +22,7 @@ def train_dqn_agent():
     """Train DQN agent."""
     
     print("\n" + "="*70)
-    print("🚀 RL TRADING BOT - DQN TRAINING")
+    print(" RL TRADING BOT - DQN TRAINING")
     print("="*70)
     print("Using Deep Q-Network with Experience Replay")
     print("="*70 + "\n")
@@ -73,7 +73,7 @@ def train_dqn_agent():
     # STEP 1: LOAD DATA
     # ════════════════════════════════════════════════════════════════
     print("="*70)
-    print("📊 STEP 1: LOADING DATA")
+    print(" STEP 1: LOADING DATA")
     print("="*70)
     
     data_loader = DQNDataLoader(
@@ -90,15 +90,15 @@ def train_dqn_agent():
     original_prices_train = data_loader.original_prices_train
     original_prices_test = data_loader.original_prices_test
     
-    print(f"\n📈 Train data: {len(train_data)} days")
-    print(f"📈 Test data: {len(test_data)} days")
-    print(f"💰 Price range (train): ${original_prices_train.min():.2f} - ${original_prices_train.max():.2f}")
+    print(f"\n Train data: {len(train_data)} days")
+    print(f" Test data: {len(test_data)} days")
+    print(f" Price range (train): ${original_prices_train.min():.2f} - ${original_prices_train.max():.2f}")
 
     # ════════════════════════════════════════════════════════════════
     # STEP 2: CREATE ENVIRONMENT
     # ════════════════════════════════════════════════════════════════
     print("\n" + "="*70)
-    print("🏗️ STEP 2: CREATING ENVIRONMENT")
+    print(" STEP 2: CREATING ENVIRONMENT")
     print("="*70)
     
     env = AdvancedTradingEnv(
@@ -115,7 +115,7 @@ def train_dqn_agent():
     # STEP 3: CREATE DQN AGENT
     # ════════════════════════════════════════════════════════════════
     print("\n" + "="*70)
-    print("🤖 STEP 3: CREATING DQN AGENT")
+    print(" STEP 3: CREATING DQN AGENT")
     print("="*70)
     
     agent = DQNAgent(env, config)
@@ -124,7 +124,7 @@ def train_dqn_agent():
     # STEP 4: TRAIN
     # ════════════════════════════════════════════════════════════════
     print("\n" + "="*70)
-    print("🎯 STEP 4: TRAINING")
+    print(" STEP 4: TRAINING")
     print("="*70)
     
     metrics = agent.train(
@@ -136,7 +136,7 @@ def train_dqn_agent():
     # STEP 5: SAVE MODEL
     # ════════════════════════════════════════════════════════════════
     print("="*70)
-    print("💾 STEP 5: SAVING MODEL")
+    print(" STEP 5: SAVING MODEL")
     print("="*70)
     
     os.makedirs('results', exist_ok=True)
@@ -153,7 +153,7 @@ def train_dqn_agent():
     # STEP 6: EVALUATE ON TRAIN DATA
     # ════════════════════════════════════════════════════════════════
     print("\n" + "="*70)
-    print("📊 STEP 6: EVALUATION ON TRAINING DATA")
+    print(" STEP 6: EVALUATION ON TRAINING DATA")
     print("="*70)
     
     obs, info = env.reset()
@@ -177,7 +177,7 @@ def train_dqn_agent():
     # STEP 7: EVALUATE ON TEST DATA
     # ════════════════════════════════════════════════════════════════
     print("\n" + "="*70)
-    print("🧪 STEP 7: EVALUATION ON TEST DATA")
+    print(" STEP 7: EVALUATION ON TEST DATA")
     print("="*70)
     
     test_env = AdvancedTradingEnv(
@@ -211,7 +211,7 @@ def train_dqn_agent():
     # STEP 8: BUY & HOLD COMPARISON
     # ════════════════════════════════════════════════════════════════
     print("\n" + "="*70)
-    print("📈 STEP 8: BUY & HOLD COMPARISON")
+    print(" STEP 8: BUY & HOLD COMPARISON")
     print("="*70)
     
     # Train Buy & Hold
@@ -229,7 +229,7 @@ def train_dqn_agent():
     print("-" * 50)
     print(f"{'Outperformance':<20} | {(train_return-train_bh_return)*100:>+11.2f}% | {(test_return-test_bh_return)*100:>+11.2f}%")
     
-    print(f"\n💰 Final Values:")
+    print(f"\n Final Values:")
     print(f"   Agent Train: ${train_final:,.2f}  |  Buy&Hold: ${train_bh_final:,.2f}")
     print(f"   Agent Test:  ${test_final:,.2f}  |  Buy&Hold: ${test_bh_final:,.2f}")
 
@@ -237,7 +237,7 @@ def train_dqn_agent():
     # STEP 9: TRAINING METRICS
     # ════════════════════════════════════════════════════════════════
     print("\n" + "="*70)
-    print("📉 STEP 9: TRAINING METRICS")
+    print(" STEP 9: TRAINING METRICS")
     print("="*70)
     
     print(f"Total Episodes: {metrics['total_episodes']}")
@@ -250,18 +250,18 @@ def train_dqn_agent():
     # SUMMARY
     # ════════════════════════════════════════════════════════════════
     print("\n" + "="*70)
-    print("✅ TRAINING COMPLETE!")
+    print(" TRAINING COMPLETE!")
     print("="*70)
     print(f"Model: {model_path}")
     print(f"Config: {config_path}")
     
     # Bewertung
     if test_return > test_bh_return:
-        print("\n🏆 AGENT BEATS BUY & HOLD! 🏆")
+        print("\n AGENT BEATS BUY & HOLD! ")
     elif test_return > 0:
-        print("\n✅ Agent made profit, but didn't beat Buy & Hold")
+        print("\n Agent made profit, but didn't beat Buy & Hold")
     else:
-        print("\n⚠️ Agent lost money - try:")
+        print("\n Agent lost money - try:")
         print("   - Increase total_timesteps (DQN needs more training)")
         print("   - Adjust learning_rate (try 0.0001 or 0.00005)")
         print("   - Increase hidden_sizes ([256, 256, 128])")

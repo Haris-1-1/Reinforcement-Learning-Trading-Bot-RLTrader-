@@ -141,7 +141,7 @@ class QLearningAgent(BaseAgent):
         print(f"Q-LEARNING TRAINING")
         print(f"{'='*60}")
         print(f"Total timesteps: {total_timesteps:,}")
-        print(f"Epsilon: {self.epsilon:.2f} → {self.epsilon_min:.2f}")
+        print(f"Epsilon: {self.epsilon:.2f}  {self.epsilon_min:.2f}")
         print(f"Decay rate: {self.epsilon_decay}")
         print(f"{'='*60}\n")
 

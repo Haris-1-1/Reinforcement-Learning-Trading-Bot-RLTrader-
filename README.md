@@ -1,67 +1,209 @@
-# Reinforcement-Learning-Trading-Bot-RLTrader-
-Entwicklung eines autonomen Trading-Bots, der mit Reinforcement Learning (RL) lernt, profitable Handelsentscheidungen auf Basis historischer und aktueller Marktdaten zu treffen.
+# RL Trading Bot - Reinforcement Learning Trading Agent
 
----
-## Theorie RL
-### RL erklärt: 
-Ein Agent ist wie ein kleines Kind, das etwas Neues lernen will. Die Umgebung ist der Spielplatz, auf dem es spielt. Das Kind probiert Dinge aus, zum Beispiel klettern, rutschen oder schaukeln.
-Für gute Aktionen bekommt es Belohnungen (wie ein Lob oder ein Gummibärchen). Für schlechte Aktionen bekommt es keine Belohnung oder vielleicht eine kleine Warnung.
-Mit der Zeit merkt das Kind:
-„Wenn ich bestimmte Dinge tue, bekomme ich mehr Belohnungen!“
-Also versucht es immer klüger zu werden und herauszufinden, welche Entscheidungen ihm langfristig am meisten Gutes bringen.
-Genau das ist Reinforcement Learning: Ausprobieren, Belohnung bekommen, und Schritt für Schritt besser werden.
-###
-#### Trading-Kontext
-Ein Trading-Agent ist wie ein kleines Kind, das Börse spielen lernt. Die Umgebung ist nicht der Spielplatz, sondern der Markt also die Kurse, die rauf und runter gehen.
-Der Agent probiert verschiedene Dinge aus so wie ein Kind:
-Er kauft manchmal eine Aktie, er verkauft sie oder er wartet einfach.
-Wenn der Agent durch seine Aktion Geld verdient, bekommt er eine Belohnung (wie ein Gummibärchen). Wenn er Geld verliert, bekommt er eine schlechte Rückmeldung (wie ein kleines „Nein, das war nicht gut“).
-Mit der Zeit merkt der Agent: „Wenn ich in bestimmten Situationen kaufe oder verkaufe, bekomme ich mehr Belohnung!“
-Darum versucht er immer besser zu verstehen, welche Entscheidungen ihm auf Dauer am meisten Gewinn bringen, genau wie ein Kind lernt, welche Spiele am meisten Spaß machen.
-So funktioniert Reinforcement Learning im Trading: Der Agent probiert aus, lernt aus seinen Gewinnen und Fehlern und wird Schritt für Schritt ein besserer Trader.
+> Entwicklung eines autonomen Trading-Bots, der mit Deep Reinforcement Learning profitable Handelsentscheidungen auf Basis historischer Marktdaten trifft.
+
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ---
 
-### Environment
-Wie ist ein Enviroment aufgebaut. Mann kan sich das wie ein Lebensmittelautomat vorstellen, der immer das selbe macht. Der Automat hat einen Schlitz, indem du einen Aktion reinwirfst. Aktion(1 Lebensmittel kaufen, 2 spuckt wieder raus weil zu wenig, 3 nichts tun). Danach kommt der Zustand(State) er beschreibt wie der Automat aussieht(Aktueller Kontostand, Preis des Lebensmittels, ob du schon was gekauft hast). Und so sieht es aus wenn ein Mensch(Agent) den Automaten(Env) benutzen würde. Agent → Aktion 1 (kaufen), Automat → "Zu wenig Geld!" → Reward -1 oder Agent → Aktion 3 (warten), Automat → "Okay, nichts passiert." → Reward 0
-#### Oder
-Enviroment kann man sich auch wie ein Klassenzimmer vorstellen: Regeln sind festgelegt wie test, aufgaben. Lehrer bewertet, richtig 5 punkte falsch -10. Übungen werde dort gemacht. Und am ende des Tages bekommst du ein Feedback. Kurzgefasst das Klassenzimmer speichert nicht was ich gelernt habe, es teste/bewertet mich nur. Kurzgesagt ein Ort wo gelernt wird.
+## Projektübersicht
 
-### Environment Design
+Dieses Projekt dokumentiert die experimentelle Entwicklung eines Trading-Agenten, der mittels **Deep Reinforcement Learning (DQN)** profitable Entscheidungen unter Berücksichtigung realer Marktfriktionen (Gebühren, Slippage) trifft.
 
-##### State
-Ein Trading bot wie man bei der Demo version sieht braucht nicht allzu viel in State ausser Preis und Position. Warum preis und Position, wenn eine aktion passiert ändert sich der State zu State plus 1 oder minus 1. Aber wir wollen unseren Trading bot komplexer machen und den State komplexer machen, heisst wir fügen zusaätzlich zu Preis und Position Preisbezogene Features und technische Indikatoren. **Preisbezogene Features: aktueller Preis, Open, High, Low, Close, Volume**. Technische Indikatoren, das sind mathematische Werkzeuge, die Tradern Muster im Preis zeigen. **Moving Averages** (MA5, MA20, MA50…), das ist der Durchschnittspreis der letzten X Tage/Schritte. **RSI (Relative Strength Index)**, ein Wert zwischen 0 und 100, der zeigt: über 70 → überkauft (Preis vielleicht zu hoch), unter 30 → überverkauft (Preis vielleicht zu niedrig) → Zeigt, ob der Markt „gestresst“ ist. **MACD**, ein Trendfolge-Indikator mit zwei Teilen: Signal → zeigt die Trendrichtung, Histogram → zeigt Stärke / Geschwindigkeit des Trends → Gut zum Erkennen von Trendwechseln. **Bollinger Bands** (Upper, Lower), drei Linien: mittlere Linie: Durchschnitt, obere Linie: Durchschnitt + Volatilität, untere Linie: Durchschnitt – Volatilität → Sie zeigen, wie „ausgedehnt“ der Preis gerade ist. Wenn der Preis oben anstößt → vielleicht zu hoch. Wenn unten → vielleicht zu tief. **Volatility** (ATR – Average True Range), misst, wie stark sich der Preis bewegt. Hohe ATR → Markt ist wild, große Bewegungen, niedrige ATR → Markt ist ruhig → Extrem wichtig für Risiko & Positionsgrößen. Preisbezogene Daten sagen dir, wo der Preis war. Indikatoren sagen dir, was der Preis gerade fühlt (Trend, Stärke, Volatilität). Zwar startet wir mit einem RL Paper trading bot aber desto trotz sollte er bereit sein oder nur mit wenig umbau zu einem echten Trading bot zu verwandeln. Beim Demo habe ich festgestellt das er kurze orders gemacht hat und dies bei tading-Gebühren wird schnell teuer das heisst wir müssen den Bot so schlau machen das er selbst weiss wie er dies mit wenig kosten umgeht z.b mit Negativ reward bei gebühren villeicht lernt er dan mit der zeit längere Orders zu machen. Deshalb werden Constraint eingeführt Lags (Execution Delay), Fees (Maker/Taker Gebühren), Slippage, Trade Frequency Penalty, Holding Time / Overnight Risk, Position Size Constraints. Was gearde noch interresant wäre ist wenn man einen Vergleich hätte mit und ohne Restraint.
+### Finale Ergebnisse (Out-of-Sample Test)
 
-<img width="300" height="175" alt="image" src="https://github.com/user-attachments/assets/d8ce8f79-f9aa-499a-a91b-3b221312f3ad" />
-<img width="1536" height="1024" alt="ChatGPT Image 4  Dez  2025, 12_04_49" src="https://github.com/user-attachments/assets/5dd9764a-6c64-40d6-b7c4-b6e3e840d567" />
+| Strategie | Return | Performance |
+|-----------|--------|-------------|
+| **Enhanced DQN** | **+26.23%** | Gewinn in fallendem Markt |
+| Buy & Hold | -7.17% | Marktverlust |
+| MA Crossover | -5.25% | Technische Strategie |
+| Random Trading | -56.29% | Baseline (Gebührenvernichtung) |
 
+**Outperformance: +33% Alpha gegenüber dem Markt**
 
-
-##### Action Space
-Diskrete Aktionen (Buy, Sell, Hold), ideal für Q-Learning
-und leicht verständlich im Debugging.
-
-##### Reward
-Reward = realisierter Gewinn.
-Warum nicht unrealisiert? 
-→ Weil der Agent sonst risikolose Buy-and-Hold Strategien bevorzugt.
-
-##### Episode Ending
-Episode endet am Ende des Datensatzes.
-
-### Agent
-Agent gleich schüler der ins Klassenzimmer(env) geht. Mache meine Aufgaben, bekomme Punkte als Rückmeldung. Was ich lerne im Klassenzimmer(env) wird in meinem Gehirn gespeichert darauffolgend werde ich schlauer, und treffe nächstes mal bessere Entscheidungen. Kurzgesagt Agent gleich derjenige der lernt.
-
-### Training
-
-### Backtest‑Auswertung
-
-### Paper‑Trading
-
-### Optional: Vorbereitung auf Real‑Trading
 ---
-HM
-- vergleich zwischen unterschiedliche Kryptos
-- vergleich mit ohne labels, heisst candle stick muster in geben und er lernt mit ihnen selbst.
-- verglecih lernphase vom agent 5 jahre,3 monate 1 woche etc.
-- mit ohne constraint
+
+## Projektphasen
+
+Das Projekt durchlief drei strategische Phasen:
+
+### Phase 1: Agenten-Vergleich (3 RL-Strategien)
+Systematischer Vergleich von drei Reinforcement Learning Ansätzen unter realistischen Marktbedingungen.
+
+**[Zur detaillierten Dokumentation →](docs/PHASE1_AGENT_COMPARISON.md)**
+
+**Getestete Algorithmen:**
+- Q-Learning (Tabellarisch)
+- DQN (Deep Q-Network)
+- PPO (Proximal Policy Optimization)
+
+**Ergebnis:** DQN zeigte das höchste Potenzial für signifikante Renditen.
+
+---
+
+### Phase 2: Enhanced "Smart Money" DQN
+Strategische Neuausrichtung mit fortgeschrittenem Feature Engineering und institutionellem Tracking.
+
+**[Zur detaillierten Dokumentation →](docs/PHASE2_ENHANCED_DQN.md)**
+
+**Key Features:**
+- Windowed Deep Q-Learning (zeitlicher Kontext)
+- Smart Money Indikatoren (Ichimoku, OBV, A/D Line)
+- Cyclical Time Encoding (sin/cos Zyklen)
+- Hybrid-Komponente (Supervised "Intuition")
+
+---
+
+### Phase 3: Finales System - Dueling Double DQN
+Höchste Evolutionsstufe mit modernster RL-Architektur und 42 technischen Indikatoren.
+
+**[Zur detaillierten Dokumentation →](docs/PHASE3_FINAL_SYSTEM.md)**
+
+**Architektur-Highlights:**
+- Dueling Network (Value + Advantage Streams)
+- Double DQN (Policy + Target Networks)
+- Action Masking (verhindert ungültige Aktionen)
+- 42 Features für "Whale Tracking"
+
+---
+
+## Quick Start
+
+### Installation
+
+```bash
+# Repository klonen
+git clone https://github.com/Haris-1-1/Reinforcement-Learning-Trading-Bot-RLTrader-.git
+cd Reinforcement-Learning-Trading-Bot-RLTrader-
+
+# Dependencies installieren
+pip install -r requirements.txt
+```
+
+### Training starten
+
+```bash
+# Finales System trainieren
+cd Enhanced_DQN_(Final)
+python train_enhanced_dqn.py
+```
+
+### Live Paper Trading
+
+```bash
+cd Enhanced_DQN_(Final)/Simulation
+python start_live_trading.py
+```
+
+---
+
+## Projektstruktur
+
+```
+Reinforcement-Learning-Trading-Bot-RLTrader-/
+│
+├── Demo/                                    # Phase 0: Initialer Proof-of-Concept
+│
+├── rl_trading_bot_verschiedene_Versionen/  # Phase 1: Agenten-Vergleich
+│   ├── agents/                             # Q-Learning, DQN, PPO
+│   ├── env/                                # Advanced Trading Environment
+│   └── train_*.py                          # Training Scripts
+│
+├── Enhanced Dnq trading bot/               # Phase 2: Enhanced DQN (Zwischenstufe)
+│
+├── Enhanced_DQN_(Final)/                   # Phase 3: Finales System
+│   ├── agents/                             # Dueling Double DQN
+│   ├── env/                                # Gymnasium Environment
+│   ├── utils/                              # Data Loader, Indicators, Visualizer
+│   ├── Simulation/                         # Live Paper Trading
+│   ├── models/                             # Gespeicherte Modelle
+│   └── plots/                              # Visualisierungen
+│
+└── docs/                                   # Detaillierte Dokumentationen
+    ├── PHASE1_AGENT_COMPARISON.md
+    ├── PHASE2_ENHANCED_DQN.md
+    └── PHASE3_FINAL_SYSTEM.md
+```
+
+---
+
+## Technische Highlights
+
+### 1. Smart Money Tracking
+Der Bot erkennt institutionelle Aktivitäten durch:
+- **On-Balance Volume (OBV)**: Kapitalzuflüsse vor Preisbewegungen
+- **Money Flow Index (MFI)**: Smart Money Footprint
+- **A/D Line**: Verdeckte Akkumulation
+- **Volume Spikes**: Wendepunkte durch institutionelle Käufe
+
+### 2. Cyclical Time Encoding
+Zeitliche Muster werden durch **sin/cos-Transformation** auf einen Kreis projiziert:
+- Markt-Öffnungszeiten
+- Wochenend-Liquidität
+- Zyklische Wiederholungen
+
+### 3. Dueling Architecture
+Das neuronale Netz trennt:
+- **Value Stream**: "Wie gefährlich ist der Markt?"
+- **Advantage Stream**: "Wie viel besser ist Kaufen vs. Halten?"
+
+Dies ermöglicht schnelleres Lernen von Risikovermeidung in Bärenmärkten.
+
+---
+
+## Wichtige Erkenntnisse
+
+1. **Informationsvorsprung entscheidend**: Die Erweiterung auf 42 Features (Smart Money Indikatoren) war kritisch für den Erfolg.
+
+2. **Architektur matters**: Dueling DQN + Action Masking führte zu signifikant schnellerer und stabilerer Konvergenz.
+
+3. **Gebühren als Lern-Signal**: Die Trade Frequency Penalty lehrte dem Agenten "Geduld" - er führt nur Trades mit hohem Erwartungswert aus.
+
+4. **Robustheit in Bärenmärkten**: Der Agent erzielte +26% Gewinn während der Markt -7% verlor - Beweis für echtes "Alpha".
+
+---
+
+## Benchmarks & Validierung
+
+Alle Tests erfolgten **Out-of-Sample** (Januar 2024 - November 2025) mit:
+- 0.1% Trading Fees
+- 0.05% Slippage
+- Frequency Penalty
+
+Vergleich gegen:
+- Buy & Hold (passive Referenz)
+- Random Agent (Gebühren-Baseline)
+- MA Crossover 20/50 (technische Strategie)
+
+---
+
+## Zukünftige Erweiterungen
+
+- **Multi-Asset Training**: Korrelationen zwischen Assets nutzen
+- **Sentiment-Analyse**: NLP-basierte News-Integration
+- **Transformer-Architekturen**: Attention-Mechanismen für längere zeitliche Abhängigkeiten
+
+---
+
+## Autoren
+
+**Haris Salii & Fenlin Chirakal**
+
+Reinforcement Learning Projekt - 2024/2025
+
+---
+
+## Lizenz
+
+Dieses Projekt ist unter der MIT-Lizenz lizenziert.
+
+---
+
+## Ressourcen
+
+- [Vollständige Projektdokumentation (PDF)](Rl%20doku%20für%20git.pdf)
+- [Phase 1: Agenten-Vergleich](docs/PHASE1_AGENT_COMPARISON.md)
+- [Phase 2: Enhanced DQN](docs/PHASE2_ENHANCED_DQN.md)
+- [Phase 3: Finales System](docs/PHASE3_FINAL_SYSTEM.md)

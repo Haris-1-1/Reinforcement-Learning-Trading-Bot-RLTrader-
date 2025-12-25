@@ -1,11 +1,11 @@
 # ENHANCED DQN TRADING BOT - COMPLETE & FIXED VERSION
-**Status:** ✅ READY TO USE
+**Status:**  READY TO USE
 
 ---
 
-## 🎯 WHAT'S NEW IN THIS VERSION
+##  WHAT'S NEW IN THIS VERSION
 
-### ✅ ALL CRITICAL FIXES APPLIED:
+###  ALL CRITICAL FIXES APPLIED:
 1. **TradingEnvironment Created** - Complete Gymnasium-compatible environment
 2. **Import Structure Fixed** - All imports now work correctly
 3. **42 Features** - Extended from 19 to 42 technical indicators
@@ -16,7 +16,7 @@
 
 ---
 
-## 📁 PROJECT STRUCTURE
+##  PROJECT STRUCTURE
 
 ```
 Enhanced_DQN_Fixed/
@@ -42,7 +42,7 @@ Enhanced_DQN_Fixed/
 
 ---
 
-## 🚀 QUICK START
+##  QUICK START
 
 ### 1. Install Requirements
 ```bash
@@ -92,9 +92,9 @@ CONFIG = {
 
 ---
 
-## 🎨 FEATURES
+##  FEATURES
 
-### 📊 42 Technical Indicators
+###  42 Technical Indicators
 
 **Trend (9):**
 - MA5, MA20, MA50
@@ -137,29 +137,29 @@ CONFIG = {
 
 ---
 
-### 🤖 Agent Features
+###  Agent Features
 
-✅ **Dueling Architecture** - Separates State Value and Action Advantages
-✅ **Double DQN** - Stable learning with target network
-✅ **Action Masking** - Prevents invalid actions
-✅ **Experience Replay** - 100k buffer
-✅ **Epsilon-Greedy** - Exploration vs. exploitation
-✅ **Gradient Clipping** - Prevents exploding gradients
-✅ **Dropout** - 0.2 dropout for overfitting protection
-
----
-
-### 🏪 Environment Features
-
-✅ **Window-based Observations** - Agent sees last N timesteps
-✅ **Portfolio Tracking** - Cash, coins, position, unrealized PnL
-✅ **Trading Fees & Slippage** - Realistic trading costs
-✅ **Action Masking** - Enforces valid actions only
-✅ **Log Returns Reward** - Numerically stable reward function
+ **Dueling Architecture** - Separates State Value and Action Advantages
+ **Double DQN** - Stable learning with target network
+ **Action Masking** - Prevents invalid actions
+ **Experience Replay** - 100k buffer
+ **Epsilon-Greedy** - Exploration vs. exploitation
+ **Gradient Clipping** - Prevents exploding gradients
+ **Dropout** - 0.2 dropout for overfitting protection
 
 ---
 
-## 📈 EXPECTED PERFORMANCE
+###  Environment Features
+
+ **Window-based Observations** - Agent sees last N timesteps
+ **Portfolio Tracking** - Cash, coins, position, unrealized PnL
+ **Trading Fees & Slippage** - Realistic trading costs
+ **Action Masking** - Enforces valid actions only
+ **Log Returns Reward** - Numerically stable reward function
+
+---
+
+##  EXPECTED PERFORMANCE
 
 ### With Current Setup (50 episodes, 1h data):
 - **Training Time:** 2-4 hours (depends on CPU/GPU)
@@ -175,7 +175,7 @@ CONFIG = {
 
 ---
 
-## 🏆 BENCHMARKS
+##  BENCHMARKS
 
 The bot automatically compares against:
 
@@ -196,7 +196,7 @@ Random Trading (avg)           -2.30%   $ 9,770.00
 
 ---
 
-## 🔧 TROUBLESHOOTING
+##  TROUBLESHOOTING
 
 ### "CUDA out of memory"
 - Reduce `batch_size` from 64 to 32
@@ -214,10 +214,10 @@ Random Trading (avg)           -2.30%   $ 9,770.00
 
 ---
 
-## 📊 MONITORING TRAINING
+##  MONITORING TRAINING
 
 ### Progress Bar Shows:
-- **ε (Epsilon):** Exploration rate (1.0 → 0.05)
+- **ε (Epsilon):** Exploration rate (1.0  0.05)
 - **Portfolio:** Current portfolio value
 - **Trades:** Number of trades executed
 
@@ -228,7 +228,7 @@ Random Trading (avg)           -2.30%   $ 9,770.00
 
 ---
 
-## 🎓 ADVANCED USAGE
+##  ADVANCED USAGE
 
 ### Load & Use Trained Model:
 ```python
@@ -257,7 +257,7 @@ Feature Importance:
 
 ---
 
-## 🐛 KNOWN LIMITATIONS
+##  KNOWN LIMITATIONS
 
 1. **No Real-time Trading** - This is a backtesting/research tool only
 2. **Slippage Model** - Simple percentage-based (real slippage varies)
@@ -266,7 +266,7 @@ Feature Importance:
 
 ---
 
-## 🔄 FUTURE ENHANCEMENTS
+##  FUTURE ENHANCEMENTS
 
 Potential improvements (not yet implemented):
 
@@ -280,19 +280,19 @@ Potential improvements (not yet implemented):
 
 ---
 
-## 📝 CODE QUALITY
+##  CODE QUALITY
 
 All files follow best practices:
-- ✅ Type hints where appropriate
-- ✅ Docstrings for all classes/functions
-- ✅ PEP 8 style guide
-- ✅ Error handling
-- ✅ No deprecated code
-- ✅ Modular design
+-  Type hints where appropriate
+-  Docstrings for all classes/functions
+-  PEP 8 style guide
+-  Error handling
+-  No deprecated code
+-  Modular design
 
 ---
 
-## 🆘 SUPPORT
+##  SUPPORT
 
 If you encounter issues:
 
@@ -303,13 +303,13 @@ If you encounter issues:
 
 ---
 
-## 📜 LICENSE
+##  LICENSE
 
 Research/Educational use only. Not financial advice.
 
 ---
 
-## 🙏 ACKNOWLEDGMENTS
+##  ACKNOWLEDGMENTS
 
 Based on:
 - Dueling DQN Architecture (Wang et al., 2016)
@@ -320,4 +320,4 @@ Based on:
 
 **READY TO TRADE? RUN:** `python train_enhanced_dqn.py`
 
-**QUESTIONS? CHECK:** This README has everything you need! 🚀
+**QUESTIONS? CHECK:** This README has everything you need! 

@@ -32,13 +32,13 @@ v1
     }
 
 ======================================================================
-🚀 RL TRADING BOT - Q-LEARNING TRAINING v2
+ RL TRADING BOT - Q-LEARNING TRAINING v2
 ======================================================================
 FIXES: Real prices, faster epsilon decay, more training
 ======================================================================
 
 ======================================================================
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2020-01-01 to 2024-01-01...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True
@@ -51,37 +51,37 @@ Added technical indicators. Remaining rows after dropna: 1412
 Train set: 1129 rows (80%)
 Test set: 283 rows (20%)
 
-💰 Original Train Prices: $4970.79 - $67566.83
-💰 Original Test Prices: $25124.68 - $44166.60
+ Original Train Prices: $4970.79 - $67566.83
+ Original Test Prices: $25124.68 - $44166.60
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 1129 days
-📈 Test data: 283 days
+ Train data: 1129 days
+ Test data: 283 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $4970.79 - $67566.83
+ Using REAL prices for trading: $4970.79 - $67566.83
    Price change over period: 194.1%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (15, 15, 15, 2, 3)
 Epsilon decay: 0.99 (reaches 0.01 after ~458 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 100,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.99
 ============================================================
 
@@ -110,13 +110,13 @@ Best Episode Reward: 4.0061
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251208_142444.pkl
 Config saved to results/config_v2_20251208_142444.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $3,440,047.62
@@ -125,9 +125,9 @@ Trades:  299
 Fees:    $556726.03
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $25124.68 - $44166.60
+ Using REAL prices for trading: $25124.68 - $44166.60
    Price change over period: 53.7%
    Using 21 features for state
 Initial: $10,000.00
@@ -137,7 +137,7 @@ Trades:  72
 Fees:    $1413.68
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test
@@ -147,29 +147,29 @@ Buy & Hold           |     +194.12% |      +53.73%
 --------------------------------------------------
 Outperformance       |   +34106.35% |      -53.40%
 
-💰 Final Values:
+ Final Values:
    Agent Train: $3,440,047.62  |  Buy&Hold: $29,412.27
    Agent Test:  $10,032.67  |  Buy&Hold: $15,372.91
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 ======================================================================
 Model: results/q_learning_v2_20251208_142444.pkl
 Final Epsilon: 0.4088
 Total Episodes: 89
 
-✅ Agent made profit, but didn't beat Buy & Hold
+ Agent made profit, but didn't beat Buy & Hold
 PS C:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-> 
 
 v2
 ======================================================================
-🚀 RL TRADING BOT - Q-LEARNING TRAINING v2
+ RL TRADING BOT - Q-LEARNING TRAINING v2
 ======================================================================
 FIXES: Real prices, faster epsilon decay, more training
 ======================================================================
 
 ======================================================================
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2020-01-01 to 2024-01-01...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True
@@ -182,37 +182,37 @@ Added technical indicators. Remaining rows after dropna: 1412
 Train set: 1129 rows (80%)
 Test set: 283 rows (20%)
 
-💰 Original Train Prices: $4970.79 - $67566.83
-💰 Original Test Prices: $25124.68 - $44166.60
+ Original Train Prices: $4970.79 - $67566.83
+ Original Test Prices: $25124.68 - $44166.60
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 1129 days
-📈 Test data: 283 days
+ Train data: 1129 days
+ Test data: 283 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $4970.79 - $67566.83
+ Using REAL prices for trading: $4970.79 - $67566.83
    Price change over period: 194.1%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (15, 15, 15, 2, 3)
 Epsilon decay: 0.99 (reaches 0.01 after ~458 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 100,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.99
 ============================================================
 
@@ -241,13 +241,13 @@ Best Episode Reward: 2.6848
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251208_142606.pkl
 Config saved to results/config_v2_20251208_142606.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $2,824,853.01
@@ -256,9 +256,9 @@ Trades:  183
 Fees:    $274969.72
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $25124.68 - $44166.60
+ Using REAL prices for trading: $25124.68 - $44166.60
    Price change over period: 53.7%
    Using 21 features for state
 Initial: $10,000.00
@@ -268,7 +268,7 @@ Trades:  48
 Fees:    $952.74
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test
@@ -278,18 +278,18 @@ Buy & Hold           |     +194.12% |      +53.73%
 --------------------------------------------------
 Outperformance       |   +27954.41% |      -35.47%
 
-💰 Final Values:
+ Final Values:
    Agent Train: $2,824,853.01  |  Buy&Hold: $29,412.27
    Agent Test:  $11,826.14  |  Buy&Hold: $15,372.91
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 ======================================================================
 Model: results/q_learning_v2_20251208_142606.pkl
 Final Epsilon: 0.4088
 Total Episodes: 89
 
-✅ Agent made profit, but didn't beat Buy & Hold
+ Agent made profit, but didn't beat Buy & Hold
 # ════════════════════════════════════════════════════════════════
     # CONFIGURATION
     # ════════════════════════════════════════════════════════════════
@@ -355,13 +355,13 @@ v3
     }
 
 ======================================================================
-🚀 RL TRADING BOT - Q-LEARNING TRAINING v2
+ RL TRADING BOT - Q-LEARNING TRAINING v2
 ======================================================================
 FIXES: Real prices, faster epsilon decay, more training
 ======================================================================
 
 ======================================================================
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2020-01-01 to 2024-01-01...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True
@@ -374,37 +374,37 @@ Added technical indicators. Remaining rows after dropna: 1412
 Train set: 1129 rows (80%)
 Test set: 283 rows (20%)
 
-💰 Original Train Prices: $4970.79 - $67566.83
-💰 Original Test Prices: $25124.68 - $44166.60
+ Original Train Prices: $4970.79 - $67566.83
+ Original Test Prices: $25124.68 - $44166.60
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 1129 days
-📈 Test data: 283 days
+ Train data: 1129 days
+ Test data: 283 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $4970.79 - $67566.83
+ Using REAL prices for trading: $4970.79 - $67566.83
    Price change over period: 194.1%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (15, 15, 15, 2, 3)
 Epsilon decay: 0.99 (reaches 0.01 after ~458 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 200,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.99
 ============================================================
 
@@ -447,13 +447,13 @@ Best Episode Reward: 4.5517
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251208_143300.pkl
 Config saved to results/config_v2_20251208_143300.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $3,249,803.98
@@ -462,9 +462,9 @@ Trades:  179
 Fees:    $335637.73
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $25124.68 - $44166.60
+ Using REAL prices for trading: $25124.68 - $44166.60
    Price change over period: 53.7%
    Using 21 features for state
 Initial: $10,000.00
@@ -474,7 +474,7 @@ Trades:  50
 Fees:    $1069.40
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test
@@ -484,12 +484,12 @@ Buy & Hold           |     +194.12% |      +53.73%
 --------------------------------------------------
 Outperformance       |   +32203.92% |      -27.19%
 
-💰 Final Values:
+ Final Values:
    Agent Train: $3,249,803.98  |  Buy&Hold: $29,412.27
    Agent Test:  $12,653.44  |  Buy&Hold: $15,372.91
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 
 v4
 # ════════════════════════════════════════════════════════════════
@@ -524,13 +524,13 @@ v4
         }
     }
 ======================================================================
-🚀 RL TRADING BOT - Q-LEARNING TRAINING v2
+ RL TRADING BOT - Q-LEARNING TRAINING v2
 ======================================================================
 FIXES: Real prices, faster epsilon decay, more training
 ======================================================================
 
 ======================================================================
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2023-01-01 to 2025-01-01...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True
@@ -543,37 +543,37 @@ Added technical indicators. Remaining rows after dropna: 682
 Train set: 545 rows (80%)
 Test set: 137 rows (20%)
 
-💰 Original Train Prices: $20187.24 - $73083.50
-💰 Original Test Prices: $53948.75 - $106140.60
+ Original Train Prices: $20187.24 - $73083.50
+ Original Test Prices: $53948.75 - $106140.60
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 545 days
-📈 Test data: 137 days
+ Train data: 545 days
+ Test data: 137 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $20187.24 - $73083.50
+ Using REAL prices for trading: $20187.24 - $73083.50
    Price change over period: 142.1%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (15, 15, 15, 2, 3)
 Epsilon decay: 0.99 (reaches 0.01 after ~458 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 200,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.99
 ============================================================
 
@@ -626,13 +626,13 @@ Best Episode Reward: 2.1607
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251209_221146.pkl
 Config saved to results/config_v2_20251209_221146.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $143,057.26
@@ -641,9 +641,9 @@ Trades:  118
 Fees:    $12984.86
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $53948.75 - $106140.60
+ Using REAL prices for trading: $53948.75 - $106140.60
    Price change over period: 57.1%
    Using 21 features for state
 Initial: $10,000.00
@@ -653,7 +653,7 @@ Trades:  30
 Fees:    $696.16
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test
@@ -663,18 +663,18 @@ Buy & Hold           |     +142.09% |      +57.08%
 --------------------------------------------------
 Outperformance       |    +1188.49% |      -24.44%
 
-💰 Final Values:
+ Final Values:
    Agent Train: $143,057.26  |  Buy&Hold: $24,208.72
    Agent Test:  $13,263.77  |  Buy&Hold: $15,707.94
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 ======================================================================
 Model: results/q_learning_v2_20251209_221146.pkl
 Final Epsilon: 0.0248
 Total Episodes: 368
 
-✅ Agent made profit, but didn't beat Buy & Hold
+ Agent made profit, but didn't beat Buy & Hold
 
 v5
 # V5 KONFIGURATION: Trendverfolgung erhöhen und Strafe reduzieren
@@ -707,13 +707,13 @@ config = {
     }
 }
 ==================
-🚀 RL TRADING BOT - Q-LEARNING TRAINING v2
+ RL TRADING BOT - Q-LEARNING TRAINING v2
 ======================================================================
 FIXES: Real prices, faster epsilon decay, more training
 ======================================================================
 
 ======================================================================
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2023-01-01 to 2025-01-01...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True
@@ -726,37 +726,37 @@ Added technical indicators. Remaining rows after dropna: 682
 Train set: 545 rows (80%)
 Test set: 137 rows (20%)
 
-💰 Original Train Prices: $20187.24 - $73083.50     
-💰 Original Test Prices: $53948.75 - $106140.60     
+ Original Train Prices: $20187.24 - $73083.50     
+ Original Test Prices: $53948.75 - $106140.60     
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 545 days
-📈 Test data: 137 days
+ Train data: 545 days
+ Test data: 137 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $20187.24 - $73083.50
+ Using REAL prices for trading: $20187.24 - $73083.50
    Price change over period: 142.1%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (20, 20, 20, 2, 3)
 Epsilon decay: 0.99 (reaches 0.01 after ~458 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 200,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.99
 ============================================================
 
@@ -809,13 +809,13 @@ Best Episode Reward: 2.4531
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251209_222830.pkl
 Config saved to results/config_v2_20251209_222830.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $180,975.93
@@ -824,9 +824,9 @@ Trades:  164
 Fees:    $17801.48
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $53948.75 - $106140.60
+ Using REAL prices for trading: $53948.75 - $106140.60
    Price change over period: 57.1%
    Using 21 features for state
 Initial: $10,000.00
@@ -836,7 +836,7 @@ Trades:  31
 Fees:    $617.97
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test  
@@ -846,19 +846,19 @@ Buy & Hold           |     +142.09% |      +57.08%
 --------------------------------------------------  
 Outperformance       |    +1567.67% |      -53.51%  
 
-💰 Final Values:
+ Final Values:
    Agent Train: $180,975.93  |  Buy&Hold: $24,208.72
    Agent Test:  $10,356.82  |  Buy&Hold: $15,707.94 
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 ======================================================================
 Model: results/q_learning_v2_20251209_222830.pkl    
 Final Epsilon: 0.0248
 Total Episodes: 368
 
 v6
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2023-01-01 to 2025-01-01...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True
@@ -871,37 +871,37 @@ Added technical indicators. Remaining rows after dropna: 682
 Train set: 545 rows (80%)
 Test set: 137 rows (20%)
 
-💰 Original Train Prices: $20187.24 - $73083.50     
-💰 Original Test Prices: $53948.75 - $106140.60     
+ Original Train Prices: $20187.24 - $73083.50     
+ Original Test Prices: $53948.75 - $106140.60     
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 545 days
-📈 Test data: 137 days
+ Train data: 545 days
+ Test data: 137 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $20187.24 - $73083.50
+ Using REAL prices for trading: $20187.24 - $73083.50
    Price change over period: 142.1%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (20, 20, 20, 2, 3)
 Epsilon decay: 0.99 (reaches 0.01 after ~458 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 500,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.99
 ============================================================
 
@@ -1012,13 +1012,13 @@ Best Episode Reward: 2.3933
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251209_223523.pkl
 Config saved to results/config_v2_20251209_223523.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $171,006.47
@@ -1027,9 +1027,9 @@ Trades:  118
 Fees:    $13902.63
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $53948.75 - $106140.60
+ Using REAL prices for trading: $53948.75 - $106140.60
    Price change over period: 57.1%
    Using 21 features for state
 Initial: $10,000.00
@@ -1039,7 +1039,7 @@ Trades:  21
 Fees:    $495.05
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test  
@@ -1049,18 +1049,18 @@ Buy & Hold           |     +142.09% |      +57.08%
 --------------------------------------------------  
 Outperformance       |    +1467.98% |      -22.36%  
 
-💰 Final Values:
+ Final Values:
    Agent Train: $171,006.47  |  Buy&Hold: $24,208.72
    Agent Test:  $13,471.74  |  Buy&Hold: $15,707.94 
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 ======================================================================
 Model: results/q_learning_v2_20251209_223523.pkl    
 Final Epsilon: 0.0100
 Total Episodes: 920
 
-✅ Agent made profit, but didn't beat Buy & Hold  
+ Agent made profit, but didn't beat Buy & Hold  
 
 config = {
         'data': {
@@ -1126,7 +1126,7 @@ FIXES: Real prices, faster epsilon decay, more training
 ======================================================================
 
 ======================================================================
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2023-01-01 to 2025-01-01...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True
@@ -1139,37 +1139,37 @@ Added technical indicators. Remaining rows after dropna: 682
 Train set: 545 rows (80%)
 Test set: 137 rows (20%)
 
-💰 Original Train Prices: $20187.24 - $73083.50     
-💰 Original Test Prices: $53948.75 - $106140.60     
+ Original Train Prices: $20187.24 - $73083.50     
+ Original Test Prices: $53948.75 - $106140.60     
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 545 days
-📈 Test data: 137 days
+ Train data: 545 days
+ Test data: 137 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $20187.24 - $73083.50
+ Using REAL prices for trading: $20187.24 - $73083.50
    Price change over period: 142.1%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (15, 15, 15, 2, 3)
 Epsilon decay: 0.99 (reaches 0.01 after ~458 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 500,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.99
 ============================================================
 
@@ -1280,13 +1280,13 @@ Best Episode Reward: 2.1316
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251209_224144.pkl
 Config saved to results/config_v2_20251209_224144.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $114,708.60
@@ -1295,9 +1295,9 @@ Trades:  100
 Fees:    $9464.40
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $53948.75 - $106140.60
+ Using REAL prices for trading: $53948.75 - $106140.60
    Price change over period: 57.1%
    Using 21 features for state
 Initial: $10,000.00
@@ -1307,7 +1307,7 @@ Trades:  28
 Fees:    $554.23
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test  
@@ -1317,28 +1317,28 @@ Buy & Hold           |     +142.09% |      +57.08%
 --------------------------------------------------  
 Outperformance       |     +905.00% |      -38.45%  
 
-💰 Final Values:
+ Final Values:
    Agent Train: $114,708.60  |  Buy&Hold: $24,208.72
    Agent Test:  $11,863.06  |  Buy&Hold: $15,707.94 
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 ======================================================================
 Model: results/q_learning_v2_20251209_224144.pkl    
 Final Epsilon: 0.0100
 Total Episodes: 920
 
-✅ Agent made profit, but didn't beat Buy & Hold   
+ Agent made profit, but didn't beat Buy & Hold   
 
 v8
 ======================================================================
-🚀 RL TRADING BOT - Q-LEARNING TRAINING v2
+ RL TRADING BOT - Q-LEARNING TRAINING v2
 ======================================================================
 FIXES: Real prices, faster epsilon decay, more training
 ======================================================================
 
 ======================================================================
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2023-01-01 to 2025-01-01...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True
@@ -1351,37 +1351,37 @@ Added technical indicators. Remaining rows after dropna: 682
 Train set: 545 rows (80%)
 Test set: 137 rows (20%)
 
-💰 Original Train Prices: $20187.24 - $73083.50     
-💰 Original Test Prices: $53948.75 - $106140.60     
+ Original Train Prices: $20187.24 - $73083.50     
+ Original Test Prices: $53948.75 - $106140.60     
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 545 days
-📈 Test data: 137 days
+ Train data: 545 days
+ Test data: 137 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $20187.24 - $73083.50
+ Using REAL prices for trading: $20187.24 - $73083.50
    Price change over period: 142.1%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (15, 15, 15, 2, 3)
 Epsilon decay: 0.99 (reaches 0.01 after ~458 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 300,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.99
 ============================================================
 
@@ -1453,13 +1453,13 @@ Best Episode Reward: 1.8375
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251209_225241.pkl
 Config saved to results/config_v2_20251209_225241.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $55,048.15
@@ -1468,9 +1468,9 @@ Trades:  46
 Fees:    $24291.28
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $53948.75 - $106140.60
+ Using REAL prices for trading: $53948.75 - $106140.60
    Price change over period: 57.1%
    Using 21 features for state
 Initial: $10,000.00
@@ -1480,7 +1480,7 @@ Trades:  16
 Fees:    $2425.03
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test  
@@ -1490,12 +1490,12 @@ Buy & Hold           |     +142.09% |      +57.08%
 --------------------------------------------------  
 Outperformance       |     +308.39% |      -38.40%  
 
-💰 Final Values:
+ Final Values:
    Agent Train: $55,048.15  |  Buy&Hold: $24,208.72 
    Agent Test:  $11,867.91  |  Buy&Hold: $15,707.94 
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 ======================================================================
 Model: results/q_learning_v2_20251209_225241.pkl    
 Final Epsilon: 0.0100
@@ -1563,7 +1563,7 @@ FIXES: Real prices, faster epsilon decay, more training
 ======================================================================
 
 ======================================================================
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2023-01-01 to 2025-01-01...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True
@@ -1576,37 +1576,37 @@ Added technical indicators. Remaining rows after dropna: 682
 Train set: 545 rows (80%)
 Test set: 137 rows (20%)
 
-💰 Original Train Prices: $20187.24 - $73083.50
-💰 Original Test Prices: $53948.75 - $106140.60
+ Original Train Prices: $20187.24 - $73083.50
+ Original Test Prices: $53948.75 - $106140.60
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 545 days
-📈 Test data: 137 days
+ Train data: 545 days
+ Test data: 137 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $20187.24 - $73083.50
+ Using REAL prices for trading: $20187.24 - $73083.50
    Price change over period: 142.1%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (15, 15, 15, 2, 3)
 Epsilon decay: 0.9 (reaches 0.01 after ~43 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 300,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.9
 ============================================================
 
@@ -1678,13 +1678,13 @@ Best Episode Reward: 1.7320
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251209_231221.pkl
 Config saved to results/config_v2_20251209_231221.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $57,874.39
@@ -1693,9 +1693,9 @@ Trades:  66
 Fees:    $20707.44
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $53948.75 - $106140.60
+ Using REAL prices for trading: $53948.75 - $106140.60
    Price change over period: 57.1%
    Using 21 features for state
 Initial: $10,000.00
@@ -1705,7 +1705,7 @@ Trades:  20
 Fees:    $1897.78
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test
@@ -1715,12 +1715,12 @@ Buy & Hold           |     +142.09% |      +57.08%
 --------------------------------------------------
 Outperformance       |     +336.66% |      -49.92%
 
-💰 Final Values:
+ Final Values:
    Agent Train: $57,874.39  |  Buy&Hold: $24,208.72
    Agent Test:  $10,716.23  |  Buy&Hold: $15,707.94
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 ======================================================================
 Model: results/q_learning_v2_20251209_231221.pkl
 Final Epsilon: 0.0100
@@ -1756,13 +1756,13 @@ config = {
         }
     }
 =====================================================================
-🚀 RL TRADING BOT - Q-LEARNING TRAINING v2
+ RL TRADING BOT - Q-LEARNING TRAINING v2
 ======================================================================
 FIXES: Real prices, faster epsilon decay, more training
 ======================================================================
 
 ======================================================================
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2023-01-01 to 2025-01-01...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True
@@ -1775,37 +1775,37 @@ Added technical indicators. Remaining rows after dropna: 682
 Train set: 545 rows (80%)
 Test set: 137 rows (20%)
 
-💰 Original Train Prices: $20187.24 - $73083.50
-💰 Original Test Prices: $53948.75 - $106140.60
+ Original Train Prices: $20187.24 - $73083.50
+ Original Test Prices: $53948.75 - $106140.60
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 545 days
-📈 Test data: 137 days
+ Train data: 545 days
+ Test data: 137 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $20187.24 - $73083.50
+ Using REAL prices for trading: $20187.24 - $73083.50
    Price change over period: 142.1%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (15, 15, 15, 2, 3)
 Epsilon decay: 0.9 (reaches 0.01 after ~43 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 300,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.9
 ============================================================
 
@@ -1877,13 +1877,13 @@ Best Episode Reward: 1.9762
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251209_231838.pkl
 Config saved to results/config_v2_20251209_231838.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $107,652.88
@@ -1892,9 +1892,9 @@ Trades:  110
 Fees:    $10377.81
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $53948.75 - $106140.60
+ Using REAL prices for trading: $53948.75 - $106140.60
    Price change over period: 57.1%
    Using 21 features for state
 Initial: $10,000.00
@@ -1904,7 +1904,7 @@ Trades:  12
 Fees:    $261.82
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test
@@ -1914,18 +1914,18 @@ Buy & Hold           |     +142.09% |      +57.08%
 --------------------------------------------------
 Outperformance       |     +834.44% |      -35.67%
 
-💰 Final Values:
+ Final Values:
    Agent Train: $107,652.88  |  Buy&Hold: $24,208.72
    Agent Test:  $12,141.23  |  Buy&Hold: $15,707.94
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 ======================================================================
 Model: results/q_learning_v2_20251209_231838.pkl
 Final Epsilon: 0.0100
 Total Episodes: 552
 
-✅ Agent made profit, but didn't beat Buy & Hold
+ Agent made profit, but didn't beat Buy & Hold
 PS C:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader->
 
 v11
@@ -1957,13 +1957,13 @@ v11
             'log_interval': 10000
         }
 
-🚀 RL TRADING BOT - Q-LEARNING TRAINING v2
+ RL TRADING BOT - Q-LEARNING TRAINING v2
 ======================================================================
 FIXES: Real prices, faster epsilon decay, more training
 ======================================================================
 
 ======================================================================
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2023-01-01 to 2025-01-01...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True
@@ -1976,37 +1976,37 @@ Added technical indicators. Remaining rows after dropna: 682
 Train set: 545 rows (80%)
 Test set: 137 rows (20%)
 
-💰 Original Train Prices: $20187.24 - $73083.50
-💰 Original Test Prices: $53948.75 - $106140.60
+ Original Train Prices: $20187.24 - $73083.50
+ Original Test Prices: $53948.75 - $106140.60
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 545 days
-📈 Test data: 137 days
+ Train data: 545 days
+ Test data: 137 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $20187.24 - $73083.50
+ Using REAL prices for trading: $20187.24 - $73083.50
    Price change over period: 142.1%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (15, 15, 15, 2, 3)
 Epsilon decay: 0.995 (reaches 0.01 after ~918 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 500,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.995
 ============================================================
 
@@ -2117,13 +2117,13 @@ Best Episode Reward: 2.0151
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251209_232415.pkl
 Config saved to results/config_v2_20251209_232415.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $108,593.07
@@ -2132,9 +2132,9 @@ Trades:  98
 Fees:    $9462.55
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $53948.75 - $106140.60
+ Using REAL prices for trading: $53948.75 - $106140.60
    Price change over period: 57.1%
    Using 21 features for state
 Initial: $10,000.00
@@ -2144,7 +2144,7 @@ Trades:  30
 Fees:    $619.63
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test
@@ -2154,12 +2154,12 @@ Buy & Hold           |     +142.09% |      +57.08%
 --------------------------------------------------
 Outperformance       |     +843.84% |      -37.21%
 
-💰 Final Values:
+ Final Values:
    Agent Train: $108,593.07  |  Buy&Hold: $24,208.72
    Agent Test:  $11,987.20  |  Buy&Hold: $15,707.94
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 ======================================================================
 Model: results/q_learning_v2_20251209_232415.pkl
 Final Epsilon: 0.0100
@@ -2195,7 +2195,7 @@ config = {
         }
     }
 ======================================================================
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2023-01-01 to 2025-01-01...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True
@@ -2208,37 +2208,37 @@ Added technical indicators. Remaining rows after dropna: 682
 Train set: 545 rows (80%)
 Test set: 137 rows (20%)
 
-💰 Original Train Prices: $20187.24 - $73083.50
-💰 Original Test Prices: $53948.75 - $106140.60
+ Original Train Prices: $20187.24 - $73083.50
+ Original Test Prices: $53948.75 - $106140.60
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 545 days
-📈 Test data: 137 days
+ Train data: 545 days
+ Test data: 137 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $20187.24 - $73083.50
+ Using REAL prices for trading: $20187.24 - $73083.50
    Price change over period: 142.1%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (15, 15, 15, 2, 3)
 Epsilon decay: 0.993 (reaches 0.01 after ~655 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 300,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.993
 ============================================================
 
@@ -2310,13 +2310,13 @@ Best Episode Reward: 1.8285
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251209_233057.pkl
 Config saved to results/config_v2_20251209_233057.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $115,434.44
@@ -2325,9 +2325,9 @@ Trades:  140
 Fees:    $12556.51
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $53948.75 - $106140.60
+ Using REAL prices for trading: $53948.75 - $106140.60
    Price change over period: 57.1%
    Using 21 features for state
 Initial: $10,000.00
@@ -2337,7 +2337,7 @@ Trades:  32
 Fees:    $722.27
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test
@@ -2347,18 +2347,18 @@ Buy & Hold           |     +142.09% |      +57.08%
 --------------------------------------------------
 Outperformance       |     +912.26% |      -19.11%
 
-💰 Final Values:
+ Final Values:
    Agent Train: $115,434.44  |  Buy&Hold: $24,208.72
    Agent Test:  $13,797.27  |  Buy&Hold: $15,707.94
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 ======================================================================
 Model: results/q_learning_v2_20251209_233057.pkl
 Final Epsilon: 0.0207
 Total Episodes: 552
 
-✅ Agent made profit, but didn't beat Buy & Hold
+ Agent made profit, but didn't beat Buy & Hold
 PS C:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader->
 
 v13
@@ -2391,7 +2391,7 @@ config = {
         }
     }
 ======================================================================
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2023-01-01 to 2025-01-01...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True
@@ -2404,37 +2404,37 @@ Added technical indicators. Remaining rows after dropna: 682
 Train set: 545 rows (80%)
 Test set: 137 rows (20%)
 
-💰 Original Train Prices: $20187.24 - $73083.50
-💰 Original Test Prices: $53948.75 - $106140.60
+ Original Train Prices: $20187.24 - $73083.50
+ Original Test Prices: $53948.75 - $106140.60
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 545 days
-📈 Test data: 137 days
+ Train data: 545 days
+ Test data: 137 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $20187.24 - $73083.50
+ Using REAL prices for trading: $20187.24 - $73083.50
    Price change over period: 142.1%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (15, 15, 15, 2, 3)
 Epsilon decay: 0.998 (reaches 0.01 after ~2300 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 500,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.998
 ============================================================
 
@@ -2545,13 +2545,13 @@ Best Episode Reward: 1.6397
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251209_233637.pkl
 Config saved to results/config_v2_20251209_233637.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $110,580.22
@@ -2560,9 +2560,9 @@ Trades:  108
 Fees:    $10357.96
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $53948.75 - $106140.60
+ Using REAL prices for trading: $53948.75 - $106140.60
    Price change over period: 57.1%
    Using 21 features for state
 Initial: $10,000.00
@@ -2572,7 +2572,7 @@ Trades:  30
 Fees:    $615.79
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test
@@ -2582,18 +2582,18 @@ Buy & Hold           |     +142.09% |      +57.08%
 --------------------------------------------------
 Outperformance       |     +863.72% |      -37.90%
 
-💰 Final Values:
+ Final Values:
    Agent Train: $110,580.22  |  Buy&Hold: $24,208.72
    Agent Test:  $11,917.72  |  Buy&Hold: $15,707.94
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 ======================================================================
 Model: results/q_learning_v2_20251209_233637.pkl
 Final Epsilon: 0.1585
 Total Episodes: 920
 
-✅ Agent made profit, but didn't beat Buy & Hold
+ Agent made profit, but didn't beat Buy & Hold
 PS C:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader->
 
 v14
@@ -2632,7 +2632,7 @@ FIXES: Real prices, faster epsilon decay, more training
 ======================================================================
 
 ======================================================================
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2023-01-01 to 2025-01-01...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True       
@@ -2645,37 +2645,37 @@ Added technical indicators. Remaining rows after dropna: 682
 Train set: 545 rows (80%)
 Test set: 137 rows (20%)
 
-💰 Original Train Prices: $20187.24 - $73083.50
-💰 Original Test Prices: $53948.75 - $106140.60
+ Original Train Prices: $20187.24 - $73083.50
+ Original Test Prices: $53948.75 - $106140.60
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 545 days
-📈 Test data: 137 days
+ Train data: 545 days
+ Test data: 137 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $20187.24 - $73083.50
+ Using REAL prices for trading: $20187.24 - $73083.50
    Price change over period: 142.1%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (15, 15, 15, 2, 3)
 Epsilon decay: 0.995 (reaches 0.01 after ~918 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 500,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.995
 ============================================================
 
@@ -2786,13 +2786,13 @@ Best Episode Reward: 2.0157
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251212_231302.pkl
 Config saved to results/config_v2_20251212_231302.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $101,425.46
@@ -2801,9 +2801,9 @@ Trades:  96
 Fees:    $8249.34
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $53948.75 - $106140.60
+ Using REAL prices for trading: $53948.75 - $106140.60
    Price change over period: 57.1%
    Using 21 features for state
 Initial: $10,000.00
@@ -2813,7 +2813,7 @@ Trades:  24
 Fees:    $470.67
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test
@@ -2823,18 +2823,18 @@ Buy & Hold           |     +142.09% |      +57.08%
 --------------------------------------------------
 Outperformance       |     +772.17% |      -33.23%
 
-💰 Final Values:
+ Final Values:
    Agent Train: $101,425.46  |  Buy&Hold: $24,208.72
    Agent Test:  $12,385.20  |  Buy&Hold: $15,707.94
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 ======================================================================
 Model: results/q_learning_v2_20251212_231302.pkl
 Final Epsilon: 0.0100
 Total Episodes: 920
 
-✅ Agent made profit, but didn't beat Buy & Hold
+ Agent made profit, but didn't beat Buy & Hold
 PS C:\Users\haris\OneDrive\Anlagen\Desktop\RL trading 
 bot\Reinforcement-Learning-Trading-Bot-RLTrader-> 
 
@@ -2869,13 +2869,13 @@ config = {
     }
 
 ======================================================================
-🚀 RL TRADING BOT - Q-LEARNING TRAINING v2
+ RL TRADING BOT - Q-LEARNING TRAINING v2
 ======================================================================
 FIXES: Real prices, faster epsilon decay, more training
 ======================================================================
 
 ======================================================================
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2023-01-01 to 2025-01-01...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True       
@@ -2888,37 +2888,37 @@ Added technical indicators. Remaining rows after dropna: 682
 Train set: 545 rows (80%)
 Test set: 137 rows (20%)
 
-💰 Original Train Prices: $20187.24 - $73083.50
-💰 Original Test Prices: $53948.75 - $106140.60
+ Original Train Prices: $20187.24 - $73083.50
+ Original Test Prices: $53948.75 - $106140.60
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 545 days
-📈 Test data: 137 days
+ Train data: 545 days
+ Test data: 137 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $20187.24 - $73083.50
+ Using REAL prices for trading: $20187.24 - $73083.50
    Price change over period: 142.1%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (15, 15, 15, 2, 3)
 Epsilon decay: 0.995 (reaches 0.01 after ~918 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 500,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.995
 ============================================================
 
@@ -3029,13 +3029,13 @@ Best Episode Reward: 1.8869
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251212_231604.pkl
 Config saved to results/config_v2_20251212_231604.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $95,467.95
@@ -3044,9 +3044,9 @@ Trades:  90
 Fees:    $7765.99
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $53948.75 - $106140.60
+ Using REAL prices for trading: $53948.75 - $106140.60
    Price change over period: 57.1%
    Using 21 features for state
 Initial: $10,000.00
@@ -3056,7 +3056,7 @@ Trades:  30
 Fees:    $578.55
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test
@@ -3066,18 +3066,18 @@ Buy & Hold           |     +142.09% |      +57.08%
 --------------------------------------------------
 Outperformance       |     +712.59% |      -46.93%
 
-💰 Final Values:
+ Final Values:
    Agent Train: $95,467.95  |  Buy&Hold: $24,208.72
    Agent Test:  $11,014.57  |  Buy&Hold: $15,707.94
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 ======================================================================
 Model: results/q_learning_v2_20251212_231604.pkl
 Final Epsilon: 0.0100
 Total Episodes: 920
 
-✅ Agent made profit, but didn't beat Buy & Hold
+ Agent made profit, but didn't beat Buy & Hold
 PS C:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-> 
 
 v15
@@ -3110,13 +3110,13 @@ config = {
         }
 
 ======================================================================
-🚀 RL TRADING BOT - Q-LEARNING TRAINING v2
+ RL TRADING BOT - Q-LEARNING TRAINING v2
 ======================================================================
 FIXES: Real prices, faster epsilon decay, more training
 ======================================================================
 
 ======================================================================
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2023-01-01 to 2025-01-01...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True       
@@ -3129,37 +3129,37 @@ Added technical indicators. Remaining rows after dropna: 682
 Train set: 545 rows (80%)
 Test set: 137 rows (20%)
 
-💰 Original Train Prices: $20187.24 - $73083.50
-💰 Original Test Prices: $53948.75 - $106140.60
+ Original Train Prices: $20187.24 - $73083.50
+ Original Test Prices: $53948.75 - $106140.60
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 545 days
-📈 Test data: 137 days
+ Train data: 545 days
+ Test data: 137 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $20187.24 - $73083.50
+ Using REAL prices for trading: $20187.24 - $73083.50
    Price change over period: 142.1%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (15, 15, 15, 2, 3)
 Epsilon decay: 0.995 (reaches 0.01 after ~918 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 500,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.995
 ============================================================
 
@@ -3270,13 +3270,13 @@ Best Episode Reward: 1.9761
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251212_231935.pkl
 Config saved to results/config_v2_20251212_231935.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $106,610.40
@@ -3285,9 +3285,9 @@ Trades:  100
 Fees:    $9398.13
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $53948.75 - $106140.60
+ Using REAL prices for trading: $53948.75 - $106140.60
    Price change over period: 57.1%
    Using 21 features for state
 Initial: $10,000.00
@@ -3297,7 +3297,7 @@ Trades:  28
 Fees:    $556.27
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test
@@ -3307,7 +3307,7 @@ Buy & Hold           |     +142.09% |      +57.08%
 --------------------------------------------------
 Outperformance       |     +824.02% |      -42.76%
 
-💰 Final Values:
+ Final Values:
    Agent Train: $106,610.40  |  Buy&Hold: $24,208.72
    Agent Test:  $11,432.10  |  Buy&Hold: $15,707.94
 
@@ -3345,13 +3345,13 @@ v16
     }
 
 ======================================================================
-🚀 RL TRADING BOT - Q-LEARNING TRAINING v2
+ RL TRADING BOT - Q-LEARNING TRAINING v2
 ======================================================================
 FIXES: Real prices, faster epsilon decay, more training
 ======================================================================
 
 ======================================================================
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2023-01-01 to 2025-01-01...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True       
@@ -3364,37 +3364,37 @@ Added technical indicators. Remaining rows after dropna: 682
 Train set: 545 rows (80%)
 Test set: 137 rows (20%)
 
-💰 Original Train Prices: $20187.24 - $73083.50
-💰 Original Test Prices: $53948.75 - $106140.60
+ Original Train Prices: $20187.24 - $73083.50
+ Original Test Prices: $53948.75 - $106140.60
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 545 days
-📈 Test data: 137 days
+ Train data: 545 days
+ Test data: 137 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $20187.24 - $73083.50
+ Using REAL prices for trading: $20187.24 - $73083.50
    Price change over period: 142.1%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (15, 15, 15, 2, 3)
 Epsilon decay: 0.99 (reaches 0.01 after ~458 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 200,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.99
 ============================================================
 
@@ -3447,13 +3447,13 @@ Best Episode Reward: 2.0557
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251212_232513.pkl
 Config saved to results/config_v2_20251212_232513.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $113,063.57
@@ -3462,9 +3462,9 @@ Trades:  90
 Fees:    $8978.37
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $53948.75 - $106140.60
+ Using REAL prices for trading: $53948.75 - $106140.60
    Price change over period: 57.1%
    Using 21 features for state
 Initial: $10,000.00
@@ -3474,7 +3474,7 @@ Trades:  28
 Fees:    $586.59
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test
@@ -3484,12 +3484,12 @@ Buy & Hold           |     +142.09% |      +57.08%
 --------------------------------------------------
 Outperformance       |     +888.55% |      -37.11%
 
-💰 Final Values:
+ Final Values:
    Agent Train: $113,063.57  |  Buy&Hold: $24,208.72
    Agent Test:  $11,996.80  |  Buy&Hold: $15,707.94
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 ======================================================================
 Model: results/q_learning_v2_20251212_232513.pkl
 Final Epsilon: 0.0248
@@ -3556,13 +3556,13 @@ config = {
     }
 
 ======================================================================
-🚀 RL TRADING BOT - Q-LEARNING TRAINING v2
+ RL TRADING BOT - Q-LEARNING TRAINING v2
 ======================================================================
 FIXES: Real prices, faster epsilon decay, more training
 ======================================================================
 
 ======================================================================
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2023-01-01 to 2025-12-12...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True
@@ -3575,37 +3575,37 @@ Added technical indicators. Remaining rows after dropna: 1027
 Train set: 821 rows (80%)
 Test set: 206 rows (20%)
 
-💰 Original Train Prices: $20187.24 - $106446.01
-💰 Original Test Prices: $84648.36 - $124752.53
+ Original Train Prices: $20187.24 - $106446.01
+ Original Test Prices: $84648.36 - $124752.53
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 821 days
-📈 Test data: 206 days
+ Train data: 821 days
+ Test data: 206 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $20187.24 - $106446.01
+ Using REAL prices for trading: $20187.24 - $106446.01
    Price change over period: 334.1%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (15, 15, 15, 2, 3)
 Epsilon decay: 0.996 (reaches 0.01 after ~1148 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 300,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.996
 ============================================================
 
@@ -3668,13 +3668,13 @@ Best Episode Reward: 2.1691
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251212_235141.pkl
 Config saved to results/config_v2_20251212_235141.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $501,984.07
@@ -3683,9 +3683,9 @@ Trades:  195
 Fees:    $49913.32
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $84648.36 - $124752.53
+ Using REAL prices for trading: $84648.36 - $124752.53
    Price change over period: -13.4%
    Using 21 features for state
 Initial: $10,000.00
@@ -3695,7 +3695,7 @@ Trades:  47
 Fees:    $789.68
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test
@@ -3705,12 +3705,12 @@ Buy & Hold           |     +334.10% |      -13.37%
 --------------------------------------------------
 Outperformance       |    +4585.74% |      -23.79%
 
-💰 Final Values:
+ Final Values:
    Agent Train: $501,984.07  |  Buy&Hold: $43,409.95
    Agent Test:  $6,283.67  |  Buy&Hold: $8,662.83
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 ======================================================================
 Model: results/q_learning_v2_20251212_235141.pkl
 Final Epsilon: 0.2306
@@ -3746,7 +3746,7 @@ config = {
         }
     }
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test
@@ -3756,18 +3756,18 @@ Buy & Hold           |     +286.16% |      +11.90%
 --------------------------------------------------
 Outperformance       |    +1928.86% |       -1.22%
 
-💰 Final Values:
+ Final Values:
    Agent Train: $231,502.12  |  Buy&Hold: $38,616.07
    Agent Test:  $11,068.93  |  Buy&Hold: $11,190.46
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 ======================================================================
 Model: results/q_learning_v2_20251212_235503.pkl
 Final Epsilon: 0.2198
 Total Episodes: 378
 
-✅ Agent made profit, but didn't beat Buy & Hold
+ Agent made profit, but didn't beat Buy & Hold
 PS C:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-> 
 
 v21
@@ -3830,7 +3830,7 @@ v22
         }
     }
 ======================================================================
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2023-01-01 to 2025-11-11...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True
@@ -3843,37 +3843,37 @@ Added technical indicators. Remaining rows after dropna: 996
 Train set: 796 rows (80%)
 Test set: 200 rows (20%)
 
-💰 Original Train Prices: $20187.24 - $106146.27
-💰 Original Test Prices: $93754.84 - $124752.53
+ Original Train Prices: $20187.24 - $106146.27
+ Original Test Prices: $93754.84 - $124752.53
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 796 days
-📈 Test data: 200 days
+ Train data: 796 days
+ Test data: 200 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $20187.24 - $106146.27
+ Using REAL prices for trading: $20187.24 - $106146.27
    Price change over period: 286.2%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (15, 15, 15, 2, 3)
 Epsilon decay: 0.995 (reaches 0.01 after ~918 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 500,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.995
 ============================================================
 
@@ -3969,13 +3969,13 @@ Best Episode Reward: 2.7913
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251213_000838.pkl
 Config saved to results/config_v2_20251213_000838.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $331,988.63
@@ -3984,9 +3984,9 @@ Trades:  161
 Fees:    $30504.20
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $93754.84 - $124752.53
+ Using REAL prices for trading: $93754.84 - $124752.53
    Price change over period: 11.9%
    Using 21 features for state
 Initial: $10,000.00
@@ -3996,7 +3996,7 @@ Trades:  37
 Fees:    $892.98
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test
@@ -4006,18 +4006,18 @@ Buy & Hold           |     +286.16% |      +11.90%
 --------------------------------------------------
 Outperformance       |    +2933.73% |      +10.69%
 
-💰 Final Values:
+ Final Values:
    Agent Train: $331,988.63  |  Buy&Hold: $38,616.07
    Agent Test:  $12,259.87  |  Buy&Hold: $11,190.46
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 ======================================================================
 Model: results/q_learning_v2_20251213_000838.pkl
 Final Epsilon: 0.0427
 Total Episodes: 629
 
-🏆 AGENT BEATS BUY & HOLD! 🏆
+ AGENT BEATS BUY & HOLD! 
 PS C:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-> 
 
 v24
@@ -4050,13 +4050,13 @@ config = {
         }
     }
 
-🚀 RL TRADING BOT - Q-LEARNING TRAINING v2
+ RL TRADING BOT - Q-LEARNING TRAINING v2
 ======================================================================
 FIXES: Real prices, faster epsilon decay, more training
 ======================================================================
 
 ======================================================================
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2025-10-20 to 2025-11-11...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True 
@@ -4069,37 +4069,37 @@ Added technical indicators. Remaining rows after dropna: 6259
 Train set: 5007 rows (80%)
 Test set: 1252 rows (20%)
 
-💰 Original Train Prices: $99040.66 - $116070.29
-💰 Original Test Prices: $99343.85 - $106535.13
+ Original Train Prices: $99040.66 - $116070.29
+ Original Test Prices: $99343.85 - $106535.13
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 5007 days
-📈 Test data: 1252 days
+ Train data: 5007 days
+ Test data: 1252 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $99040.66 - $116070.29
+ Using REAL prices for trading: $99040.66 - $116070.29
    Price change over period: -6.6%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (15, 15, 15, 2, 3)
 Epsilon decay: 0.999 (reaches 0.01 after ~4602 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 2,000,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.999
 ============================================================
 
@@ -4234,13 +4234,13 @@ Best Episode Reward: -7.9658
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251213_010806.pkl
 Config saved to results/config_v2_20251213_010806.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $10,000.00
@@ -4249,9 +4249,9 @@ Trades:  0
 Fees:    $0.00
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $99343.85 - $106535.13
+ Using REAL prices for trading: $99343.85 - $106535.13
    Price change over period: 2.8%
    Using 21 features for state
 Initial: $10,000.00
@@ -4261,7 +4261,7 @@ Trades:  0
 Fees:    $0.00
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test
@@ -4271,29 +4271,29 @@ Buy & Hold           |       -6.61% |       +2.84%
 --------------------------------------------------
 Outperformance       |       +6.61% |       -2.84%
 
-💰 Final Values:
+ Final Values:
    Agent Train: $10,000.00  |  Buy&Hold: $9,339.32
    Agent Test:  $10,000.00  |  Buy&Hold: $10,283.92
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 ======================================================================
 Model: results/q_learning_v2_20251213_010806.pkl
 Final Epsilon: 0.6702
 Total Episodes: 400
 
-⚠️ Agent lost money - needs more training or tuning
+ Agent lost money - needs more training or tuning
 PS C:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-> 
 
 v24
 ======================================================================
-🚀 RL TRADING BOT - Q-LEARNING TRAINING v2
+ RL TRADING BOT - Q-LEARNING TRAINING v2
 ======================================================================
 FIXES: Real prices, faster epsilon decay, more training
 ======================================================================
 
 ======================================================================
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2025-10-20 to 2025-11-11...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True
@@ -4306,37 +4306,37 @@ Added technical indicators. Remaining rows after dropna: 6259
 Train set: 5007 rows (80%)
 Test set: 1252 rows (20%)
 
-💰 Original Train Prices: $99040.66 - $116070.29
-💰 Original Test Prices: $99343.85 - $106535.13
+ Original Train Prices: $99040.66 - $116070.29
+ Original Test Prices: $99343.85 - $106535.13
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 5007 days
-📈 Test data: 1252 days
+ Train data: 5007 days
+ Test data: 1252 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $99040.66 - $116070.29
+ Using REAL prices for trading: $99040.66 - $116070.29
    Price change over period: -6.6%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (15, 15, 15, 2, 3)
 Epsilon decay: 0.99 (reaches 0.01 after ~458 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 2,000,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.99
 ============================================================
 
@@ -4571,13 +4571,13 @@ Best Episode Reward: -0.0062
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251213_015102.pkl
 Config saved to results/config_v2_20251213_015102.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $9,676.55
@@ -4586,9 +4586,9 @@ Trades:  9
 Fees:    $179.57
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $99343.85 - $106535.13
+ Using REAL prices for trading: $99343.85 - $106535.13
    Price change over period: 2.8%
    Using 21 features for state
 Initial: $10,000.00
@@ -4598,7 +4598,7 @@ Trades:  1
 Fees:    $19.96
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test
@@ -4608,12 +4608,12 @@ Buy & Hold           |       -6.61% |       +2.84%
 --------------------------------------------------
 Outperformance       |       +3.37% |       +2.52%
 
-💰 Final Values:
+ Final Values:
    Agent Train: $9,676.55  |  Buy&Hold: $9,339.32
    Agent Test:  $10,536.25  |  Buy&Hold: $10,283.92
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 ======================================================================
 Model: results/q_learning_v2_20251213_015102.pkl
 Final Epsilon: 0.0180
@@ -4648,13 +4648,13 @@ config = {
     }
 v26
 ======================================================================
-🚀 RL TRADING BOT - Q-LEARNING TRAINING v2
+ RL TRADING BOT - Q-LEARNING TRAINING v2
 ======================================================================
 FIXES: Real prices, faster epsilon decay, more training
 ======================================================================
 
 ======================================================================
-📊 STEP 1: LOADING DATA
+ STEP 1: LOADING DATA
 ======================================================================
 Loading BTC-USD data from 2025-10-20 to 2025-11-11...
 c:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader-\rl_trading_bot\utils\data_loader.py:59: FutureWarning: YF.download() has changed argument auto_adjust default to True
@@ -4667,37 +4667,37 @@ Added technical indicators. Remaining rows after dropna: 6259
 Train set: 5007 rows (80%)
 Test set: 1252 rows (20%)
 
-💰 Original Train Prices: $99040.66 - $116070.29
-💰 Original Test Prices: $99343.85 - $106535.13
+ Original Train Prices: $99040.66 - $116070.29
+ Original Test Prices: $99343.85 - $106535.13
 
 Normalizing features for neural network...
 Features normalized ✓
 
-📈 Train data: 5007 days
-📈 Test data: 1252 days
+ Train data: 5007 days
+ Test data: 1252 days
 
 ======================================================================
-🏗️ STEP 2: CREATING ENVIRONMENT
+ STEP 2: CREATING ENVIRONMENT
 ======================================================================
-✅ Using REAL prices for trading: $99040.66 - $116070.29
+ Using REAL prices for trading: $99040.66 - $116070.29
    Price change over period: -6.6%
    Using 21 features for state
 
 ======================================================================
-🤖 STEP 3: CREATING Q-LEARNING AGENT
+ STEP 3: CREATING Q-LEARNING AGENT
 ======================================================================
 Q-table shape: (15, 15, 15, 2, 3)
 Epsilon decay: 0.99 (reaches 0.01 after ~458 episodes)
 
 ======================================================================
-🎯 STEP 4: TRAINING
+ STEP 4: TRAINING
 ======================================================================
 
 ============================================================
 Q-LEARNING TRAINING
 ============================================================
 Total timesteps: 2,000,000
-Epsilon: 1.00 → 0.01
+Epsilon: 1.00  0.01
 Decay rate: 0.99
 ============================================================
 
@@ -4932,13 +4932,13 @@ Best Episode Reward: 0.5665
 ============================================================
 
 ======================================================================
-💾 STEP 5: SAVING MODEL
+ STEP 5: SAVING MODEL
 ======================================================================
 Model saved to results/q_learning_v2_20251213_021252.pkl
 Config saved to results/config_v2_20251213_021252.json
 
 ======================================================================
-📊 STEP 6: EVALUATION ON TRAINING DATA
+ STEP 6: EVALUATION ON TRAINING DATA
 ======================================================================
 Initial: $10,000.00
 Final:   $17,539.52
@@ -4947,9 +4947,9 @@ Trades:  1420
 Fees:    $0.00
 
 ======================================================================
-🧪 STEP 7: EVALUATION ON TEST DATA
+ STEP 7: EVALUATION ON TEST DATA
 ======================================================================
-✅ Using REAL prices for trading: $99343.85 - $106535.13
+ Using REAL prices for trading: $99343.85 - $106535.13
    Price change over period: 2.8%
    Using 21 features for state
 Initial: $10,000.00
@@ -4959,7 +4959,7 @@ Trades:  342
 Fees:    $0.00
 
 ======================================================================
-📈 STEP 8: BUY & HOLD COMPARISON
+ STEP 8: BUY & HOLD COMPARISON
 ======================================================================
 
 Strategy             |        Train |         Test
@@ -4969,18 +4969,18 @@ Buy & Hold           |       -6.61% |       +2.84%
 --------------------------------------------------
 Outperformance       |      +82.00% |       -2.27%
 
-💰 Final Values:
+ Final Values:
    Agent Train: $17,539.52  |  Buy&Hold: $9,339.32
    Agent Test:  $10,056.71  |  Buy&Hold: $10,283.92
 
 ======================================================================
-✅ TRAINING COMPLETE!
+ TRAINING COMPLETE!
 ======================================================================
 Model: results/q_learning_v2_20251213_021252.pkl
 Final Epsilon: 0.0180
 Total Episodes: 400
 
-✅ Agent made profit, but didn't beat Buy & Hold
+ Agent made profit, but didn't beat Buy & Hold
 PS C:\Users\haris\OneDrive\Anlagen\Desktop\RL trading bot\Reinforcement-Learning-Trading-Bot-RLTrader->
 config = {
         'data': {

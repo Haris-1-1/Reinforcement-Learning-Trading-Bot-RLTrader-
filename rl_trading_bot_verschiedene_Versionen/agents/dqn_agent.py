@@ -289,7 +289,7 @@ class DQNAgent(BaseAgent):
         print(f"DQN TRAINING")
         print(f"{'='*60}")
         print(f"Total timesteps: {total_timesteps:,}")
-        print(f"Epsilon: {self.epsilon_start:.2f} → {self.epsilon_end:.2f}")
+        print(f"Epsilon: {self.epsilon_start:.2f}  {self.epsilon_end:.2f}")
         print(f"Decay steps: {self.epsilon_decay_steps:,}")
         print(f"{'='*60}\n")
         

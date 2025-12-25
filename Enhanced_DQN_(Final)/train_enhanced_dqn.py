@@ -173,7 +173,7 @@ def save_checkpoint(agent: Agent, episode: int, portfolio_value: float, is_best:
     torch.save(checkpoint, path)
     
     if is_best:
-        print(f"  → NEW BEST MODEL SAVED: ${portfolio_value:.2f}")
+        print(f"   NEW BEST MODEL SAVED: ${portfolio_value:.2f}")
 
 # ========================================
 # TRAINING

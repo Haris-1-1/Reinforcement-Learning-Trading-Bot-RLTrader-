@@ -151,28 +151,28 @@ class LiveTradingDashboard:
         ║      LIVE TRADING STATISTICS         ║
         ╠══════════════════════════════════════╣
         ║                                      ║
-        ║  💰 Current Price                     ║
+        ║  Current Price                       ║
         ║     ${latest['price']:,.2f}                           ║
         ║                                      ║
-        ║  📊 Portfolio Value                   ║
+        ║  Portfolio Value                     ║
         ║     ${latest['portfolio_value']:,.2f}                           ║
         ║                                      ║
-        ║  📈 Total P/L                         ║
+        ║  Total P/L                           ║
         ║     ${latest['profit']:+,.2f} ({latest['profit_pct']:+.2f}%)               ║
         ║                                      ║
-        ║  💵 Cash                              ║
+        ║  Cash                                ║
         ║     ${latest['cash']:,.2f}                           ║
         ║                                      ║
-        ║  🪙 Coins                             ║
+        ║  Coins                               ║
         ║     {latest['coins']:.6f}                        ║
         ║                                      ║
-        ║  📍 Position                          ║
+        ║  Position                            ║
         ║     {latest['position']:.1%}                              ║
         ║                                      ║
-        ║  🔄 Total Trades                      ║
+        ║  Total Trades                        ║
         ║     {len(trades)}                                  ║
         ║                                      ║
-        ║  ⏰ Last Update                       ║
+        ║  Last Update                         ║
         ║     {latest['timestamp'].strftime('%H:%M:%S')}                           ║
         ║                                      ║
         ╚══════════════════════════════════════╝
@@ -191,7 +191,7 @@ class LiveTradingDashboard:
         
         # Add status indicator
         status_color = 'green' if latest['position'] > 0 else 'gray'
-        status_text = '🟢 LONG' if latest['position'] > 0 else '⚪ FLAT'
+        status_text = 'LONG' if latest['position'] > 0 else 'FLAT'
         
         self.ax4.text(0.5, 0.95, status_text,
                      transform=self.ax4.transAxes,

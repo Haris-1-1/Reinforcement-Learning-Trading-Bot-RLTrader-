@@ -161,7 +161,7 @@ class DataLoader:
     
     def prepare_data(self) -> tuple[pd.DataFrame, pd.DataFrame]:
         """
-        Main function: Load data → Add indicators → Add time features → Train supervised → Scale
+        Main function: Load data  Add indicators  Add time features  Train supervised  Scale
         
         Returns:
             train_df, test_df (both ready for DQN)

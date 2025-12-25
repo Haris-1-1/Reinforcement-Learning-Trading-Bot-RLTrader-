@@ -16,13 +16,13 @@ def main():
     
     # Check if model exists
     if not os.path.exists('models/best_model.pth'):
-        print("\n❌ ERROR: Trained model not found!")
+        print("\nERROR: Trained model not found!")
         print("\nYou need to train the model first:")
-        print("  → python train_enhanced_dqn.py")
+        print("  -> python train_enhanced_dqn.py")
         print("\nAfter training completes, run this script again.")
         return
-    
-    print("\n✅ Model found: models/best_model.pth")
+
+    print("\nModel found: models/best_model.pth")
     print("\nWhat would you like to do?")
     print("="*70)
     print("\n1. Start Live Trading (Console)")
@@ -34,16 +34,16 @@ def main():
     choice = input("\nEnter choice (1-5): ").strip()
     
     if choice == '1':
-        print("\n🚀 Starting Live Trading...")
+        print("\nStarting Live Trading...")
         subprocess.run([sys.executable, 'live_paper_trading.py'])
-    
+
     elif choice == '2':
-        print("\n📊 Starting Dashboard...")
+        print("\nStarting Dashboard...")
         print("Note: Live trading must be running for data to appear!")
         subprocess.run([sys.executable, 'live_dashboard.py'])
-    
+
     elif choice == '3':
-        print("\n🚀 Starting both...")
+        print("\nStarting both...")
         print("\nThis will open:")
         print("  1. Trading bot in this window")
         print("  2. Dashboard in a new window")
@@ -60,17 +60,17 @@ def main():
         subprocess.run([sys.executable, 'live_paper_trading.py'])
     
     elif choice == '4':
-        print("\n📖 Opening Trading Guide...")
+        print("\nOpening Trading Guide...")
         if os.path.exists('LIVE_TRADING_GUIDE.txt'):
             with open('LIVE_TRADING_GUIDE.txt', 'r', encoding='utf-8') as f:
                 print(f.read())
         else:
             print("Guide not found!")
-    
+
     elif choice == '5':
-        print("\nGoodbye! 👋")
+        print("\nGoodbye!")
         return
-    
+
     else:
         print("\nInvalid choice!")
         return
@@ -82,4 +82,4 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("\n\nInterrupted by user.")
     except Exception as e:
-        print(f"\n❌ Error: {e}")
+        print(f"\nError: {e}")
