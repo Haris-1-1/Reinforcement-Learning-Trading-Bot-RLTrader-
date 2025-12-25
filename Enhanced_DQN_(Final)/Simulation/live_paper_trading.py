@@ -37,8 +37,8 @@ LIVE_CONFIG = {
     "fee": 0.001,
     "slippage": 0.0005,
     "update_interval": 60,  # Check every 60 seconds
-    "model_path": "../models/best_model.pth",
-    "log_file": "../logs/live_trading_log.json"
+    "model_path": os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "models", "best_model.pth"),
+    "log_file": os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "logs", "live_trading_log.json")
 }
 
 # ========================================

@@ -15,14 +15,17 @@ def main():
     print("="*70)
     
     # Check if model exists
-    if not os.path.exists('models/best_model.pth'):
+    model_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'models', 'best_model.pth')
+
+    if not os.path.exists(model_path):
         print("\nERROR: Trained model not found!")
+        print(f"Looking for model at: {model_path}")
         print("\nYou need to train the model first:")
         print("  -> python train_enhanced_dqn.py")
         print("\nAfter training completes, run this script again.")
         return
 
-    print("\nModel found: models/best_model.pth")
+    print(f"\nModel found: {model_path}")
     print("\nWhat would you like to do?")
     print("="*70)
     print("\n1. Start Live Trading (Console)")
