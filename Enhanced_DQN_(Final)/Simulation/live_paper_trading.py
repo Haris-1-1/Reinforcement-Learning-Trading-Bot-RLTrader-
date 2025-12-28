@@ -135,12 +135,12 @@ class LivePaperTrader:
             state_size=state_size,
             action_size=3,
             window_size=self.window_size,
-            is_eval=True  # Disable exploration
+            is_eval=False  # Enable small exploration for live trading
         )
-        
+
         # Load weights - should work now!
         self.agent.policy_net.load_state_dict(checkpoint['model_state_dict'])
-        self.agent.epsilon = 0.0  # No exploration in live trading!
+        self.agent.epsilon = 0.1  # 10% exploration - try different actions sometimes!
         
         print(f"Model loaded successfully")
         print(f"   Training Episode: {checkpoint.get('episode', 'Unknown')}")
@@ -488,6 +488,15 @@ class LivePaperTrader:
                 
                 # 5. Get action from agent
                 action_mask = self._get_action_mask()
+
+                # DEBUG: Get Q-values to understand model decisions
+                state_tensor = torch.FloatTensor(observation).view(1, -1).to(self.agent.device)
+                with torch.no_grad():
+                    q_values = self.agent.policy_net(state_tensor).cpu().numpy()[0]
+
+                print(f"\nQ-Values: HOLD={q_values[0]:.4f} | BUY={q_values[1]:.4f} | SELL={q_values[2]:.4f}")
+                print(f"Action Mask: {action_mask} (1=allowed, 0=blocked)")
+
                 action = self.agent.act(observation, action_mask=action_mask)
                 
                 # 6. Execute trade
