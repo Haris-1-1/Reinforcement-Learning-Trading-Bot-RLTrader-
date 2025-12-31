@@ -7,22 +7,13 @@ import torch
 import time
 from datetime import datetime
 from tqdm import tqdm
-
-# --- PFAD-FIX ---
-# Fügt das aktuelle Verzeichnis zum Python-Pfad hinzu
 current_dir = os.path.dirname(os.path.abspath(__file__))
 if current_dir not in sys.path:
     sys.path.append(current_dir)
-
-# --- IMPORTS ---
-# Wir nutzen die neuen Klassen, die wir gerade gebaut haben
 from utils.data_loader import DataLoader
-from utils.agent import Agent  # Unser Dueling Double DQN
+from utils.agent import Agent
 from utils.environment import TradingEnvironment
 from utils.indicators import TechnicalIndicators
-
-# --- KONFIGURATION ---
-# Alle Einstellungen zentral an einem Ort (wie in deinem Original)
 CONFIG = {
     "data": {
         "symbol": "BTC-USD",
@@ -34,7 +25,7 @@ CONFIG = {
     },
     "environment": {
         "initial_cash": 10000.0,
-        "fee": 0.001,  # 0.1% Handelsgebühr
+        "fee": 0.001,
     },
     "agent": {
         "batch_size": 64,
@@ -50,81 +41,55 @@ CONFIG = {
         "logs": "logs/"
     }
 }
-
 def ensure_directories():
-    """Erstellt Order für Modelle und Logs, falls nicht vorhanden."""
     for path in CONFIG["paths"].values():
         if not os.path.exists(path):
             os.makedirs(path)
             print(f"Verzeichnis erstellt: {path}")
-
 def run_benchmark_strategies(prices, initial_cash):
-    """
-    Berechnet Benchmarks (Buy & Hold, Random, SMA Crossover)
-    um zu beweisen, dass der Bot wirklich 'intelligent' ist.
-    """
     print("\nBerechne Benchmarks...")
-    
-    # 1. Buy & Hold
     bh_return = (prices[-1] / prices[0]) - 1
     bh_final = initial_cash * (1 + bh_return)
-
-    # 2. Random Trading (Mittelwert aus 10 Runs)
     random_returns = []
     for _ in range(10):
         cash = initial_cash
         coins = 0
         fee = CONFIG["environment"]["fee"]
         for i in range(len(prices)-1):
-            action = np.random.choice([0, 1, 2]) # 0=Hold, 1=Buy, 2=Sell
+            action = np.random.choice([0, 1, 2])
             current_price = prices[i]
-            
-            if action == 1 and cash > 0: # Buy
+            if action == 1 and cash > 0:
                 coins = (cash * (1 - fee)) / current_price
                 cash = 0
-            elif action == 2 and coins > 0: # Sell
+            elif action == 2 and coins > 0:
                 cash = (coins * current_price) * (1 - fee)
                 coins = 0
-        
         final = cash + (coins * prices[-1])
         random_returns.append((final - initial_cash) / initial_cash)
     random_avg_return = np.mean(random_returns)
-
-    # 3. Simple MA Crossover (20/50)
-    # Wir erstellen kurz einen DF für die Berechnung
     df_ma = pd.DataFrame({'Close': prices})
     df_ma['SMA20'] = df_ma['Close'].rolling(window=20).mean()
     df_ma['SMA50'] = df_ma['Close'].rolling(window=50).mean()
-    
     cash, coins = initial_cash, 0
     fee = CONFIG["environment"]["fee"]
-    
     for i in range(50, len(prices)-1):
         price = prices[i]
         sma20 = df_ma['SMA20'].iloc[i]
         sma50 = df_ma['SMA50'].iloc[i]
-        
-        if sma20 > sma50 and cash > 0: # Golden Cross -> Buy
+        if sma20 > sma50 and cash > 0:
             coins = (cash * (1 - fee)) / price
             cash = 0
-        elif sma20 < sma50 and coins > 0: # Death Cross -> Sell
+        elif sma20 < sma50 and coins > 0:
             cash = (coins * price) * (1 - fee)
             coins = 0
-            
     ma_final = cash + (coins * prices[-1])
     ma_return = (ma_final - initial_cash) / initial_cash
-
     return bh_return, random_avg_return, ma_return
-
 def save_checkpoint(agent, episode, portfolio_value, is_best=False):
-    """Speichert das Modell sicher ab."""
     filename = f"checkpoint_ep{episode}.pth"
     if is_best:
         filename = "best_model.pth"
-    
     path = os.path.join(CONFIG["paths"]["models"], filename)
-    
-    # Wir speichern nicht nur die Gewichte, sondern auch Optimizer-Status und Config
     checkpoint = {
         'episode': episode,
         'model_state_dict': agent.policy_net.state_dict(),
@@ -136,11 +101,8 @@ def save_checkpoint(agent, episode, portfolio_value, is_best=False):
     torch.save(checkpoint, path)
     if is_best:
         print(f" -> NEUES BESTES MODELL GESPEICHERT: ${portfolio_value:.2f}")
-
 def train_enhanced_bot():
     ensure_directories()
-    
-    # --- 1. DATEN LADEN ---
     print(f"\n[{datetime.now().strftime('%H:%M:%S')}] Starte Data Loader...")
     loader = DataLoader(
         symbol=CONFIG['data']['symbol'],
@@ -149,158 +111,104 @@ def train_enhanced_bot():
         interval=CONFIG['data']['interval'],
         test_split=CONFIG['data']['test_split']
     )
-    
-    # Bereitet Ichimoku, Whale-Signale, Zyklus etc. vor
     train_df, test_df = loader.prepare_data()
-    
     if train_df is None:
         print("KRITISCHER FEHLER: Keine Daten geladen.")
         return
-
-    # Automatische Erkennung der Input-Größe
     feature_count = len(train_df.columns)
     window_size = CONFIG['data']['window_size']
     input_dim = window_size * feature_count
-    
     print(f"Feature Engineering abgeschlossen.")
     print(f" -> Features pro Step: {feature_count}")
     print(f" -> NN Input Dimension: {input_dim}")
-
-    # --- 2. INITIALISIERUNG ---
     env = TradingEnvironment(
-        df=train_df, 
-        original_prices=loader.original_prices_train, 
+        df=train_df,
+        original_prices=loader.original_prices_train,
         window_size=window_size,
         initial_cash=CONFIG['environment']['initial_cash'],
         fee=CONFIG['environment']['fee']
     )
-    
     agent = Agent(
-        state_size=feature_count, 
-        action_size=3, 
+        state_size=feature_count,
+        action_size=3,
         window_size=window_size
     )
-    
-    # Config Werte in Agenten laden (überschreibt Defaults)
     agent.batch_size = CONFIG['agent']['batch_size']
     agent.epsilon = CONFIG['agent']['epsilon_start']
     agent.epsilon_min = CONFIG['agent']['epsilon_min']
     agent.epsilon_decay = CONFIG['agent']['epsilon_decay']
     agent.learning_rate = CONFIG['agent']['learning_rate']
-
     print("\n" + "="*60)
     print(f" STARTING DUELING DOUBLE DQN TRAINING")
     print(f" Episoden: {CONFIG['agent']['episodes']} | Device: {agent.device}")
     print("="*60)
-
-    # --- 3. TRAINING LOOP ---
     best_portfolio = 0
     total_steps_global = 0
-    
     for e in range(1, CONFIG['agent']['episodes'] + 1):
         state = env.reset()
         state = np.reshape(state, [1, input_dim])
-        
         done = False
         episode_profit = 0
-        
-        # Schöner Progress Bar
         pbar = tqdm(total=len(train_df), desc=f"Ep {e}/{CONFIG['agent']['episodes']}", unit="step")
-        
         while not done:
-            # A. Entscheidung (Act)
             action = agent.act(state)
-            
-            # B. Ausführung (Step)
             next_state, reward, done, info = env.step(action)
             next_state = np.reshape(next_state, [1, input_dim])
-            
-            # C. Speichern (Remember)
             agent.remember(state, action, reward, next_state, done)
-            
-            # D. Lernen (Replay)
             agent.replay()
-            
-            # E. Target Net Update (Double DQN Logik)
             if total_steps_global % CONFIG['agent']['target_update_freq'] == 0:
                 agent.update_target_network()
-            
             state = next_state
             total_steps_global += 1
             episode_profit = info['profit']
-            
-            # Logging im Progress Bar
             pbar.set_postfix({
-                "Epsilon": f"{agent.epsilon:.2f}", 
+                "Epsilon": f"{agent.epsilon:.2f}",
                 "Portfolio": f"${info['portfolio_value']:.0f}"
             })
             pbar.update(1)
-
         pbar.close()
-        
-        # --- NACH DER EPISODE ---
         final_value = env.portfolio_value
-        
-        # Bestes Modell speichern
         if final_value > best_portfolio:
             best_portfolio = final_value
             save_checkpoint(agent, e, final_value, is_best=True)
-        
-        # Regelmäßiges Backup (alle 5 Episoden)
         if e % 5 == 0:
             save_checkpoint(agent, e, final_value, is_best=False)
-
     print("\nTraining abgeschlossen.")
-    
-    # --- 4. EVALUATION & BENCHMARKS ---
     print("\n" + "="*60)
     print(" FINAL EVALUATION (TEST DATA)")
     print("="*60)
-    
-    # Test-Environment
     test_env = TradingEnvironment(
-        df=test_df, 
-        original_prices=loader.original_prices_test, 
+        df=test_df,
+        original_prices=loader.original_prices_test,
         window_size=window_size,
         initial_cash=CONFIG['environment']['initial_cash'],
         fee=CONFIG['environment']['fee']
     )
-    
     state = test_env.reset()
     state = np.reshape(state, [1, input_dim])
     done = False
-    agent.is_eval = True # Wichtig: Zufall ausschalten!
-    
+    agent.is_eval = True
     while not done:
         action = agent.act(state)
         next_state, _, done, info = test_env.step(action)
         state = np.reshape(next_state, [1, input_dim])
-
-    # Ergebnisse berechnen
     bot_final = info['portfolio_value']
     bot_return = (bot_final - CONFIG['environment']['initial_cash']) / CONFIG['environment']['initial_cash']
-    
-    # Benchmarks laufen lassen
     bh_ret, rand_ret, ma_ret = run_benchmark_strategies(
-        loader.original_prices_test, 
+        loader.original_prices_test,
         CONFIG['environment']['initial_cash']
     )
-    
-    # --- FINALES REPORTING ---
-    print("\n" + "#"*50)
+    print("\n" + "
     print(f" RESULTS SUMMARY ({CONFIG['data']['symbol']})")
-    print("#"*50)
+    print("
     print(f"{'STRATEGY':<25} | {'RETURN':<10} | {'FINAL BALANCE'}")
     print("-" * 50)
     print(f"{'DUELING DDQN (Bot)':<25} | {bot_return*100:>+8.2f}% | ${bot_final:.2f}")
     print(f"{'Buy & Hold':<25} | {bh_ret*100:>+8.2f}% | ${CONFIG['environment']['initial_cash']*(1+bh_ret):.2f}")
     print(f"{'MA Crossover (20/50)':<25} | {ma_ret*100:>+8.2f}% | ${CONFIG['environment']['initial_cash']*(1+ma_ret):.2f}")
     print(f"{'Random Trading':<25} | {rand_ret*100:>+8.2f}% | ${CONFIG['environment']['initial_cash']*(1+rand_ret):.2f}")
-    print("#"*50)
-    
-    # Speichern des finalen Zustands
+    print("
     save_checkpoint(agent, CONFIG['agent']['episodes'], bot_final, is_best=False)
-
 if __name__ == "__main__":
     try:
         train_enhanced_bot()

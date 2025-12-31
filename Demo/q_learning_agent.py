@@ -1,18 +1,14 @@
-# q_learning_agent.py
 import numpy as np
 import pandas as pd
 import yfinance as yf
 from mini_trading_env import MiniTradingEnv
 
-# BTC-Daten mit yfinance laden
 data = yf.download("BTC-USD", start="2020-01-01", end="2024-01-01", interval="1d")
 prices = data["Close"].dropna().values.astype(float)
 
-# 2) Env
 env = MiniTradingEnv(prices)
 n_actions = env.action_space.n
 
-# 3) Q-Tabelle
 n_return_bins = 20
 return_min, return_max = -0.05, 0.05
 q_table = np.zeros((n_return_bins, 2, n_actions))
@@ -24,7 +20,6 @@ def discretize_state(obs):
     pos_idx = int(pos)
     return bin_idx, pos_idx
 
-# 4) Hyperparameter
 alpha = 0.1
 gamma = 0.99
 epsilon = 1.0
@@ -32,7 +27,6 @@ epsilon_min = 0.01
 epsilon_decay = 0.995
 n_episodes = 500
 
-# 5) Training-Loop
 for episode in range(n_episodes):
     obs, info = env.reset()
     state_idx = discretize_state(obs)
@@ -70,9 +64,6 @@ for episode in range(n_episodes):
         f"ROI: {episode_roi:.2%}"
 )
 
-
-
-# Optional: Q-Table speichern
 np.save("q_table.npy", q_table)
 
 buy_hold_profit = (prices[-1] - prices[0]) * (env.initial_cash / prices[0])
