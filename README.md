@@ -88,14 +88,6 @@ pip install -r requirements.txt
 cd Enhanced_DQN_(Final)
 python train_enhanced_dqn.py
 ```
-
-### Live Paper Trading
-
-```bash
-cd Enhanced_DQN_(Final)/Simulation
-python start_live_trading.py
-```
-
 ---
 
 ## Projektstruktur
@@ -116,7 +108,6 @@ Reinforcement-Learning-Trading-Bot-RLTrader-/
 │   ├── agents/                             # Dueling Double DQN
 │   ├── env/                                # Gymnasium Environment
 │   ├── utils/                              # Data Loader, Indicators, Visualizer
-│   ├── Simulation/                         # Live Paper Trading
 │   ├── models/                             # Gespeicherte Modelle
 │   └── plots/                              # Visualisierungen
 │
