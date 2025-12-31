@@ -2,8 +2,7 @@
 
 > Entwicklung eines autonomen Trading-Bots, der mit Deep Reinforcement Learning profitable Handelsentscheidungen auf Basis historischer Marktdaten trifft.
 
-[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
+[![Python](https://img.shields.io/badge/Python-3.13+-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ---
