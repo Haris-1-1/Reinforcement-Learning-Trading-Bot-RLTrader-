@@ -9,8 +9,8 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 if current_dir not in sys.path:
     sys.path.append(current_dir)
 from utils.data_loader import DataLoader
-from utils.agent import Agent
-from utils.environment import TradingEnvironment
+from agents.dqn_agent import Agent
+from env.advanced_trading_env import TradingEnvironment
 from utils.indicators import TechnicalIndicators
 CONFIG = {
     "symbol": "BTC-USD",
@@ -62,7 +62,13 @@ def train():
     print(f"[{datetime.now().strftime('%H:%M:%S')}] Feature-Engineering fertig.")
     print(f" -> Der Agent sieht {feature_count} Indikatoren pro Zeitschritt.")
     print(f" -> Input Size für NN: {CONFIG['window_size']} x {feature_count} = {CONFIG['window_size'] * feature_count}")
-    env = TradingEnvironment(train_df, loader.original_prices_train, window_size=CONFIG['window_size'])
+    env = TradingEnvironment(
+        df=train_df,
+        original_prices=loader.original_prices_train,
+        window_size=CONFIG['window_size'],
+        initial_cash=CONFIG['initial_cash'],
+        fee=0.001
+    )
     agent = Agent(
         state_size=feature_count,
         action_size=3,
@@ -108,7 +114,13 @@ def train():
     print(" TRAINING ABGESCHLOSSEN. Starte Evaluation...")
     print("="*50)
     agent.is_eval = True
-    test_env = TradingEnvironment(test_df, loader.original_prices_test, window_size=CONFIG['window_size'])
+    test_env = TradingEnvironment(
+        df=test_df,
+        original_prices=loader.original_prices_test,
+        window_size=CONFIG['window_size'],
+        initial_cash=CONFIG['initial_cash'],
+        fee=0.001
+    )
     state = test_env.reset()
     state = np.reshape(state, [1, CONFIG['window_size'] * feature_count])
     done = False

@@ -1,220 +1,200 @@
-import os
-import sys
-import json
 import numpy as np
 import pandas as pd
-import torch
-import time
-from datetime import datetime
-from tqdm import tqdm
-current_dir = os.path.dirname(os.path.abspath(__file__))
-if current_dir not in sys.path:
-    sys.path.append(current_dir)
-from utils.data_loader import DataLoader
-from utils.agent import Agent
-from utils.environment import TradingEnvironment
-from utils.indicators import TechnicalIndicators
-CONFIG = {
-    "data": {
-        "symbol": "BTC-USD",
-        "start_date": "2020-01-01",
-        "end_date": "2024-01-01",
-        "interval": "1h",
-        "window_size": 24,
-        "test_split": 0.15
-    },
-    "environment": {
-        "initial_cash": 10000.0,
-        "fee": 0.001,
-    },
-    "agent": {
-        "batch_size": 64,
-        "episodes": 50,
-        "target_update_freq": 1000,
-        "learning_rate": 0.0001,
-        "epsilon_start": 1.0,
-        "epsilon_min": 0.05,
-        "epsilon_decay": 0.99995
-    },
-    "paths": {
-        "models": "models/",
-        "logs": "logs/"
-    }
-}
-def ensure_directories():
-    for path in CONFIG["paths"].values():
-        if not os.path.exists(path):
-            os.makedirs(path)
-            print(f"Verzeichnis erstellt: {path}")
-def run_benchmark_strategies(prices, initial_cash):
-    print("\nBerechne Benchmarks...")
-    bh_return = (prices[-1] / prices[0]) - 1
-    bh_final = initial_cash * (1 + bh_return)
-    random_returns = []
-    for _ in range(10):
-        cash = initial_cash
-        coins = 0
-        fee = CONFIG["environment"]["fee"]
-        for i in range(len(prices)-1):
-            action = np.random.choice([0, 1, 2])
-            current_price = prices[i]
-            if action == 1 and cash > 0:
-                coins = (cash * (1 - fee)) / current_price
-                cash = 0
-            elif action == 2 and coins > 0:
-                cash = (coins * current_price) * (1 - fee)
-                coins = 0
-        final = cash + (coins * prices[-1])
-        random_returns.append((final - initial_cash) / initial_cash)
-    random_avg_return = np.mean(random_returns)
-    df_ma = pd.DataFrame({'Close': prices})
-    df_ma['SMA20'] = df_ma['Close'].rolling(window=20).mean()
-    df_ma['SMA50'] = df_ma['Close'].rolling(window=50).mean()
-    cash, coins = initial_cash, 0
-    fee = CONFIG["environment"]["fee"]
-    for i in range(50, len(prices)-1):
-        price = prices[i]
-        sma20 = df_ma['SMA20'].iloc[i]
-        sma50 = df_ma['SMA50'].iloc[i]
-        if sma20 > sma50 and cash > 0:
-            coins = (cash * (1 - fee)) / price
-            cash = 0
-        elif sma20 < sma50 and coins > 0:
-            cash = (coins * price) * (1 - fee)
-            coins = 0
-    ma_final = cash + (coins * prices[-1])
-    ma_return = (ma_final - initial_cash) / initial_cash
-    return bh_return, random_avg_return, ma_return
-def save_checkpoint(agent, episode, portfolio_value, is_best=False):
-    filename = f"checkpoint_ep{episode}.pth"
-    if is_best:
-        filename = "best_model.pth"
-    path = os.path.join(CONFIG["paths"]["models"], filename)
-    checkpoint = {
-        'episode': episode,
-        'model_state_dict': agent.policy_net.state_dict(),
-        'optimizer_state_dict': agent.optimizer.state_dict(),
-        'epsilon': agent.epsilon,
-        'portfolio_value': portfolio_value,
-        'config': CONFIG
-    }
-    torch.save(checkpoint, path)
-    if is_best:
-        print(f" -> NEUES BESTES MODELL GESPEICHERT: ${portfolio_value:.2f}")
-def train_enhanced_bot():
-    ensure_directories()
-    print(f"\n[{datetime.now().strftime('%H:%M:%S')}] Starte Data Loader...")
-    loader = DataLoader(
-        symbol=CONFIG['data']['symbol'],
-        start_date=CONFIG['data']['start_date'],
-        end_date=CONFIG['data']['end_date'],
-        interval=CONFIG['data']['interval'],
-        test_split=CONFIG['data']['test_split']
-    )
-    train_df, test_df = loader.prepare_data()
-    if train_df is None:
-        print("KRITISCHER FEHLER: Keine Daten geladen.")
-        return
-    feature_count = len(train_df.columns)
-    window_size = CONFIG['data']['window_size']
-    input_dim = window_size * feature_count
-    print(f"Feature Engineering abgeschlossen.")
-    print(f" -> Features pro Step: {feature_count}")
-    print(f" -> NN Input Dimension: {input_dim}")
-    env = TradingEnvironment(
-        df=train_df,
-        original_prices=loader.original_prices_train,
-        window_size=window_size,
-        initial_cash=CONFIG['environment']['initial_cash'],
-        fee=CONFIG['environment']['fee']
-    )
-    agent = Agent(
-        state_size=feature_count,
-        action_size=3,
-        window_size=window_size
-    )
-    agent.batch_size = CONFIG['agent']['batch_size']
-    agent.epsilon = CONFIG['agent']['epsilon_start']
-    agent.epsilon_min = CONFIG['agent']['epsilon_min']
-    agent.epsilon_decay = CONFIG['agent']['epsilon_decay']
-    agent.learning_rate = CONFIG['agent']['learning_rate']
-    print("\n" + "="*60)
-    print(f" STARTING DUELING DOUBLE DQN TRAINING")
-    print(f" Episoden: {CONFIG['agent']['episodes']} | Device: {agent.device}")
-    print("="*60)
-    best_portfolio = 0
-    total_steps_global = 0
-    for e in range(1, CONFIG['agent']['episodes'] + 1):
-        state = env.reset()
-        state = np.reshape(state, [1, input_dim])
-        done = False
-        episode_profit = 0
-        pbar = tqdm(total=len(train_df), desc=f"Ep {e}/{CONFIG['agent']['episodes']}", unit="step")
-        while not done:
-            action = agent.act(state)
-            next_state, reward, done, info = env.step(action)
-            next_state = np.reshape(next_state, [1, input_dim])
-            agent.remember(state, action, reward, next_state, done)
-            agent.replay()
-            if total_steps_global % CONFIG['agent']['target_update_freq'] == 0:
-                agent.update_target_network()
-            state = next_state
-            total_steps_global += 1
-            episode_profit = info['profit']
-            pbar.set_postfix({
-                "Epsilon": f"{agent.epsilon:.2f}",
-                "Portfolio": f"${info['portfolio_value']:.0f}"
+
+class TradingEnvironment:
+    def __init__(
+        self,
+        df: pd.DataFrame,
+        original_prices: np.ndarray,
+        window_size: int = 24,
+        initial_cash: float = 10000.0,
+        fee: float = 0.001,
+        slippage: float = 0.0005
+    ):
+        self.df = df.reset_index(drop=True)
+        self.prices = original_prices.astype(float)
+        self.window_size = window_size
+        self.initial_cash = float(initial_cash)
+        self.fee = fee
+        self.slippage = slippage
+
+        if 'Date' in self.df.columns:
+            self.df = self.df.drop('Date', axis=1)
+        if 'Datetime' in self.df.columns:
+            self.df = self.df.drop('Datetime', axis=1)
+
+        if len(self.df) != len(self.prices):
+            raise ValueError(f"DataFrame length ({len(self.df)}) != prices length ({len(self.prices)})")
+
+        excluded_cols = ['Open', 'High', 'Low', 'Close', 'Volume']
+        potential_features = [col for col in self.df.columns if col not in excluded_cols]
+
+        self.feature_cols = []
+        for col in potential_features:
+            if pd.api.types.is_numeric_dtype(self.df[col]):
+                self.feature_cols.append(col)
+            else:
+                print(f"  Warning: Skipping non-numeric column '{col}'")
+
+        self.n_features = len(self.feature_cols)
+        print(f"Environment initialized:")
+        print(f"  Window Size: {self.window_size}")
+        print(f"  Features per step: {self.n_features}")
+        print(f"  Total observation size: {self.window_size * self.n_features + 3}")
+        print(f"  Steps available: {len(self.df)}")
+        print(f"  Initial Cash: ${self.initial_cash:.2f}")
+
+        self.current_step = 0
+        self.cash = 0.0
+        self.coins = 0.0
+        self.position = 0.0
+        self.entry_price = 0.0
+        self.portfolio_value = 0.0
+        self.last_portfolio_value = 0.0
+        self.trades = []
+        self.trade_count = 0
+
+    def _get_price(self, step: int) -> float:
+        return float(self.prices[step])
+
+    def get_action_mask(self) -> np.ndarray:
+        mask = np.ones(3, dtype=np.int8)
+        if self.position >= 0.99:
+            mask[1] = 0
+        if self.position <= 0.01:
+            mask[2] = 0
+        return mask
+
+    def _get_observation(self) -> np.ndarray:
+        if self.current_step < self.window_size:
+            padding_needed = self.window_size - (self.current_step + 1)
+            real_data = self.df.iloc[0:self.current_step + 1][self.feature_cols].values
+            padding = np.tile(real_data[0], (padding_needed, 1))
+            window_data = np.vstack([padding, real_data])
+        else:
+            start_idx = self.current_step - self.window_size + 1
+            end_idx = self.current_step + 1
+            window_data = self.df.iloc[start_idx:end_idx][self.feature_cols].values
+
+        try:
+            flat_window = window_data.astype(np.float32).flatten()
+        except (ValueError, TypeError) as e:
+            print(f"Warning: Data conversion issue at step {self.current_step}: {e}")
+            flat_list = []
+            for row in window_data:
+                for val in row:
+                    try:
+                        flat_list.append(float(val))
+                    except:
+                        flat_list.append(0.0)
+            flat_window = np.array(flat_list, dtype=np.float32)
+
+        current_price = self._get_price(self.current_step)
+        if self.position > 0 and self.entry_price > 0:
+            unrealized_pnl = (current_price - self.entry_price) / self.entry_price
+        else:
+            unrealized_pnl = 0.0
+
+        portfolio_features = np.array([
+            self.cash / self.initial_cash,
+            self.position,
+            unrealized_pnl
+        ], dtype=np.float32)
+
+        observation = np.concatenate([flat_window, portfolio_features])
+        return observation
+
+    def _get_info(self) -> dict:
+        return {
+            'step': self.current_step,
+            'portfolio_value': self.portfolio_value,
+            'position': self.position,
+            'cash': self.cash,
+            'coins': self.coins,
+            'action_mask': self.get_action_mask(),
+            'trade_count': self.trade_count,
+            'profit': self.portfolio_value - self.initial_cash
+        }
+
+    def reset(self):
+        self.current_step = 0
+        self.cash = self.initial_cash
+        self.coins = 0.0
+        self.position = 0.0
+        self.entry_price = 0.0
+        self.portfolio_value = self.initial_cash
+        self.last_portfolio_value = self.initial_cash
+        self.trades = []
+        self.trade_count = 0
+        return self._get_observation()
+
+    def step(self, action: int):
+        current_price = self._get_price(self.current_step)
+        self.last_portfolio_value = self.portfolio_value
+
+        mask = self.get_action_mask()
+        if mask[action] == 0:
+            action = 0
+
+        if action == 1 and self.cash > 0:
+            exec_price = current_price * (1 + self.slippage)
+            fee_amount = self.cash * self.fee
+            cost = self.cash - fee_amount
+            self.coins = cost / exec_price
+            self.cash = 0.0
+            self.position = 1.0
+            self.entry_price = exec_price
+            self.trade_count += 1
+            self.trades.append({
+                'step': self.current_step,
+                'action': 'BUY',
+                'price': exec_price,
+                'value': self.portfolio_value
             })
-            pbar.update(1)
-        pbar.close()
-        final_value = env.portfolio_value
-        if final_value > best_portfolio:
-            best_portfolio = final_value
-            save_checkpoint(agent, e, final_value, is_best=True)
-        if e % 5 == 0:
-            save_checkpoint(agent, e, final_value, is_best=False)
-    print("\nTraining abgeschlossen.")
-    print("\n" + "="*60)
-    print(" FINAL EVALUATION (TEST DATA)")
-    print("="*60)
-    test_env = TradingEnvironment(
-        df=test_df,
-        original_prices=loader.original_prices_test,
-        window_size=window_size,
-        initial_cash=CONFIG['environment']['initial_cash'],
-        fee=CONFIG['environment']['fee']
-    )
-    state = test_env.reset()
-    state = np.reshape(state, [1, input_dim])
-    done = False
-    agent.is_eval = True
-    while not done:
-        action = agent.act(state)
-        next_state, _, done, info = test_env.step(action)
-        state = np.reshape(next_state, [1, input_dim])
-    bot_final = info['portfolio_value']
-    bot_return = (bot_final - CONFIG['environment']['initial_cash']) / CONFIG['environment']['initial_cash']
-    bh_ret, rand_ret, ma_ret = run_benchmark_strategies(
-        loader.original_prices_test,
-        CONFIG['environment']['initial_cash']
-    )
-    print("\n" + "
-    print(f" RESULTS SUMMARY ({CONFIG['data']['symbol']})")
-    print("
-    print(f"{'STRATEGY':<25} | {'RETURN':<10} | {'FINAL BALANCE'}")
-    print("-" * 50)
-    print(f"{'DUELING DDQN (Bot)':<25} | {bot_return*100:>+8.2f}% | ${bot_final:.2f}")
-    print(f"{'Buy & Hold':<25} | {bh_ret*100:>+8.2f}% | ${CONFIG['environment']['initial_cash']*(1+bh_ret):.2f}")
-    print(f"{'MA Crossover (20/50)':<25} | {ma_ret*100:>+8.2f}% | ${CONFIG['environment']['initial_cash']*(1+ma_ret):.2f}")
-    print(f"{'Random Trading':<25} | {rand_ret*100:>+8.2f}% | ${CONFIG['environment']['initial_cash']*(1+rand_ret):.2f}")
-    print("
-    save_checkpoint(agent, CONFIG['agent']['episodes'], bot_final, is_best=False)
-if __name__ == "__main__":
-    try:
-        train_enhanced_bot()
-    except KeyboardInterrupt:
-        print("\nTraining durch Benutzer abgebrochen.")
-    except Exception as e:
-        print(f"\nCRITICAL ERROR: {e}")
-        import traceback
-        traceback.print_exc()
+
+        elif action == 2 and self.coins > 0:
+            exec_price = current_price * (1 - self.slippage)
+            gross_value = self.coins * exec_price
+            fee_amount = gross_value * self.fee
+            self.cash = gross_value - fee_amount
+            self.coins = 0.0
+            self.position = 0.0
+            self.entry_price = 0.0
+            self.trade_count += 1
+            self.trades.append({
+                'step': self.current_step,
+                'action': 'SELL',
+                'price': exec_price,
+                'value': self.portfolio_value
+            })
+
+        new_price = self._get_price(self.current_step)
+        self.portfolio_value = self.cash + (self.coins * new_price)
+
+        if self.last_portfolio_value > 0:
+            reward = np.log(self.portfolio_value / self.last_portfolio_value)
+        else:
+            reward = 0.0
+
+        if action != 0:
+            reward -= 0.0001
+
+        self.current_step += 1
+        terminated = self.current_step >= len(self.df) - 1
+        truncated = False
+
+        observation = self._get_observation()
+        info = self._get_info()
+
+        return observation, reward, terminated, info
+
+    def get_trades_df(self) -> pd.DataFrame:
+        return pd.DataFrame(self.trades)
+
+    def get_portfolio_history(self) -> dict:
+        return {
+            'final_value': self.portfolio_value,
+            'total_return': (self.portfolio_value - self.initial_cash) / self.initial_cash,
+            'total_trades': self.trade_count,
+            'trades': self.trades
+        }
