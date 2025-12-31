@@ -58,10 +58,6 @@ def train():
     if train_df is None:
         print("Fehler: Keine Daten geladen. Abbruch.")
         return
-    feature_count = len(train_df.columns)
-    print(f"[{datetime.now().strftime('%H:%M:%S')}] Feature-Engineering fertig.")
-    print(f" -> Der Agent sieht {feature_count} Indikatoren pro Zeitschritt.")
-    print(f" -> Input Size für NN: {CONFIG['window_size']} x {feature_count} = {CONFIG['window_size'] * feature_count}")
     env = TradingEnvironment(
         df=train_df,
         original_prices=loader.original_prices_train,
@@ -69,10 +65,22 @@ def train():
         initial_cash=CONFIG['initial_cash'],
         fee=0.001
     )
+
+    # Get actual observation size from environment
+    sample_obs = env.reset()
+    obs_size = len(sample_obs)
+    feature_count = env.n_features
+
+    print(f"[{datetime.now().strftime('%H:%M:%S')}] Feature-Engineering fertig.")
+    print(f" -> Der Agent sieht {feature_count} Indikatoren pro Zeitschritt.")
+    print(f" -> Input Size für NN: {obs_size} (window: {CONFIG['window_size']} x {feature_count} + 3 portfolio features)")
+
+    # Create agent with the full observation size
+    # We pass state_size=obs_size and window_size=1 so input_dim = obs_size * 1 = obs_size
     agent = Agent(
-        state_size=feature_count,
+        state_size=obs_size,
         action_size=3,
-        window_size=CONFIG['window_size']
+        window_size=1
     )
     total_steps = 0
     best_portfolio = 0
@@ -81,14 +89,14 @@ def train():
     print("="*50)
     for e in range(1, CONFIG['episodes'] + 1):
         state = env.reset()
-        state = np.reshape(state, [1, CONFIG['window_size'] * feature_count])
+        state = np.reshape(state, [1, obs_size])
         done = False
         episode_profit = 0
         pbar = tqdm(total=len(train_df), desc=f"Ep {e}/{CONFIG['episodes']}", unit="step")
         while not done:
             action = agent.act(state)
             next_state, reward, done, info = env.step(action)
-            next_state = np.reshape(next_state, [1, CONFIG['window_size'] * feature_count])
+            next_state = np.reshape(next_state, [1, obs_size])
             agent.remember(state, action, reward, next_state, done)
             agent.replay()
             if total_steps % CONFIG['target_update_freq'] == 0:
@@ -122,12 +130,12 @@ def train():
         fee=0.001
     )
     state = test_env.reset()
-    state = np.reshape(state, [1, CONFIG['window_size'] * feature_count])
+    state = np.reshape(state, [1, obs_size])
     done = False
     while not done:
         action = agent.act(state)
         next_state, _, done, info = test_env.step(action)
-        state = np.reshape(next_state, [1, CONFIG['window_size'] * feature_count])
+        state = np.reshape(next_state, [1, obs_size])
     final_portfolio = info['portfolio_value']
     bot_return = (final_portfolio - CONFIG['initial_cash']) / CONFIG['initial_cash']
     bh_ret, rand_ret = run_benchmarks(loader.original_prices_test, CONFIG['initial_cash'])
