@@ -1,0 +1,67 @@
+{
+  "config": {
+    "symbol": "BTC-USD",
+    "interval": "1m",
+    "window_size": 24,
+    "initial_cash": 10000.0,
+    "fee": 0.001,
+    "slippage": 0.0005,
+    "update_interval": 60,
+    "model_path": "c:\\Users\\haris\\OneDrive\\Anlagen\\Desktop\\RL trading bot\\Reinforcement-Learning-Trading-Bot-RLTrader-\\Enhanced_DQN_(Final)\\models\\best_model.pth",
+    "log_file": "c:\\Users\\haris\\OneDrive\\Anlagen\\Desktop\\RL trading bot\\Reinforcement-Learning-Trading-Bot-RLTrader-\\Enhanced_DQN_(Final)\\logs\\live_trading_log.json"
+  },
+  "trades": [
+    {
+      "timestamp": "2025-12-31 15:07:26",
+      "action": "BUY",
+      "price": 88983.25845703125,
+      "coins": 0.11226830949131886,
+      "portfolio_value": 9985.007496251874
+    }
+  ],
+  "portfolio_history": [
+    {
+      "timestamp": "2025-12-31 15:07:26",
+      "price": 88938.7890625,
+      "portfolio_value": 9985.007496251874,
+      "profit": -14.992503748126182,
+      "profit_pct": -0.14992503748126182,
+      "position": 1.0,
+      "cash": 0.0,
+      "coins": 0.11226830949131886
+    },
+    {
+      "timestamp": "2025-12-31 15:08:27",
+      "price": 88951.5625,
+      "portfolio_value": 9986.441548486393,
+      "profit": -13.558451513606997,
+      "profit_pct": -0.13558451513606995,
+      "position": 1.0,
+      "cash": 0.0,
+      "coins": 0.11226830949131886
+    },
+    {
+      "timestamp": "2025-12-31 15:09:27",
+      "price": 88898.3671875,
+      "portfolio_value": 9980.469400679156,
+      "profit": -19.530599320843976,
+      "profit_pct": -0.19530599320843975,
+      "position": 1.0,
+      "cash": 0.0,
+      "coins": 0.11226830949131886
+    }
+  ],
+  "final_stats": {
+    "total_trades": 1,
+    "final_portfolio": {
+      "timestamp": "2025-12-31 15:09:27",
+      "price": 88898.3671875,
+      "portfolio_value": 9980.469400679156,
+      "profit": -19.530599320843976,
+      "profit_pct": -0.19530599320843975,
+      "position": 1.0,
+      "cash": 0.0,
+      "coins": 0.11226830949131886
+    }
+  }
+}

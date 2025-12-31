@@ -14,8 +14,8 @@ from env.advanced_trading_env import TradingEnvironment
 from utils.indicators import TechnicalIndicators
 CONFIG = {
     "symbol": "BTC-USD",
-    "start_date": "2020-01-01",
-    "end_date": "2024-01-01",
+    "start_date": "2024-05-01",
+    "end_date": "2025-12-01",
     "interval": "1h",
     "window_size": 24,
     "episodes": 50,
@@ -131,15 +131,15 @@ def train():
     final_portfolio = info['portfolio_value']
     bot_return = (final_portfolio - CONFIG['initial_cash']) / CONFIG['initial_cash']
     bh_ret, rand_ret = run_benchmarks(loader.original_prices_test, CONFIG['initial_cash'])
-    print("\n" + "
+    print("\n" + " " * 60)
     print(f" ERGEBNISSE AUF TESTDATEN ({CONFIG['symbol']})")
-    print("
+    print(" " * 60)
     print(f"{'Strategie':<25} | {'Return':<10} | {'Endkapital ($)'}")
     print("-" * 60)
     print(f"{'DUELING DDQN (Dein Bot)':<25} | {bot_return*100:>+8.2f}% | ${final_portfolio:.2f}")
     print(f"{'Buy & Hold':<25} | {bh_ret*100:>+8.2f}% | ${CONFIG['initial_cash']*(1+bh_ret):.2f}")
     print(f"{'Random Trading (Avg)':<25} | {rand_ret*100:>+8.2f}% | ${CONFIG['initial_cash']*(1+rand_ret):.2f}")
-    print("
+    print("\n" + "="*70)
 if __name__ == "__main__":
     try:
         train()

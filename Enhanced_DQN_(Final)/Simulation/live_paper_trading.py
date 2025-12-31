@@ -325,9 +325,9 @@ class LivePaperTrader:
             self._save_logs()
             print("\n" + "="*70 + "\n")
 def main():
-    print("\n" + "
+    print("\n" + "="*70)
     print("  LIVE PAPER TRADING BOT")
-    print("
+    print("="*70 + "\n")
     if not os.path.exists(LIVE_CONFIG['model_path']):
         print(f"ERROR: Model not found at {LIVE_CONFIG['model_path']}")
         print("Please train the model first using train_enhanced_dqn.py")
